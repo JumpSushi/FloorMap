@@ -1,0 +1,373 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "poi_1",
+        "name": "172A - Reiss Science Building",
+        "type": "class",
+        "floor": 0,
+        "metadata": {
+          "building": "Reiss Science Building",
+          "category": "education",
+          "amenities": [
+            "projector",
+            "whiteboard",
+            "seating"
+          ],
+          "description": "Classroom 172A in Reiss Science Building"
+        },
+        "building_id": "reiss_science_building"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.073533865,
+          38.909747089999996
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "poi_2",
+        "name": "172 - Reiss Science Building",
+        "type": "class",
+        "floor": 0,
+        "metadata": {
+          "building": "Reiss Science Building",
+          "category": "education",
+          "amenities": [
+            "projector",
+            "whiteboard",
+            "seating"
+          ],
+          "description": "Classroom 172 in Reiss Science Building"
+        },
+        "building_id": "reiss_science_building"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.07344853000001,
+          38.909656745
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "poi_3",
+        "name": "152 - Reiss Science Building",
+        "type": "class",
+        "floor": 0,
+        "metadata": {
+          "building": "Reiss Science Building",
+          "category": "education",
+          "amenities": [
+            "projector",
+            "whiteboard",
+            "seating"
+          ],
+          "description": "Classroom 152 in Reiss Science Building"
+        },
+        "building_id": "reiss_science_building"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.07338731,
+          38.90958983
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "poi_4",
+        "name": "154 - Reiss Science Building",
+        "type": "class",
+        "floor": 0,
+        "metadata": {
+          "building": "Reiss Science Building",
+          "category": "education",
+          "amenities": [
+            "projector",
+            "whiteboard",
+            "seating"
+          ],
+          "description": "Classroom 154 in Reiss Science Building"
+        },
+        "building_id": "reiss_science_building"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.073283535,
+          38.90948469
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "poi_5",
+        "name": "156 - Reiss Science Building",
+        "type": "class",
+        "floor": 0,
+        "metadata": {
+          "building": "Reiss Science Building",
+          "category": "education",
+          "amenities": [
+            "projector",
+            "whiteboard",
+            "seating"
+          ],
+          "description": "Classroom 156 in Reiss Science Building"
+        },
+        "building_id": "reiss_science_building"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.073186575,
+          38.90938118
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "poi_6",
+        "name": "103 - Reiss Science Building",
+        "type": "class",
+        "floor": 0,
+        "metadata": {
+          "building": "Reiss Science Building",
+          "category": "education",
+          "amenities": [
+            "projector",
+            "whiteboard",
+            "seating"
+          ],
+          "description": "Classroom 103 in Reiss Science Building"
+        },
+        "building_id": "reiss_science_building"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.07338786,
+          38.909402505
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "poi_7",
+        "name": "112 - Reiss Science Building",
+        "type": "class",
+        "floor": 0,
+        "metadata": {
+          "building": "Reiss Science Building",
+          "category": "education",
+          "amenities": [
+            "projector",
+            "whiteboard",
+            "seating"
+          ],
+          "description": "Classroom 112 in Reiss Science Building"
+        },
+        "building_id": "reiss_science_building"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.07361238,
+          38.909639655
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "poi_8",
+        "name": "185 - Reiss Science Building",
+        "type": "class",
+        "floor": 0,
+        "metadata": {
+          "building": "Reiss Science Building",
+          "category": "education",
+          "amenities": [
+            "projector",
+            "whiteboard",
+            "seating"
+          ],
+          "description": "Classroom 185 in Reiss Science Building"
+        },
+        "building_id": "reiss_science_building"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.07378564499999,
+          38.90970344
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "poi_9",
+        "name": "186 - Reiss Science Building",
+        "type": "class",
+        "floor": 0,
+        "metadata": {
+          "building": "Reiss Science Building",
+          "category": "education",
+          "amenities": [
+            "projector",
+            "whiteboard",
+            "seating"
+          ],
+          "description": "Classroom 186 in Reiss Science Building"
+        },
+        "building_id": "reiss_science_building"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.07373391499999,
+          38.909638705
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "poi_10",
+        "name": "Healy Hall",
+        "type": "building",
+        "floor": 0,
+        "metadata": {
+          "building": "Healy Hall",
+          "category": "academic",
+          "amenities": [
+            "historic",
+            "administrative"
+          ],
+          "description": "Historic Georgetown University building"
+        },
+        "building_id": "healy_hall"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.0728,
+          38.9069
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "poi_11",
+        "name": "Leavey Center",
+        "type": "building",
+        "floor": 0,
+        "metadata": {
+          "building": "Leavey Center",
+          "category": "student_services",
+          "amenities": [
+            "dining",
+            "student_services"
+          ],
+          "description": "Student center and dining"
+        },
+        "building_id": "leavey_center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.0723,
+          38.9076
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "poi_12",
+        "name": "Room - Reiss Science Building",
+        "type": "bathroom",
+        "floor": 0,
+        "metadata": {
+          "building": "Reiss Science Building",
+          "category": "amenity",
+          "amenities": [
+            "restroom"
+          ],
+          "description": "Restroom in Reiss Science Building"
+        },
+        "building_id": "reiss_science_building"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.073528606,
+          38.909390275999996
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "poi_13",
+        "name": "Room - Reiss Science Building",
+        "type": "bathroom",
+        "floor": 0,
+        "metadata": {
+          "building": "Reiss Science Building",
+          "category": "amenity",
+          "amenities": [
+            "restroom"
+          ],
+          "description": "Restroom in Reiss Science Building"
+        },
+        "building_id": "reiss_science_building"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.07367303428573,
+          38.90954727857143
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "poi_14",
+        "name": "Room - Reiss Science Building",
+        "type": "elevator",
+        "floor": 0,
+        "metadata": {
+          "building": "Reiss Science Building",
+          "category": "amenity",
+          "amenities": [],
+          "description": "Room in Reiss Science Building"
+        },
+        "building_id": "reiss_science_building"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.073472404,
+          38.909537128
+        ]
+      }
+    }
+  ]
+}
