@@ -15,6 +15,8 @@ import {
 } from "remix-themes";
 import { themeSessionResolver } from "./sessions.server";
 import clsx from "clsx";
+import { TOSOverlay } from "./components/tos-overlay";
+import { useTOSAcceptance } from "./hooks/use-tos-acceptance";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -53,6 +55,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
 function App() {
   const data = useLoaderData<typeof loader>();
   const [theme] = useTheme();
+  const { showTOSOverlay, acceptTOS, declineTOS } = useTOSAcceptance();
+  
   return (
     <html lang="en" className={clsx(theme)}>
       <head>
@@ -66,6 +70,11 @@ function App() {
       </head>
       <body>
         <Outlet />
+        <TOSOverlay 
+          isOpen={showTOSOverlay} 
+          onAccept={acceptTOS} 
+          onDecline={declineTOS} 
+        />
         <ScrollRestoration />
         <Scripts />
       </body>
