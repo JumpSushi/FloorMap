@@ -81,12 +81,8 @@ export default function MapComponent() {
   return (
     <div className="flex size-full flex-col">
       <DiscoveryPanel />
-      {process.env.NODE_ENV === "development" && (
-        <>
-          <FloorSelector indoorMapLayer={indoorMapLayer} poisLayer={poisLayer} />
-          <FloorUpDownControl indoorMapLayer={indoorMapLayer} poisLayer={poisLayer} />
-        </>
-      )}
+      <FloorSelector indoorMapLayer={indoorMapLayer} poisLayer={poisLayer} />
+      <FloorUpDownControl indoorMapLayer={indoorMapLayer} poisLayer={poisLayer} />
 
       <div ref={mapContainer} className="relative size-full">
         {/* FloorMap overlay in bottom left corner */}
