@@ -2,8 +2,9 @@ import { useCallback } from "react";
 import CrossBuildingNavigationService, { CrossBuildingRoute, OSMRoutingOptions } from "~/services/cross-building-navigation";
 import { Map, LngLatBounds } from 'maplibre-gl';
 import config from "~/config";
+import IndoorDirections from "~/indoor-directions/directions/main";
 
-function useEnhancedDirections(map: Map | null) {
+function useEnhancedDirections(map: Map | null, indoorDirections: IndoorDirections | null = null) {
   /**
    * Navigate between any two points (indoor/outdoor/cross-building)
    */
@@ -20,7 +21,7 @@ function useEnhancedDirections(map: Map | null) {
     }
 
     try {
-      const navigationService = new CrossBuildingNavigationService(config.routingApi, null);
+      const navigationService = new CrossBuildingNavigationService(config.routingApi, indoorDirections);
       const route = await navigationService.findCrossBuildingRoute(start, end, options);
       
       if (route) {
@@ -44,8 +45,18 @@ function useEnhancedDirections(map: Map | null) {
     } catch (error) {
       console.error('Navigation failed:', error);
       
-      // Clear any existing routes on error
-      clearRouteFromMap();
+      // For indoor navigation errors, preserve indoor routes if they exist
+      // Only clear everything if we truly failed to get a route
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      const isDisplayError = errorMessage.includes('display') || errorMessage.includes('layer') || errorMessage.includes('source');
+      
+      if (isDisplayError) {
+        console.warn('Route display error, preserving any existing indoor routes');
+        // Don't clear routes for display errors - the route might still be valid
+      } else {
+        console.log('Route calculation failed, clearing all routes');
+        clearRouteFromMap();
+      }
       
       // Provide more specific error feedback
       if (error instanceof Error) {
@@ -112,8 +123,63 @@ function useEnhancedDirections(map: Map | null) {
     console.log('displayRouteOnMap called:', route);
     if (!map) return;
 
-    // Clear any existing route displays
-    clearRouteFromMap();
+    // For indoor-only routes, don't clear the indoor directions layers
+    const isIndoorOnly = route.indoor.start && 
+      (!route.outdoor.geometry || 
+       !route.outdoor.geometry.coordinates || 
+       route.outdoor.geometry.coordinates.length === 0);
+    
+    console.log('Route type detection:', {
+      hasIndoorStart: !!route.indoor.start,
+      hasOutdoorGeometry: !!route.outdoor.geometry,
+      outdoorCoordinatesLength: route.outdoor.geometry?.coordinates?.length || 0,
+      isIndoorOnly
+    });
+    
+    if (!isIndoorOnly) {
+      // Clear any existing route displays only for outdoor/mixed routes
+      clearRouteFromMap(false); // false = don't preserve indoor routes
+    } else {
+      // For indoor-only routes, preserve indoor directions by calling clear with preserveIndoor=true
+      console.log('Indoor-only route detected, preserving indoor directions');
+      clearRouteFromMap(true); // true = preserve indoor routes
+    }
+
+    // Display indoor routes if they exist (for same-building navigation)
+    if (isIndoorOnly) {
+      console.log('Displaying indoor-only route via IndoorDirections');
+      
+      // Add dotted lines to show POI connections to route
+      addPOIConnectionLines(route);
+      
+      // Check if the indoor directions source exists and has data
+      const indoorSource = map.getSource('maplibre-gl-indoor-directions');
+      if (indoorSource && 'getData' in indoorSource) {
+        const sourceData = (indoorSource as any).getData();
+        console.log('🗺️ Indoor directions source data:', sourceData);
+      } else {
+        console.warn('❌ Indoor directions source not found or has no data');
+      }
+      
+      // Check if indoor direction layers are visible
+      const indoorLayers = ['maplibre-gl-indoor-directions-routeline', 'maplibre-gl-indoor-directions-routeline-casing'];
+      indoorLayers.forEach(layerId => {
+        const layer = map.getLayer(layerId);
+        if (layer) {
+          console.log(`✅ Indoor layer ${layerId} exists:`, layer);
+          const visibility = map.getLayoutProperty(layerId, 'visibility');
+          console.log(`👁️ Layer ${layerId} visibility:`, visibility || 'visible');
+        } else {
+          console.warn(`❌ Indoor layer ${layerId} not found`);
+        }
+      });
+      
+      // For indoor-only routes, the route should already be displayed via the IndoorDirections instance
+      // The IndoorDirections.setWaypoints() call in getIndoorRoute should have triggered the display
+      
+      // Make sure we don't clear indoor directions in this case
+      return;
+    }
 
     // Display outdoor route if exists (use geometry from OSMRoute)
     if (route.outdoor.geometry && route.outdoor.distance > 0) {
@@ -230,10 +296,141 @@ function useEnhancedDirections(map: Map | null) {
   }, [map]);
 
   /**
+   * Add dotted lines to show POI connections to room entrances/exits
+   */
+  const addPOIConnectionLines = useCallback((route: CrossBuildingRoute) => {
+    if (!map || !route.indoor.start) return;
+
+    // Get the route coordinates to identify start and end points
+    const routeCoords = route.indoor.start.coordinates as [number, number][];
+    if (routeCoords.length < 2) return;
+
+    const startPoint = routeCoords[0];
+    const endPoint = routeCoords[routeCoords.length - 1];
+
+    console.log('🔗 Adding POI connection lines for:', { startPoint, endPoint });
+
+    // Helper function to find the nearest route point to a POI
+    const findNearestRoutePoint = (poiCoord: [number, number]): [number, number] => {
+      let nearestPoint = routeCoords[0];
+      let minDistance = calculateDistance(poiCoord, nearestPoint);
+
+      for (const coord of routeCoords) {
+        const distance = calculateDistance(poiCoord, coord);
+        if (distance < minDistance) {
+          minDistance = distance;
+          nearestPoint = coord;
+        }
+      }
+
+      return nearestPoint;
+    };
+
+    // Create connection lines for start and end POIs
+    const connectionLines: GeoJSON.Feature<GeoJSON.LineString>[] = [];
+
+    // For indoor routes, we'll assume the start and end points are POIs
+    // that need visual connections to the nearest navigable corridor points
+    
+    // Check if start point is significantly far from the second route point
+    // (indicating it's a POI that needs a connection line)
+    if (routeCoords.length > 1) {
+      const startToCorridor = calculateDistance(startPoint, routeCoords[1]);
+      if (startToCorridor > 0.000005) { // ~0.5 meters threshold
+        const nearestCorridorPoint = routeCoords[1]; // Second point is likely the corridor connection
+        connectionLines.push({
+          type: 'Feature',
+          geometry: {
+            type: 'LineString',
+            coordinates: [startPoint, nearestCorridorPoint]
+          },
+          properties: {
+            type: 'poi-connection',
+            connection_type: 'start'
+          }
+        });
+        console.log('📍 Added start POI connection line');
+      }
+    }
+
+    // Check if end point needs a connection line
+    if (routeCoords.length > 1) {
+      const endToCorridor = calculateDistance(endPoint, routeCoords[routeCoords.length - 2]);
+      if (endToCorridor > 0.000005) { // ~0.5 meters threshold
+        const nearestCorridorPoint = routeCoords[routeCoords.length - 2]; // Second-to-last point
+        connectionLines.push({
+          type: 'Feature',
+          geometry: {
+            type: 'LineString',
+            coordinates: [nearestCorridorPoint, endPoint]
+          },
+          properties: {
+            type: 'poi-connection',
+            connection_type: 'end'
+          }
+        });
+        console.log('📍 Added end POI connection line');
+      }
+    }
+
+    if (connectionLines.length === 0) {
+      console.log('🔗 No POI connection lines needed');
+      return;
+    }
+
+    // Create GeoJSON for the connection lines
+    const connectionData: GeoJSON.FeatureCollection = {
+      type: 'FeatureCollection',
+      features: connectionLines
+    };
+
+    // Add source and layer for POI connections
+    if (!map.getSource('poi-connections')) {
+      map.addSource('poi-connections', {
+        type: 'geojson',
+        data: connectionData
+      });
+
+      // Add dotted line layer for POI connections
+      map.addLayer({
+        id: 'poi-connection-lines',
+        type: 'line',
+        source: 'poi-connections',
+        layout: {
+          'line-join': 'round',
+          'line-cap': 'round'
+        },
+        paint: {
+          'line-color': '#10b981', // Green color to distinguish from main route
+          'line-width': 2,
+          'line-opacity': 0.8,
+          'line-dasharray': [2, 3] // Dotted line pattern
+        }
+      });
+
+      console.log('✅ Added POI connection layer with', connectionLines.length, 'connections');
+    } else {
+      // Update existing source
+      (map.getSource('poi-connections') as any).setData(connectionData);
+      console.log('🔄 Updated POI connections with', connectionLines.length, 'connections');
+    }
+  }, [map]);
+
+  /**
+   * Helper function to calculate distance between two coordinates
+   */
+  const calculateDistance = (coord1: [number, number], coord2: [number, number]): number => {
+    const dx = coord1[0] - coord2[0];
+    const dy = coord1[1] - coord2[1];
+    return Math.sqrt(dx * dx + dy * dy);
+  };
+
+  /**
    * Clear route visualization from map
    */
-  const clearRouteFromMap = useCallback(() => {
-    console.log('clearRouteFromMap called');
+  const clearRouteFromMap = useCallback((preserveIndoor: boolean = false) => {
+    console.log('clearRouteFromMap called with preserveIndoor:', preserveIndoor);
+    console.trace('clearRouteFromMap call stack:'); // Add stack trace to see where it's called from
     if (!map) return;
 
     // Clear outdoor route with detailed logging
@@ -246,19 +443,36 @@ function useEnhancedDirections(map: Map | null) {
       map.removeSource('outdoor-route');
     }
     
-    // Also clear any potential conflicting indoor direction layers that might interfere
+    // Clear POI connection lines when clearing routes
+    if (map.getLayer('poi-connection-lines')) {
+      console.log('Removing POI connection lines');
+      map.removeLayer('poi-connection-lines');
+    }
+    if (map.getSource('poi-connections')) {
+      console.log('Removing POI connections source');
+      map.removeSource('poi-connections');
+    }
+    
+    // Clear indoor directions only if not preserving indoor routes
+    if (!preserveIndoor && indoorDirections) {
+      console.log('Clearing indoor directions');
+      indoorDirections.clear();
+    } else if (preserveIndoor) {
+      console.log('Preserving indoor directions as requested');
+    }
+    
+    // Also clear any potential conflicting direction layers that might interfere
     try {
       const layers = map.getStyle()?.layers || [];
       const routeLayers = layers.filter(layer => 
         layer.id.includes('route') || 
-        layer.id.includes('direction') || 
         layer.id.includes('maplibre-gl-directions')
       );
       console.log('Found potential route layers on map:', routeLayers.map(l => l.id));
     } catch (error) {
       console.warn('Could not check for conflicting layers:', error);
     }
-  }, [map]);
+  }, [map, indoorDirections]);
 
   return {
     navigateToLocation,

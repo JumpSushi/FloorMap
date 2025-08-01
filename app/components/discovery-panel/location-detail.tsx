@@ -19,14 +19,21 @@ export default function LocationDetail({
   handleDirectionsClick,
 }: LocationDetailProps) {
   // Check if this is Darnall Hall or Reiss Science Building
-  const isDarnallHall = selectedPOI.name.toLowerCase().includes('darnall');
-  const isReissScienceBuilding = selectedPOI.name.toLowerCase().includes('reiss');
+  const isDarnallHall = selectedPOI.name.toLowerCase().includes('darnall') || 
+                       selectedPOI.building === 'darnall' || 
+                       selectedPOI.building === 'GU_DARNALL';
+  const isReissScienceBuilding = selectedPOI.name.toLowerCase().includes('reiss') || 
+                                selectedPOI.building === 'reiss';
   
   return (
     <div className="space-y-4">
       <div className="mb-4 flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-semibold">{selectedPOI.name}</h2>
+          <h2 className="text-xl font-semibold">
+            {isDarnallHall ? 'Darnall Hall' : 
+             isReissScienceBuilding ? 'Reiss Science Building' : 
+             selectedPOI.name}
+          </h2>
           {/* Remove "1st Floor" title for special buildings, show floor for others */}
           {!isDarnallHall && !isReissScienceBuilding && (
             <p className="text-xs text-gray-600 dark:text-gray-400">

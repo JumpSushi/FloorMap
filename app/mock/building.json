@@ -16518,6 +16518,3416 @@
           ]
         },
         "id": "way/-6"
+      },
+      {
+        "type": "Feature",
+        "id": "node/1218540872",
+        "properties": {
+          "type": "node",
+          "id": "1218540872",
+          "tags": {
+            "amenity": "library",
+            "level": "3",
+            "name": "Blommer Science Library",
+            "owner": "Georgetown University",
+            "website": "https://www.library.georgetown.edu/blommer"
+          },
+          "relations": [],
+          "meta": {
+            "timestamp": "2019-02-20T21:00:09Z",
+            "version": "3",
+            "changeset": "67407604",
+            "user": "b-jazz-bot",
+            "uid": "9451067"
+          },
+          "own": {
+            "levels": [
+              3
+            ],
+            "fixed": true
+          },
+          "amenity": "library",
+          "level": "3",
+          "name": "Blommer Science Library",
+          "owner": "Georgetown University",
+          "website": "https://www.library.georgetown.edu/blommer",
+          "level_id": "3",
+          "alt_name": null,
+          "category": "library",
+          "indoor": null,
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "unit",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#f3f3f3",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -77.0734889,
+            38.9095702
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "node/1488838046",
+        "properties": {
+          "type": "node",
+          "id": "1488838046",
+          "tags": {
+            "entrance": "yes",
+            "source": "survey"
+          },
+          "relations": [],
+          "meta": {
+            "timestamp": "2014-08-17T05:21:01Z",
+            "version": "4",
+            "changeset": "24799834",
+            "user": "lxbarth",
+            "uid": "589596"
+          },
+          "own": {
+            "levels": [
+              0
+            ],
+            "ways": [
+              "way/67521384",
+              "way/1113414783",
+              "way/67521384",
+              "way/1113414783",
+              "way/67521384"
+            ],
+            "fixed": true
+          },
+          "entrance": "yes",
+          "source": "survey",
+          "level_id": "G",
+          "level": "0",
+          "alt_name": null,
+          "category": null,
+          "indoor": null,
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "corridor",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#d6d5d1",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -77.0756618,
+            38.9103664
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "node/10099204505",
+        "properties": {
+          "type": "node",
+          "id": "10099204505",
+          "tags": {
+            "highway": "elevator",
+            "level": "2",
+            "wheelchair": "yes"
+          },
+          "relations": [],
+          "meta": {
+            "timestamp": "2022-10-24T18:51:41Z",
+            "version": "2",
+            "changeset": "128010527",
+            "user": "Albinoflea",
+            "uid": "4445759"
+          },
+          "own": {
+            "levels": [
+              2
+            ],
+            "ways": [
+              "way/1103652026",
+              "way/1106664812",
+              "way/1103652026",
+              "way/1106664812",
+              "way/1103652026",
+              "way/1106664812"
+            ],
+            "fixed": true
+          },
+          "highway": "elevator",
+          "level": "2",
+          "wheelchair": "yes",
+          "level_id": "2",
+          "alt_name": null,
+          "category": null,
+          "indoor": null,
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "unit",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#d6d5d1",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -77.073697,
+            38.9100246
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "node/10099231937",
+        "properties": {
+          "type": "node",
+          "id": "10099231937",
+          "tags": {
+            "highway": "elevator",
+            "level": "2",
+            "wheelchair": "yes"
+          },
+          "relations": [],
+          "meta": {
+            "timestamp": "2022-10-13T20:32:42Z",
+            "version": "1",
+            "changeset": "127489764",
+            "user": "Albinoflea",
+            "uid": "4445759"
+          },
+          "own": {
+            "levels": [
+              2
+            ],
+            "ways": [
+              "way/1103652041",
+              "way/1103652041",
+              "way/1103652041"
+            ],
+            "fixed": true
+          },
+          "highway": "elevator",
+          "level": "2",
+          "wheelchair": "yes",
+          "level_id": "2",
+          "alt_name": null,
+          "category": null,
+          "indoor": null,
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "unit",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#d6d5d1",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -77.0735636,
+            38.9091809
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "node/10167313751",
+        "properties": {
+          "type": "node",
+          "id": "10167313751",
+          "tags": {
+            "highway": "elevator",
+            "wheelchair": "yes"
+          },
+          "relations": [],
+          "meta": {
+            "timestamp": "2022-11-07T19:21:17Z",
+            "version": "1",
+            "changeset": "128610899",
+            "user": "Albinoflea",
+            "uid": "4445759"
+          },
+          "own": {
+            "levels": [
+              0
+            ],
+            "ways": [
+              "way/1111158584",
+              "way/1111158584",
+              "way/1111158584"
+            ],
+            "fixed": true
+          },
+          "highway": "elevator",
+          "wheelchair": "yes",
+          "level_id": "G",
+          "level": "0",
+          "alt_name": null,
+          "category": null,
+          "indoor": null,
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "unit",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#d6d5d1",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -77.0751233,
+            38.9088465
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "door": "yes"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ],
+            "onBuildingContour": false,
+            "fixed": true
+          },
+          "level": "0",
+          "door": "yes",
+          "level_id": "G",
+          "alt_name": null,
+          "category": null,
+          "indoor": null,
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "corridor",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#d6d5d1",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -77.07349874,
+            38.90965847
+          ]
+        },
+        "id": "node/-2"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "door": "yes"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ],
+            "onBuildingContour": false,
+            "fixed": true
+          },
+          "level": "0",
+          "door": "yes",
+          "level_id": "G",
+          "alt_name": null,
+          "category": null,
+          "indoor": null,
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "corridor",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#d6d5d1",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -77.07340233,
+            38.90955685
+          ]
+        },
+        "id": "node/-3"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "door": "yes"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ],
+            "onBuildingContour": false,
+            "fixed": true
+          },
+          "level": "0",
+          "door": "yes",
+          "level_id": "G",
+          "alt_name": null,
+          "category": null,
+          "indoor": null,
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "corridor",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#d6d5d1",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -77.07338096,
+            38.90953433
+          ]
+        },
+        "id": "node/-4"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "door": "yes"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ],
+            "onBuildingContour": false,
+            "fixed": true
+          },
+          "level": "0",
+          "door": "yes",
+          "level_id": "G",
+          "alt_name": null,
+          "category": null,
+          "indoor": null,
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "corridor",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#d6d5d1",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -77.07323293,
+            38.9093783
+          ]
+        },
+        "id": "node/-5"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "door": "yes",
+            "automatic_door": "no"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ],
+            "utilityNode": false,
+            "onBuildingContour": false,
+            "fixed": true
+          },
+          "level": "0",
+          "door": "yes",
+          "automatic_door": "no",
+          "level_id": "G",
+          "alt_name": null,
+          "category": null,
+          "indoor": null,
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "corridor",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#d6d5d1",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -77.07353292,
+            38.90969449
+          ]
+        },
+        "id": "node/-6"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "indoor": "room",
+            "room": "class",
+            "name": "172A"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ]
+          },
+          "level": "0",
+          "indoor": "Classroom",
+          "room": "class",
+          "name": "172A",
+          "level_id": "G",
+          "alt_name": null,
+          "category": "Classroom",
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "unit",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#f3f3f3",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1,
+          "extrude": true,
+          "extrude-height": 2.5
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -77.07361333,
+                38.90978863
+              ],
+              [
+                -77.07353292,
+                38.90969449
+              ],
+              [
+                -77.07351668,
+                38.90967738
+              ],
+              [
+                -77.0734544,
+                38.90970723
+              ],
+              [
+                -77.07355901,
+                38.9098168
+              ],
+              [
+                -77.07361333,
+                38.90978863
+              ]
+            ]
+          ]
+        },
+        "id": "way/-7"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "indoor": "room",
+            "room": "class",
+            "name": "172"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ]
+          },
+          "level": "0",
+          "indoor": "Classroom",
+          "room": "class",
+          "name": "172",
+          "level_id": "G",
+          "alt_name": null,
+          "category": "Classroom",
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "unit",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#f3f3f3",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1,
+          "extrude": true,
+          "extrude-height": 2.5
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -77.07351172,
+                38.90967122
+              ],
+              [
+                -77.07349874,
+                38.90965847
+              ],
+              [
+                -77.07345339,
+                38.90960835
+              ],
+              [
+                -77.07338534,
+                38.90964096
+              ],
+              [
+                -77.07344735,
+                38.90970514
+              ],
+              [
+                -77.07351172,
+                38.90967122
+              ]
+            ]
+          ]
+        },
+        "id": "way/-8"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "indoor": "room",
+            "room": "class",
+            "name": "152"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ]
+          },
+          "level": "0",
+          "indoor": "Classroom",
+          "room": "class",
+          "name": "152",
+          "level_id": "G",
+          "alt_name": null,
+          "category": "Classroom",
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "unit",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#f3f3f3",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1,
+          "extrude": true,
+          "extrude-height": 2.5
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -77.073449,
+                38.90960418
+              ],
+              [
+                -77.07340233,
+                38.90955685
+              ],
+              [
+                -77.07339267,
+                38.90954339
+              ],
+              [
+                -77.07332562,
+                38.90957887
+              ],
+              [
+                -77.07338132,
+                38.90963627
+              ],
+              [
+                -77.073449,
+                38.90960418
+              ]
+            ]
+          ]
+        },
+        "id": "way/-9"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "indoor": "room",
+            "name": "154",
+            "room": "class"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ]
+          },
+          "level": "0",
+          "indoor": "Classroom",
+          "name": "154",
+          "room": "class",
+          "level_id": "G",
+          "alt_name": null,
+          "category": "Classroom",
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "unit",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#f3f3f3",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1,
+          "extrude": true,
+          "extrude-height": 2.5
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -77.07338697,
+                38.90953895
+              ],
+              [
+                -77.07323983,
+                38.90939051
+              ],
+              [
+                -77.0731801,
+                38.90942312
+              ],
+              [
+                -77.07332562,
+                38.90957887
+              ],
+              [
+                -77.07338697,
+                38.90953895
+              ]
+            ]
+          ]
+        },
+        "id": "way/-10"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "indoor": "room",
+            "name": "156",
+            "room": "class"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ]
+          },
+          "level": "0",
+          "indoor": "Classroom",
+          "name": "156",
+          "room": "class",
+          "level_id": "G",
+          "alt_name": null,
+          "category": "Classroom",
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "unit",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#f3f3f3",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1,
+          "extrude": true,
+          "extrude-height": 2.5
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -77.0731773,
+                38.9094209
+              ],
+              [
+                -77.073239,
+                38.9093862
+              ],
+              [
+                -77.07319751,
+                38.90934146
+              ],
+              [
+                -77.07313415,
+                38.90937668
+              ],
+              [
+                -77.0731773,
+                38.9094209
+              ]
+            ]
+          ]
+        },
+        "id": "way/-11"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "indoor": "room",
+            "room": "class",
+            "name": "103"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ]
+          },
+          "level": "0",
+          "indoor": "Classroom",
+          "room": "class",
+          "name": "103",
+          "level_id": "G",
+          "alt_name": null,
+          "category": "Classroom",
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "unit",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#f3f3f3",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1,
+          "extrude": true,
+          "extrude-height": 2.5
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -77.07339406,
+                38.90950895
+              ],
+              [
+                -77.07352918,
+                38.90942964
+              ],
+              [
+                -77.07335617,
+                38.90929606
+              ],
+              [
+                -77.07324654,
+                38.90935502
+              ],
+              [
+                -77.07339406,
+                38.90950895
+              ]
+            ]
+          ]
+        },
+        "id": "way/-12"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "door": "yes"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ],
+            "onBuildingContour": false,
+            "fixed": true
+          },
+          "level": "0",
+          "door": "yes",
+          "level_id": "G",
+          "alt_name": null,
+          "category": null,
+          "indoor": null,
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "corridor",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#d6d5d1",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -77.07346771,
+            38.90946572
+          ]
+        },
+        "id": "node/-13"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "door": "yes"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ],
+            "onBuildingContour": false,
+            "fixed": true
+          },
+          "level": "0",
+          "door": "yes",
+          "level_id": "G",
+          "alt_name": null,
+          "category": null,
+          "indoor": null,
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "corridor",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#d6d5d1",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -77.07345101,
+            38.90947552
+          ]
+        },
+        "id": "node/-14"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "indoor": "room",
+            "room": "class",
+            "name": "112"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ]
+          },
+          "level": "0",
+          "indoor": "Classroom",
+          "room": "class",
+          "name": "112",
+          "level_id": "G",
+          "alt_name": null,
+          "category": "Classroom",
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "unit",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#f3f3f3",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1,
+          "extrude": true,
+          "extrude-height": 2.5
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -77.07370257,
+                38.90967957
+              ],
+              [
+                -77.07362211,
+                38.90956269
+              ],
+              [
+                -77.07352219,
+                38.90960809
+              ],
+              [
+                -77.07363283,
+                38.90971662
+              ],
+              [
+                -77.07370257,
+                38.90967957
+              ]
+            ]
+          ]
+        },
+        "id": "way/-15"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "door": "yes"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ],
+            "onBuildingContour": false,
+            "fixed": true
+          },
+          "level": "0",
+          "door": "yes",
+          "level_id": "G",
+          "alt_name": null,
+          "category": null,
+          "indoor": null,
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "corridor",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#d6d5d1",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -77.07356987,
+            38.90958643
+          ]
+        },
+        "id": "node/-16"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "indoor": "room",
+            "room": "bathroom"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ]
+          },
+          "level": "0",
+          "indoor": "Bathroom",
+          "room": "bathroom",
+          "level_id": "G",
+          "alt_name": null,
+          "category": "Bathroom",
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "unit",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#f3f3f3",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1,
+          "extrude": true,
+          "extrude-height": 2.5
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -77.07354695,
+                38.90941686
+              ],
+              [
+                -77.07356771,
+                38.90940225
+              ],
+              [
+                -77.07350323,
+                38.90934865
+              ],
+              [
+                -77.07347819,
+                38.90936676
+              ],
+              [
+                -77.07354695,
+                38.90941686
+              ]
+            ]
+          ]
+        },
+        "id": "way/-17"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "indoor": "room",
+            "room": "bathroom"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ]
+          },
+          "level": "0",
+          "indoor": "Bathroom",
+          "room": "bathroom",
+          "level_id": "G",
+          "alt_name": null,
+          "category": "Bathroom",
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "unit",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#f3f3f3",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1,
+          "extrude": true,
+          "extrude-height": 2.5
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -77.07371119,
+                38.90956727
+              ],
+              [
+                -77.07367299,
+                38.90958096
+              ],
+              [
+                -77.07365086,
+                38.90954678
+              ],
+              [
+                -77.07365756,
+                38.90954521
+              ],
+              [
+                -77.07363845,
+                38.90951756
+              ],
+              [
+                -77.073669,
+                38.9095059
+              ],
+              [
+                -77.07371119,
+                38.90956727
+              ]
+            ]
+          ]
+        },
+        "id": "way/-18"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "door": "yes"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ],
+            "onBuildingContour": false,
+            "fixed": true
+          },
+          "level": "0",
+          "door": "yes",
+          "level_id": "G",
+          "alt_name": null,
+          "category": null,
+          "indoor": null,
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "corridor",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#d6d5d1",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -77.0736441,
+            38.90952573
+          ]
+        },
+        "id": "node/-19"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "door": "yes",
+            "entrance": "main"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ],
+            "utilityNode": false,
+            "onBuildingContour": false,
+            "fixed": true
+          },
+          "level": "0",
+          "door": "yes",
+          "entrance": "main",
+          "level_id": "G",
+          "alt_name": null,
+          "category": null,
+          "indoor": null,
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "corridor",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#d6d5d1",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -77.07362674,
+            38.90947999
+          ]
+        },
+        "id": "node/-20"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "door": "yes",
+            "entrance": "main"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ],
+            "utilityNode": false,
+            "onBuildingContour": false,
+            "fixed": true
+          },
+          "level": "0",
+          "door": "yes",
+          "entrance": "main",
+          "level_id": "G",
+          "alt_name": null,
+          "category": null,
+          "indoor": null,
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "corridor",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#d6d5d1",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -77.07358601,
+            38.90943903
+          ]
+        },
+        "id": "node/-21"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "indoor": "room",
+            "room": "class",
+            "name": "185"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ]
+          },
+          "level": "0",
+          "indoor": "Classroom",
+          "room": "class",
+          "name": "185",
+          "level_id": "G",
+          "alt_name": null,
+          "category": "Classroom",
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "unit",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#f3f3f3",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1,
+          "extrude": true,
+          "extrude-height": 2.5
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -77.07378484,
+                38.90973057
+              ],
+              [
+                -77.07375649,
+                38.90968818
+              ],
+              [
+                -77.07378614,
+                38.90967631
+              ],
+              [
+                -77.0738148,
+                38.909718
+              ],
+              [
+                -77.07378484,
+                38.90973057
+              ]
+            ]
+          ]
+        },
+        "id": "way/-22"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "door": "yes"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ],
+            "onBuildingContour": false,
+            "fixed": true
+          },
+          "level": "0",
+          "door": "yes",
+          "level_id": "G",
+          "alt_name": null,
+          "category": null,
+          "indoor": null,
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "corridor",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#d6d5d1",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -77.07376379,
+            38.90969909
+          ]
+        },
+        "id": "node/-23"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "indoor": "room",
+            "room": "class",
+            "name": "186"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ]
+          },
+          "level": "0",
+          "indoor": "Classroom",
+          "room": "class",
+          "name": "186",
+          "level_id": "G",
+          "alt_name": null,
+          "category": "Classroom",
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "unit",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#f3f3f3",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1,
+          "extrude": true,
+          "extrude-height": 2.5
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -77.07378342,
+                38.90967235
+              ],
+              [
+                -77.07375276,
+                38.90968323
+              ],
+              [
+                -77.07374107,
+                38.9096634
+              ],
+              [
+                -77.07372594,
+                38.90966862
+              ],
+              [
+                -77.07368441,
+                38.90961018
+              ],
+              [
+                -77.07372969,
+                38.90959418
+              ],
+              [
+                -77.07378342,
+                38.90967235
+              ]
+            ]
+          ]
+        },
+        "id": "way/-24"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "door": "yes"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ],
+            "onBuildingContour": false,
+            "fixed": true
+          },
+          "level": "0",
+          "door": "yes",
+          "level_id": "G",
+          "alt_name": null,
+          "category": null,
+          "indoor": null,
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "corridor",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#d6d5d1",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -77.07369923,
+            38.90963064
+          ]
+        },
+        "id": "node/-25"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0;1",
+            "highway": "steps"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0,
+              1
+            ]
+          },
+          "level": "0;1",
+          "highway": "steps",
+          "level_id": "0;1",
+          "alt_name": null,
+          "category": null,
+          "indoor": null,
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "corridor",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#d6d5d1",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.0735284,
+              38.90953217
+            ],
+            [
+              -77.07358104,
+              38.90950765
+            ],
+            [
+              -77.07353879,
+              38.90946121
+            ],
+            [
+              -77.07348649,
+              38.90949225
+            ],
+            [
+              -77.07352739,
+              38.90953191
+            ]
+          ]
+        },
+        "id": "way/-26"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "-1-6",
+            "highway": "elevator",
+            "indoor": "room",
+            "room": "elevator",
+            "wheelchair": "yes"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              -1,
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ]
+          },
+          "level": "-1-6",
+          "highway": "elevator",
+          "indoor": "Elevator",
+          "room": "elevator",
+          "wheelchair": "yes",
+          "level_id": "-1-6",
+          "alt_name": null,
+          "category": "Elevator",
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "unit",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#f3f3f3",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1,
+          "extrude": true,
+          "extrude-height": 2.5
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -77.0735009,
+                38.90954965
+              ],
+              [
+                -77.07345799,
+                38.90950478
+              ],
+              [
+                -77.07342949,
+                38.90951808
+              ],
+              [
+                -77.07347274,
+                38.90956348
+              ],
+              [
+                -77.0735009,
+                38.90954965
+              ]
+            ]
+          ]
+        },
+        "id": "way/-27"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "door": "yes"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ],
+            "onBuildingContour": false,
+            "fixed": true
+          },
+          "level": "0",
+          "door": "yes",
+          "level_id": "G",
+          "alt_name": null,
+          "category": null,
+          "indoor": null,
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "corridor",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#d6d5d1",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -77.07352955,
+            38.90940418
+          ]
+        },
+        "id": "node/-28"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "indoor": "corridor"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ]
+          },
+          "level": "0",
+          "indoor": "corridor",
+          "level_id": "G",
+          "alt_name": null,
+          "category": "corridor",
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "corridor",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#d6d5d1",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -77.07321703,
+                38.90933311
+              ],
+              [
+                -77.0733083,
+                38.90924854
+              ],
+              [
+                -77.07336146,
+                38.9092937
+              ],
+              [
+                -77.07324128,
+                38.90935527
+              ],
+              [
+                -77.07321703,
+                38.90933311
+              ]
+            ]
+          ]
+        },
+        "id": "way/-31"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "indoor": "corridor"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ]
+          },
+          "level": "0",
+          "indoor": "corridor",
+          "level_id": "G",
+          "alt_name": null,
+          "category": "corridor",
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "corridor",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#d6d5d1",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -77.07362211,
+                38.90956269
+              ],
+              [
+                -77.07352219,
+                38.90960809
+              ],
+              [
+                -77.07340596,
+                38.90950576
+              ],
+              [
+                -77.07352918,
+                38.90942964
+              ],
+              [
+                -77.07362211,
+                38.90956269
+              ]
+            ]
+          ]
+        },
+        "id": "way/-32"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "indoor": "corridor"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ]
+          },
+          "level": "0",
+          "indoor": "corridor",
+          "level_id": "G",
+          "alt_name": null,
+          "category": "corridor",
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "corridor",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#d6d5d1",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -77.07372594,
+                38.90966862
+              ],
+              [
+                -77.07368441,
+                38.90961018
+              ],
+              [
+                -77.07367299,
+                38.90958096
+              ],
+              [
+                -77.07365086,
+                38.90954678
+              ],
+              [
+                -77.07365756,
+                38.90954521
+              ],
+              [
+                -77.07363845,
+                38.90951756
+              ],
+              [
+                -77.07362674,
+                38.90947999
+              ],
+              [
+                -77.07358601,
+                38.90943903
+              ],
+              [
+                -77.07354695,
+                38.90941686
+              ],
+              [
+                -77.07347819,
+                38.90936676
+              ],
+              [
+                -77.07350296,
+                38.90934843
+              ],
+              [
+                -77.07350068,
+                38.90934668
+              ],
+              [
+                -77.0734638,
+                38.90937955
+              ],
+              [
+                -77.07352918,
+                38.90942964
+              ],
+              [
+                -77.07362211,
+                38.90956269
+              ],
+              [
+                -77.07370257,
+                38.90967957
+              ],
+              [
+                -77.07372594,
+                38.90966862
+              ]
+            ]
+          ]
+        },
+        "id": "way/-34"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "indoor": "corridor"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ]
+          },
+          "level": "0",
+          "indoor": "corridor",
+          "level_id": "G",
+          "alt_name": null,
+          "category": "corridor",
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "corridor",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#d6d5d1",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -77.07361333,
+                38.90978863
+              ],
+              [
+                -77.0736484,
+                38.9097878
+              ],
+              [
+                -77.07378065,
+                38.90973232
+              ],
+              [
+                -77.07374107,
+                38.9096634
+              ],
+              [
+                -77.07370257,
+                38.90967957
+              ],
+              [
+                -77.07356904,
+                38.90973678
+              ],
+              [
+                -77.07361333,
+                38.90978863
+              ]
+            ]
+          ]
+        },
+        "id": "way/-33"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "indoor": "corridor"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ]
+          },
+          "level": "0",
+          "indoor": "corridor",
+          "level_id": "G",
+          "alt_name": null,
+          "category": "corridor",
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "corridor",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#d6d5d1",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -77.07363283,
+                38.90971662
+              ],
+              [
+                -77.07352219,
+                38.90960809
+              ],
+              [
+                -77.07345891,
+                38.90955238
+              ],
+              [
+                -77.07341547,
+                38.90951413
+              ],
+              [
+                -77.07339406,
+                38.90950895
+              ],
+              [
+                -77.07337674,
+                38.90949088
+              ],
+              [
+                -77.07325801,
+                38.90936698
+              ],
+              [
+                -77.07324654,
+                38.90935502
+              ],
+              [
+                -77.07321703,
+                38.90933311
+              ],
+              [
+                -77.07319751,
+                38.90934146
+              ],
+              [
+                -77.07338096,
+                38.90953433
+              ],
+              [
+                -77.07355144,
+                38.90971618
+              ],
+              [
+                -77.07356904,
+                38.90973678
+              ],
+              [
+                -77.07363283,
+                38.90971662
+              ]
+            ]
+          ]
+        },
+        "id": "way/-35"
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "tags": {
+            "level": "0",
+            "indoor": "corridor"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ]
+          },
+          "level": "0",
+          "indoor": "corridor",
+          "level_id": "G",
+          "alt_name": null,
+          "category": "corridor",
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "corridor",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#d6d5d1",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -77.0734638,
+                38.90937955
+              ],
+              [
+                -77.07350068,
+                38.90934668
+              ],
+              [
+                -77.0733444,
+                38.9092209
+              ],
+              [
+                -77.0733083,
+                38.90924854
+              ],
+              [
+                -77.0734638,
+                38.90937955
+              ]
+            ]
+          ]
+        },
+        "id": "way/-36"
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -77.0735299,
+                38.9098069
+              ],
+              [
+                -77.0735471,
+                38.9098269
+              ],
+              [
+                -77.0735593,
+                38.9098412
+              ],
+              [
+                -77.0735742,
+                38.9098323
+              ],
+              [
+                -77.0736484,
+                38.9097878
+              ],
+              [
+                -77.0736696,
+                38.9097789
+              ],
+              [
+                -77.0738148,
+                38.909718
+              ],
+              [
+                -77.073669,
+                38.9095059
+              ],
+              [
+                -77.0737392,
+                38.909472
+              ],
+              [
+                -77.073688,
+                38.9094069
+              ],
+              [
+                -77.0736214,
+                38.9093478
+              ],
+              [
+                -77.0735616,
+                38.9093956
+              ],
+              [
+                -77.0733444,
+                38.9092209
+              ],
+              [
+                -77.0732467,
+                38.9092957
+              ],
+              [
+                -77.0732088,
+                38.9093248
+              ],
+              [
+                -77.0731184,
+                38.9093744
+              ],
+              [
+                -77.0731426,
+                38.9094005
+              ],
+              [
+                -77.0733145,
+                38.9095855
+              ],
+              [
+                -77.0733092,
+                38.9095886
+              ],
+              [
+                -77.0732985,
+                38.9095774
+              ],
+              [
+                -77.0732577,
+                38.9096012
+              ],
+              [
+                -77.0732922,
+                38.9096374
+              ],
+              [
+                -77.0733222,
+                38.9096689
+              ],
+              [
+                -77.0733613,
+                38.9096462
+              ],
+              [
+                -77.073352,
+                38.9096365
+              ],
+              [
+                -77.0733589,
+                38.9096326
+              ],
+              [
+                -77.0735258,
+                38.9098093
+              ],
+              [
+                -77.0735299,
+                38.9098069
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "tags": {
+            "indoor": "level",
+            "level": "-1"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              -1
+            ]
+          },
+          "indoor": "level",
+          "level": "-1",
+          "level_id": "-1",
+          "alt_name": null,
+          "category": "level",
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "level",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#e8e8e8",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "id": "way/-37"
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -77.0735299,
+                38.9098069
+              ],
+              [
+                -77.0735471,
+                38.9098269
+              ],
+              [
+                -77.0735593,
+                38.9098412
+              ],
+              [
+                -77.0735742,
+                38.9098323
+              ],
+              [
+                -77.0736484,
+                38.9097878
+              ],
+              [
+                -77.0736696,
+                38.9097789
+              ],
+              [
+                -77.0738148,
+                38.909718
+              ],
+              [
+                -77.073669,
+                38.9095059
+              ],
+              [
+                -77.0737392,
+                38.909472
+              ],
+              [
+                -77.073688,
+                38.9094069
+              ],
+              [
+                -77.0736214,
+                38.9093478
+              ],
+              [
+                -77.0735616,
+                38.9093956
+              ],
+              [
+                -77.0733444,
+                38.9092209
+              ],
+              [
+                -77.0732467,
+                38.9092957
+              ],
+              [
+                -77.0732088,
+                38.9093248
+              ],
+              [
+                -77.0731184,
+                38.9093744
+              ],
+              [
+                -77.0731426,
+                38.9094005
+              ],
+              [
+                -77.0733145,
+                38.9095855
+              ],
+              [
+                -77.0733092,
+                38.9095886
+              ],
+              [
+                -77.0732985,
+                38.9095774
+              ],
+              [
+                -77.0732577,
+                38.9096012
+              ],
+              [
+                -77.0732922,
+                38.9096374
+              ],
+              [
+                -77.0733222,
+                38.9096689
+              ],
+              [
+                -77.0733613,
+                38.9096462
+              ],
+              [
+                -77.073352,
+                38.9096365
+              ],
+              [
+                -77.0733589,
+                38.9096326
+              ],
+              [
+                -77.0735258,
+                38.9098093
+              ],
+              [
+                -77.0735299,
+                38.9098069
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "tags": {
+            "indoor": "level",
+            "level": "0"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              0
+            ]
+          },
+          "indoor": "level",
+          "level": "0",
+          "level_id": "G",
+          "alt_name": null,
+          "category": "level",
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "level",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#e8e8e8",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "id": "way/-38"
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -77.0735299,
+                38.9098069
+              ],
+              [
+                -77.0735471,
+                38.9098269
+              ],
+              [
+                -77.0735593,
+                38.9098412
+              ],
+              [
+                -77.0735742,
+                38.9098323
+              ],
+              [
+                -77.0736484,
+                38.9097878
+              ],
+              [
+                -77.0736696,
+                38.9097789
+              ],
+              [
+                -77.0738148,
+                38.909718
+              ],
+              [
+                -77.073669,
+                38.9095059
+              ],
+              [
+                -77.0737392,
+                38.909472
+              ],
+              [
+                -77.073688,
+                38.9094069
+              ],
+              [
+                -77.0736214,
+                38.9093478
+              ],
+              [
+                -77.0735616,
+                38.9093956
+              ],
+              [
+                -77.0733444,
+                38.9092209
+              ],
+              [
+                -77.0732467,
+                38.9092957
+              ],
+              [
+                -77.0732088,
+                38.9093248
+              ],
+              [
+                -77.0731184,
+                38.9093744
+              ],
+              [
+                -77.0731426,
+                38.9094005
+              ],
+              [
+                -77.0733145,
+                38.9095855
+              ],
+              [
+                -77.0733092,
+                38.9095886
+              ],
+              [
+                -77.0732985,
+                38.9095774
+              ],
+              [
+                -77.0732577,
+                38.9096012
+              ],
+              [
+                -77.0732922,
+                38.9096374
+              ],
+              [
+                -77.0733222,
+                38.9096689
+              ],
+              [
+                -77.0733613,
+                38.9096462
+              ],
+              [
+                -77.073352,
+                38.9096365
+              ],
+              [
+                -77.0733589,
+                38.9096326
+              ],
+              [
+                -77.0735258,
+                38.9098093
+              ],
+              [
+                -77.0735299,
+                38.9098069
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "tags": {
+            "indoor": "level",
+            "level": "1"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              1
+            ]
+          },
+          "indoor": "level",
+          "level": "1",
+          "level_id": "1",
+          "alt_name": null,
+          "category": "level",
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "level",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#e8e8e8",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "id": "way/-39"
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -77.0735299,
+                38.9098069
+              ],
+              [
+                -77.0735471,
+                38.9098269
+              ],
+              [
+                -77.0735593,
+                38.9098412
+              ],
+              [
+                -77.0735742,
+                38.9098323
+              ],
+              [
+                -77.0736484,
+                38.9097878
+              ],
+              [
+                -77.0736696,
+                38.9097789
+              ],
+              [
+                -77.0738148,
+                38.909718
+              ],
+              [
+                -77.073669,
+                38.9095059
+              ],
+              [
+                -77.0737392,
+                38.909472
+              ],
+              [
+                -77.073688,
+                38.9094069
+              ],
+              [
+                -77.0736214,
+                38.9093478
+              ],
+              [
+                -77.0735616,
+                38.9093956
+              ],
+              [
+                -77.0733444,
+                38.9092209
+              ],
+              [
+                -77.0732467,
+                38.9092957
+              ],
+              [
+                -77.0732088,
+                38.9093248
+              ],
+              [
+                -77.0731184,
+                38.9093744
+              ],
+              [
+                -77.0731426,
+                38.9094005
+              ],
+              [
+                -77.0733145,
+                38.9095855
+              ],
+              [
+                -77.0733092,
+                38.9095886
+              ],
+              [
+                -77.0732985,
+                38.9095774
+              ],
+              [
+                -77.0732577,
+                38.9096012
+              ],
+              [
+                -77.0732922,
+                38.9096374
+              ],
+              [
+                -77.0733222,
+                38.9096689
+              ],
+              [
+                -77.0733613,
+                38.9096462
+              ],
+              [
+                -77.073352,
+                38.9096365
+              ],
+              [
+                -77.0733589,
+                38.9096326
+              ],
+              [
+                -77.0735258,
+                38.9098093
+              ],
+              [
+                -77.0735299,
+                38.9098069
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "tags": {
+            "indoor": "level",
+            "level": "2"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              2
+            ]
+          },
+          "indoor": "level",
+          "level": "2",
+          "level_id": "2",
+          "alt_name": null,
+          "category": "level",
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "level",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#e8e8e8",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "id": "way/-40"
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -77.0735299,
+                38.9098069
+              ],
+              [
+                -77.0735471,
+                38.9098269
+              ],
+              [
+                -77.0735593,
+                38.9098412
+              ],
+              [
+                -77.0735742,
+                38.9098323
+              ],
+              [
+                -77.0736484,
+                38.9097878
+              ],
+              [
+                -77.0736696,
+                38.9097789
+              ],
+              [
+                -77.0738148,
+                38.909718
+              ],
+              [
+                -77.073669,
+                38.9095059
+              ],
+              [
+                -77.0737392,
+                38.909472
+              ],
+              [
+                -77.073688,
+                38.9094069
+              ],
+              [
+                -77.0736214,
+                38.9093478
+              ],
+              [
+                -77.0735616,
+                38.9093956
+              ],
+              [
+                -77.0733444,
+                38.9092209
+              ],
+              [
+                -77.0732467,
+                38.9092957
+              ],
+              [
+                -77.0732088,
+                38.9093248
+              ],
+              [
+                -77.0731184,
+                38.9093744
+              ],
+              [
+                -77.0731426,
+                38.9094005
+              ],
+              [
+                -77.0733145,
+                38.9095855
+              ],
+              [
+                -77.0733092,
+                38.9095886
+              ],
+              [
+                -77.0732985,
+                38.9095774
+              ],
+              [
+                -77.0732577,
+                38.9096012
+              ],
+              [
+                -77.0732922,
+                38.9096374
+              ],
+              [
+                -77.0733222,
+                38.9096689
+              ],
+              [
+                -77.0733613,
+                38.9096462
+              ],
+              [
+                -77.073352,
+                38.9096365
+              ],
+              [
+                -77.0733589,
+                38.9096326
+              ],
+              [
+                -77.0735258,
+                38.9098093
+              ],
+              [
+                -77.0735299,
+                38.9098069
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "tags": {
+            "indoor": "level",
+            "level": "3"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              3
+            ]
+          },
+          "indoor": "level",
+          "level": "3",
+          "level_id": "3",
+          "alt_name": null,
+          "category": "level",
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "level",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#e8e8e8",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "id": "way/-41"
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -77.0735299,
+                38.9098069
+              ],
+              [
+                -77.0735471,
+                38.9098269
+              ],
+              [
+                -77.0735593,
+                38.9098412
+              ],
+              [
+                -77.0735742,
+                38.9098323
+              ],
+              [
+                -77.0736484,
+                38.9097878
+              ],
+              [
+                -77.0736696,
+                38.9097789
+              ],
+              [
+                -77.0738148,
+                38.909718
+              ],
+              [
+                -77.073669,
+                38.9095059
+              ],
+              [
+                -77.0737392,
+                38.909472
+              ],
+              [
+                -77.073688,
+                38.9094069
+              ],
+              [
+                -77.0736214,
+                38.9093478
+              ],
+              [
+                -77.0735616,
+                38.9093956
+              ],
+              [
+                -77.0733444,
+                38.9092209
+              ],
+              [
+                -77.0732467,
+                38.9092957
+              ],
+              [
+                -77.0732088,
+                38.9093248
+              ],
+              [
+                -77.0731184,
+                38.9093744
+              ],
+              [
+                -77.0731426,
+                38.9094005
+              ],
+              [
+                -77.0733145,
+                38.9095855
+              ],
+              [
+                -77.0733092,
+                38.9095886
+              ],
+              [
+                -77.0732985,
+                38.9095774
+              ],
+              [
+                -77.0732577,
+                38.9096012
+              ],
+              [
+                -77.0732922,
+                38.9096374
+              ],
+              [
+                -77.0733222,
+                38.9096689
+              ],
+              [
+                -77.0733613,
+                38.9096462
+              ],
+              [
+                -77.073352,
+                38.9096365
+              ],
+              [
+                -77.0733589,
+                38.9096326
+              ],
+              [
+                -77.0735258,
+                38.9098093
+              ],
+              [
+                -77.0735299,
+                38.9098069
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "tags": {
+            "indoor": "level",
+            "level": "4"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              4
+            ]
+          },
+          "indoor": "level",
+          "level": "4",
+          "level_id": "4",
+          "alt_name": null,
+          "category": "level",
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "level",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#e8e8e8",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "id": "way/-42"
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -77.0735299,
+                38.9098069
+              ],
+              [
+                -77.0735471,
+                38.9098269
+              ],
+              [
+                -77.0735593,
+                38.9098412
+              ],
+              [
+                -77.0735742,
+                38.9098323
+              ],
+              [
+                -77.0736484,
+                38.9097878
+              ],
+              [
+                -77.0736696,
+                38.9097789
+              ],
+              [
+                -77.0738148,
+                38.909718
+              ],
+              [
+                -77.073669,
+                38.9095059
+              ],
+              [
+                -77.0737392,
+                38.909472
+              ],
+              [
+                -77.073688,
+                38.9094069
+              ],
+              [
+                -77.0736214,
+                38.9093478
+              ],
+              [
+                -77.0735616,
+                38.9093956
+              ],
+              [
+                -77.0733444,
+                38.9092209
+              ],
+              [
+                -77.0732467,
+                38.9092957
+              ],
+              [
+                -77.0732088,
+                38.9093248
+              ],
+              [
+                -77.0731184,
+                38.9093744
+              ],
+              [
+                -77.0731426,
+                38.9094005
+              ],
+              [
+                -77.0733145,
+                38.9095855
+              ],
+              [
+                -77.0733092,
+                38.9095886
+              ],
+              [
+                -77.0732985,
+                38.9095774
+              ],
+              [
+                -77.0732577,
+                38.9096012
+              ],
+              [
+                -77.0732922,
+                38.9096374
+              ],
+              [
+                -77.0733222,
+                38.9096689
+              ],
+              [
+                -77.0733613,
+                38.9096462
+              ],
+              [
+                -77.073352,
+                38.9096365
+              ],
+              [
+                -77.0733589,
+                38.9096326
+              ],
+              [
+                -77.0735258,
+                38.9098093
+              ],
+              [
+                -77.0735299,
+                38.9098069
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "tags": {
+            "indoor": "level",
+            "level": "5"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              5
+            ]
+          },
+          "indoor": "level",
+          "level": "5",
+          "level_id": "5",
+          "alt_name": null,
+          "category": "level",
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "level",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#e8e8e8",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "id": "way/-43"
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -77.0735299,
+                38.9098069
+              ],
+              [
+                -77.0735471,
+                38.9098269
+              ],
+              [
+                -77.0735593,
+                38.9098412
+              ],
+              [
+                -77.0735742,
+                38.9098323
+              ],
+              [
+                -77.0736484,
+                38.9097878
+              ],
+              [
+                -77.0736696,
+                38.9097789
+              ],
+              [
+                -77.0738148,
+                38.909718
+              ],
+              [
+                -77.073669,
+                38.9095059
+              ],
+              [
+                -77.0737392,
+                38.909472
+              ],
+              [
+                -77.073688,
+                38.9094069
+              ],
+              [
+                -77.0736214,
+                38.9093478
+              ],
+              [
+                -77.0735616,
+                38.9093956
+              ],
+              [
+                -77.0733444,
+                38.9092209
+              ],
+              [
+                -77.0732467,
+                38.9092957
+              ],
+              [
+                -77.0732088,
+                38.9093248
+              ],
+              [
+                -77.0731184,
+                38.9093744
+              ],
+              [
+                -77.0731426,
+                38.9094005
+              ],
+              [
+                -77.0733145,
+                38.9095855
+              ],
+              [
+                -77.0733092,
+                38.9095886
+              ],
+              [
+                -77.0732985,
+                38.9095774
+              ],
+              [
+                -77.0732577,
+                38.9096012
+              ],
+              [
+                -77.0732922,
+                38.9096374
+              ],
+              [
+                -77.0733222,
+                38.9096689
+              ],
+              [
+                -77.0733613,
+                38.9096462
+              ],
+              [
+                -77.073352,
+                38.9096365
+              ],
+              [
+                -77.0733589,
+                38.9096326
+              ],
+              [
+                -77.0735258,
+                38.9098093
+              ],
+              [
+                -77.0735299,
+                38.9098069
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "tags": {
+            "indoor": "level",
+            "level": "6"
+          },
+          "own": {
+            "new": true,
+            "levels": [
+              6
+            ]
+          },
+          "indoor": "level",
+          "level": "6",
+          "level_id": "6",
+          "alt_name": null,
+          "category": "level",
+          "restriction": null,
+          "accessibility": null,
+          "display_point": null,
+          "feature_type": "level",
+          "show": "true",
+          "area": 0,
+          "building_id": "reiss",
+          "fill": "#e8e8e8",
+          "stroke": "#a6a5a2",
+          "stroke-width": 1,
+          "stroke-opacity": 1
+        },
+        "id": "way/-44"
       }
     ]
   },
@@ -20290,6 +23700,1059 @@
           "level": 6,
           "type": "room_connection",
           "room": "619"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.073347017,
+              38.909301905
+            ],
+            [
+              -77.07323147299999,
+              38.909301905
+            ]
+          ]
+        },
+        "properties": {
+          "level": 1,
+          "type": "corridor"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07360049500001,
+              38.909518864999995
+            ],
+            [
+              -77.073427575,
+              38.909518864999995
+            ]
+          ]
+        },
+        "properties": {
+          "level": 1,
+          "type": "corridor"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07359487,
+              38.909379969
+            ],
+            [
+              -77.07359487,
+              38.909646281
+            ]
+          ]
+        },
+        "properties": {
+          "level": 1,
+          "type": "corridor"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.073759489,
+              38.909726015000004
+            ],
+            [
+              -77.073590201,
+              38.909726015000004
+            ]
+          ]
+        },
+        "properties": {
+          "level": 1,
+          "type": "corridor"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.073589298,
+              38.909534945000004
+            ],
+            [
+              -77.073241042,
+              38.909534945000004
+            ]
+          ]
+        },
+        "properties": {
+          "level": 1,
+          "type": "corridor"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.073481442,
+              38.909300224999996
+            ],
+            [
+              -77.073327538,
+              38.909300224999996
+            ]
+          ]
+        },
+        "properties": {
+          "level": 1,
+          "type": "corridor"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.073347017,
+              38.909301905
+            ],
+            [
+              -77.073327538,
+              38.909300224999996
+            ]
+          ]
+        },
+        "properties": {
+          "level": 1,
+          "type": "corridor"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07360049500001,
+              38.909518864999995
+            ],
+            [
+              -77.073589298,
+              38.909534945000004
+            ]
+          ]
+        },
+        "properties": {
+          "level": 1,
+          "type": "corridor"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.073289245,
+              38.909301905
+            ],
+            [
+              -77.07340449,
+              38.909300224999996
+            ]
+          ]
+        },
+        "properties": {
+          "level": 1,
+          "type": "corridor"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.073514035,
+              38.909518864999995
+            ],
+            [
+              -77.07359487,
+              38.909513125000004
+            ]
+          ]
+        },
+        "properties": {
+          "level": 1,
+          "type": "corridor"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.073514035,
+              38.909518864999995
+            ],
+            [
+              -77.07341517,
+              38.909534945000004
+            ]
+          ]
+        },
+        "properties": {
+          "level": 1,
+          "type": "corridor"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07349874,
+              38.90965847
+            ],
+            [
+              -77.07359487,
+              38.909646281
+            ]
+          ]
+        },
+        "properties": {
+          "level": 1,
+          "type": "room_connection",
+          "room": "172A"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07340233,
+              38.90955685
+            ],
+            [
+              -77.07341517,
+              38.909534945000004
+            ]
+          ]
+        },
+        "properties": {
+          "level": 1,
+          "type": "room_connection",
+          "room": "172A"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07338096,
+              38.90953433
+            ],
+            [
+              -77.07341517,
+              38.909534945000004
+            ]
+          ]
+        },
+        "properties": {
+          "level": 1,
+          "type": "room_connection",
+          "room": "172"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07323293,
+              38.9093783
+            ],
+            [
+              -77.07323147299999,
+              38.909301905
+            ]
+          ]
+        },
+        "properties": {
+          "level": 1,
+          "type": "room_connection",
+          "room": "154"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07353292,
+              38.90969449
+            ],
+            [
+              -77.073590201,
+              38.909726015000004
+            ]
+          ]
+        },
+        "properties": {
+          "level": 1,
+          "type": "room_connection",
+          "room": "172A"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07346771,
+              38.90946572
+            ],
+            [
+              -77.073427575,
+              38.909518864999995
+            ]
+          ]
+        },
+        "properties": {
+          "level": 1,
+          "type": "room_connection",
+          "room": "172"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07345101,
+              38.90947552
+            ],
+            [
+              -77.073427575,
+              38.909518864999995
+            ]
+          ]
+        },
+        "properties": {
+          "level": 1,
+          "type": "room_connection",
+          "room": "172"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07356987,
+              38.90958643
+            ],
+            [
+              -77.073589298,
+              38.909534945000004
+            ]
+          ]
+        },
+        "properties": {
+          "level": 1,
+          "type": "room_connection",
+          "room": "172A"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.0736441,
+              38.90952573
+            ],
+            [
+              -77.07360049500001,
+              38.909518864999995
+            ]
+          ]
+        },
+        "properties": {
+          "level": 1,
+          "type": "room_connection",
+          "room": "172"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07362674,
+              38.90947999
+            ],
+            [
+              -77.07359487,
+              38.909513125000004
+            ]
+          ]
+        },
+        "properties": {
+          "level": 1,
+          "type": "room_connection",
+          "room": "172"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07358601,
+              38.90943903
+            ],
+            [
+              -77.07359487,
+              38.909379969
+            ]
+          ]
+        },
+        "properties": {
+          "level": 1,
+          "type": "room_connection",
+          "room": "152"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07376379,
+              38.90969909
+            ],
+            [
+              -77.073759489,
+              38.909726015000004
+            ]
+          ]
+        },
+        "properties": {
+          "level": 1,
+          "type": "room_connection",
+          "room": "172A"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07369923,
+              38.90963064
+            ],
+            [
+              -77.07359487,
+              38.909646281
+            ]
+          ]
+        },
+        "properties": {
+          "level": 1,
+          "type": "room_connection",
+          "room": "172A"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07352955,
+              38.90940418
+            ],
+            [
+              -77.07359487,
+              38.909379969
+            ]
+          ]
+        },
+        "properties": {
+          "level": 1,
+          "type": "room_connection",
+          "room": "152"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07328201749999,
+              38.909307655
+            ],
+            [
+              -77.07342254,
+              38.90928379
+            ]
+          ]
+        },
+        "properties": {
+          "level": 0,
+          "type": "corridor",
+          "building": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.073575645,
+              38.909496165
+            ],
+            [
+              -77.073575645,
+              38.909496165
+            ]
+          ]
+        },
+        "properties": {
+          "level": 0,
+          "type": "corridor",
+          "building": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.073575645,
+              38.909496165
+            ],
+            [
+              -77.07351986,
+              38.909526545000006
+            ]
+          ]
+        },
+        "properties": {
+          "level": 0,
+          "type": "corridor",
+          "building": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.073575645,
+              38.909496165
+            ],
+            [
+              -77.07359933750001,
+              38.909494906875004
+            ]
+          ]
+        },
+        "properties": {
+          "level": 0,
+          "type": "corridor",
+          "building": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.073317375,
+              38.909428930000004
+            ],
+            [
+              -77.07325866,
+              38.90940575
+            ]
+          ]
+        },
+        "properties": {
+          "level": 0,
+          "type": "corridor",
+          "building": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07325866,
+              38.90940575
+            ],
+            [
+              -77.07331981,
+              38.90947004
+            ]
+          ]
+        },
+        "properties": {
+          "level": 0,
+          "type": "corridor",
+          "building": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07331981,
+              38.90947004
+            ],
+            [
+              -77.07343778666666,
+              38.909594946666665
+            ]
+          ]
+        },
+        "properties": {
+          "level": 0,
+          "type": "corridor",
+          "building": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07343778666666,
+              38.909594946666665
+            ],
+            [
+              -77.07349461333334,
+              38.90965556333333
+            ]
+          ]
+        },
+        "properties": {
+          "level": 0,
+          "type": "corridor",
+          "building": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07349461333334,
+              38.90965556333333
+            ],
+            [
+              -77.07340159461539,
+              38.90952114692307
+            ]
+          ]
+        },
+        "properties": {
+          "level": 0,
+          "type": "corridor",
+          "building": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07342254,
+              38.90928379
+            ],
+            [
+              -77.07338605,
+              38.909314045
+            ]
+          ]
+        },
+        "properties": {
+          "level": 0,
+          "type": "corridor",
+          "building": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07338605,
+              38.909314045
+            ],
+            [
+              -77.073404295,
+              38.909298917499996
+            ]
+          ]
+        },
+        "properties": {
+          "level": 0,
+          "type": "corridor",
+          "building": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07349874,
+              38.90965847
+            ],
+            [
+              -77.07349461333334,
+              38.90965556333333
+            ]
+          ]
+        },
+        "properties": {
+          "level": 0,
+          "type": "room_connection",
+          "room": "172A",
+          "building": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07340233,
+              38.90955685
+            ],
+            [
+              -77.07340159461539,
+              38.90952114692307
+            ]
+          ]
+        },
+        "properties": {
+          "level": 0,
+          "type": "room_connection",
+          "room": "172",
+          "building": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07338096,
+              38.90953433
+            ],
+            [
+              -77.07340159461539,
+              38.90952114692307
+            ]
+          ]
+        },
+        "properties": {
+          "level": 0,
+          "type": "room_connection",
+          "room": "152",
+          "building": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07323293,
+              38.9093783
+            ],
+            [
+              -77.07325866,
+              38.90940575
+            ]
+          ]
+        },
+        "properties": {
+          "level": 0,
+          "type": "room_connection",
+          "room": "154",
+          "building": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07353292,
+              38.90969449
+            ],
+            [
+              -77.07349461333334,
+              38.90965556333333
+            ]
+          ]
+        },
+        "properties": {
+          "level": 0,
+          "type": "room_connection",
+          "room": "172A",
+          "building": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07346771,
+              38.90946572
+            ],
+            [
+              -77.07351986,
+              38.909526545000006
+            ]
+          ]
+        },
+        "properties": {
+          "level": 0,
+          "type": "room_connection",
+          "room": "152",
+          "building": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07345101,
+              38.90947552
+            ],
+            [
+              -77.07340159461539,
+              38.90952114692307
+            ]
+          ]
+        },
+        "properties": {
+          "level": 0,
+          "type": "room_connection",
+          "room": "152",
+          "building": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07356987,
+              38.90958643
+            ],
+            [
+              -77.07351986,
+              38.909526545000006
+            ]
+          ]
+        },
+        "properties": {
+          "level": 0,
+          "type": "room_connection",
+          "room": "172",
+          "building": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.0736441,
+              38.90952573
+            ],
+            [
+              -77.07359933750001,
+              38.909494906875004
+            ]
+          ]
+        },
+        "properties": {
+          "level": 0,
+          "type": "room_connection",
+          "room": "112",
+          "building": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07362674,
+              38.90947999
+            ],
+            [
+              -77.07359933750001,
+              38.909494906875004
+            ]
+          ]
+        },
+        "properties": {
+          "level": 0,
+          "type": "room_connection",
+          "room": "door_10",
+          "building": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07358601,
+              38.90943903
+            ],
+            [
+              -77.07359933750001,
+              38.909494906875004
+            ]
+          ]
+        },
+        "properties": {
+          "level": 0,
+          "type": "room_connection",
+          "room": "door_11",
+          "building": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07376379,
+              38.90969909
+            ],
+            [
+              -77.07367584333333,
+              38.909731416666666
+            ]
+          ]
+        },
+        "properties": {
+          "level": 0,
+          "type": "room_connection",
+          "room": "112",
+          "building": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07369923,
+              38.90963064
+            ],
+            [
+              -77.07359933750001,
+              38.909494906875004
+            ]
+          ]
+        },
+        "properties": {
+          "level": 0,
+          "type": "room_connection",
+          "room": "112",
+          "building": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -77.07352955,
+              38.90940418
+            ],
+            [
+              -77.073575645,
+              38.909496165
+            ]
+          ]
+        },
+        "properties": {
+          "level": 0,
+          "type": "room_connection",
+          "room": "103",
+          "building": "reiss"
         }
       }
     ]
@@ -24938,6 +29401,233 @@
             "amenity": "toilets"
           },
           "building_id": "darnall"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "coordinates": [
+            -77.07354827833333,
+            38.90974552666667
+          ],
+          "type": "Point"
+        },
+        "properties": {
+          "id": 2004,
+          "name": "Classroom 172A",
+          "type": "classroom",
+          "floor": "G",
+          "metadata": {
+            "description": "Classroom 172A in Reiss Science Building",
+            "room_number": "172A",
+            "room_type": "classroom",
+            "access": "public"
+          },
+          "building_id": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "coordinates": [
+            -77.07346804333334,
+            38.90965922666667
+          ],
+          "type": "Point"
+        },
+        "properties": {
+          "id": 2005,
+          "name": "Classroom 172",
+          "type": "classroom",
+          "floor": "G",
+          "metadata": {
+            "description": "Classroom 172 in Reiss Science Building",
+            "room_number": "172",
+            "room_type": "classroom",
+            "access": "public"
+          },
+          "building_id": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "coordinates": [
+            -77.07339999,
+            38.90958729
+          ],
+          "type": "Point"
+        },
+        "properties": {
+          "id": 2006,
+          "name": "Classroom 152",
+          "type": "classroom",
+          "floor": "G",
+          "metadata": {
+            "description": "Classroom 152 in Reiss Science Building",
+            "room_number": "152",
+            "room_type": "classroom",
+            "access": "public"
+          },
+          "building_id": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "coordinates": [
+            -77.073303898,
+            38.90949408
+          ],
+          "type": "Point"
+        },
+        "properties": {
+          "id": 2007,
+          "name": "Classroom 154",
+          "type": "classroom",
+          "floor": "G",
+          "metadata": {
+            "description": "Classroom 154 in Reiss Science Building",
+            "room_number": "154",
+            "room_type": "classroom",
+            "access": "public"
+          },
+          "building_id": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "coordinates": [
+            -77.073185052,
+            38.909389227999995
+          ],
+          "type": "Point"
+        },
+        "properties": {
+          "id": 2008,
+          "name": "Classroom 156",
+          "type": "classroom",
+          "floor": "G",
+          "metadata": {
+            "description": "Classroom 156 in Reiss Science Building",
+            "room_number": "156",
+            "room_type": "classroom",
+            "access": "public"
+          },
+          "building_id": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "coordinates": [
+            -77.073384002,
+            38.909419724
+          ],
+          "type": "Point"
+        },
+        "properties": {
+          "id": 2009,
+          "name": "Classroom 103",
+          "type": "classroom",
+          "floor": "G",
+          "metadata": {
+            "description": "Classroom 103 in Reiss Science Building",
+            "room_number": "103",
+            "room_type": "classroom",
+            "access": "public"
+          },
+          "building_id": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "coordinates": [
+            -77.07363645400001,
+            38.909649308
+          ],
+          "type": "Point"
+        },
+        "properties": {
+          "id": 2010,
+          "name": "Classroom 112",
+          "type": "classroom",
+          "floor": "G",
+          "metadata": {
+            "description": "Classroom 112 in Reiss Science Building",
+            "room_number": "112",
+            "room_type": "classroom",
+            "access": "public"
+          },
+          "building_id": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "coordinates": [
+            -77.07378542199999,
+            38.909708726000005
+          ],
+          "type": "Point"
+        },
+        "properties": {
+          "id": 2011,
+          "name": "Classroom 185",
+          "type": "classroom",
+          "floor": "G",
+          "metadata": {
+            "description": "Classroom 185 in Reiss Science Building",
+            "room_number": "185",
+            "room_type": "classroom",
+            "access": "public"
+          },
+          "building_id": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "coordinates": [
+            -77.07374295857143,
+            38.909652044285714
+          ],
+          "type": "Point"
+        },
+        "properties": {
+          "id": 2012,
+          "name": "Classroom 186",
+          "type": "classroom",
+          "floor": "G",
+          "metadata": {
+            "description": "Classroom 186 in Reiss Science Building",
+            "room_number": "186",
+            "room_type": "classroom",
+            "access": "public"
+          },
+          "building_id": "reiss"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "coordinates": [
+            -77.073485815,
+            38.909537269
+          ],
+          "type": "Point"
+        },
+        "properties": {
+          "id": 2013,
+          "name": "Reiss Science Building",
+          "type": "academic_building",
+          "floor": 1,
+          "metadata": {
+            "description": "The Reiss Science Building contains classrooms, science labs, a nuclear accelerator vault and a greenhouse. The Blommer Science Library and the offices of the departments of biology, chemistry and physics are housed in the Reiss Science Building."
+          },
+          "building_id": "reiss"
         }
       }
     ]

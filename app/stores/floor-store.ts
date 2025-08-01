@@ -6,7 +6,7 @@ interface FloorState {
 }
 
 const useFloorStore = create<FloorState>((set) => ({
-  currentFloor: 1, // Start at floor 1 (G and M removed for now)
+  currentFloor: 'G', // Start at Ground floor to match REISS building level
   setCurrentFloor: (floor) => set({ currentFloor: floor }),
 }));
 

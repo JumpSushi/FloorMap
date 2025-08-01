@@ -78,6 +78,10 @@ export default class IndoorDirections extends IndoorDirectionsEvented {
     return this.routelines;
   }
 
+  public get fullRoute() {
+    return this.fullRouteCoordinates;
+  }
+
   protected get snaplines() {
     return this.snappoints.length > 1
       ? this.buildSnaplines(
@@ -339,6 +343,25 @@ export default class IndoorDirections extends IndoorDirectionsEvented {
     }
   }
 
+  private simplifyRoute(coordinates: GeoJSON.Position[], maxPoints: number = 20): GeoJSON.Position[] {
+    if (coordinates.length <= maxPoints) {
+      return coordinates;
+    }
+    
+    // Always keep start and end points
+    const simplified = [coordinates[0]];
+    const step = Math.max(1, Math.floor((coordinates.length - 2) / (maxPoints - 2)));
+    
+    for (let i = step; i < coordinates.length - 1; i += step) {
+      simplified.push(coordinates[i]);
+    }
+    
+    // Always include the end point
+    simplified.push(coordinates[coordinates.length - 1]);
+    
+    return simplified;
+  }
+
   private animateRouteLine() {
     // Cancel ongoing animation
     if (this.animationFrameId) {
@@ -350,34 +373,69 @@ export default class IndoorDirections extends IndoorDirectionsEvented {
       return;
     }
 
+    // Simplify route for better animation performance
+    const simplifiedRoute = this.simplifyRoute(this.fullRouteCoordinates, 15);
+    console.log(`🎬 Animating route: ${this.fullRouteCoordinates.length} → ${simplifiedRoute.length} points`);
+
     // Start with empty route and immediately draw to clear previous
     this.routelines = [];
     this.draw();
 
-    const totalDuration = 2000; // 2 seconds
+    const totalDuration = Math.min(2000, 800 + simplifiedRoute.length * 50); // Dynamic duration based on complexity
     const startTime = Date.now();
+    let lastFrameTime = startTime;
     
     const animate = () => {
-      const elapsed = Date.now() - startTime;
+      const now = Date.now();
+      const elapsed = now - startTime;
+      const deltaTime = now - lastFrameTime;
+      lastFrameTime = now;
+      
+      // Skip frames if we're running too fast (60fps throttle)
+      if (deltaTime < 16) {
+        this.animationFrameId = requestAnimationFrame(animate);
+        return;
+      }
+      
       const progress = Math.min(elapsed / totalDuration, 1);
       
       // Smooth easing function
       const easedProgress = progress * progress * (3 - 2 * progress); // smoothstep
       
-      if (this.fullRouteCoordinates.length === 2) {
+      if (simplifiedRoute.length === 2) {
         // For simple 2-point routes, interpolate between start and end
-        const [start, end] = this.fullRouteCoordinates;
+        const [start, end] = simplifiedRoute;
         const currentEnd: GeoJSON.Position = [
           start[0] + (end[0] - start[0]) * easedProgress,
           start[1] + (end[1] - start[1]) * easedProgress,
         ];
         this.routelines = [this.buildRouteLines([start, currentEnd])];
       } else {
-        // For multi-point routes, progressively add points
-        const targetPointCount = Math.ceil(this.fullRouteCoordinates.length * easedProgress);
-        const currentPoints = Math.max(2, targetPointCount);
-        const coordinates = this.fullRouteCoordinates.slice(0, currentPoints);
-        this.routelines = [this.buildRouteLines(coordinates)];
+        // For multi-point routes, progressively add points with better interpolation
+        const targetIndex = easedProgress * (simplifiedRoute.length - 1);
+        const pointIndex = Math.floor(targetIndex);
+        const fraction = targetIndex - pointIndex;
+        
+        if (pointIndex >= simplifiedRoute.length - 1) {
+          // Show complete route
+          this.routelines = [this.buildRouteLines(simplifiedRoute)];
+        } else {
+          // Build partial route with smooth interpolation
+          const coordinates = simplifiedRoute.slice(0, pointIndex + 1);
+          
+          // Interpolate to the next point for smoother animation
+          if (fraction > 0 && pointIndex + 1 < simplifiedRoute.length) {
+            const current = simplifiedRoute[pointIndex];
+            const next = simplifiedRoute[pointIndex + 1];
+            const interpolated: GeoJSON.Position = [
+              current[0] + (next[0] - current[0]) * fraction,
+              current[1] + (next[1] - current[1]) * fraction,
+            ];
+            coordinates.push(interpolated);
+          }
+          
+          this.routelines = [this.buildRouteLines(coordinates)];
+        }
       }
       
       this.draw();
@@ -385,7 +443,7 @@ export default class IndoorDirections extends IndoorDirectionsEvented {
       if (progress < 1) {
         this.animationFrameId = requestAnimationFrame(animate);
       } else {
-        // Ensure final state shows complete route
+        // Ensure final state shows complete route (using original coordinates for accuracy)
         this.routelines = [this.buildRouteLines(this.fullRouteCoordinates)];
         this.draw();
         this.animationFrameId = null;

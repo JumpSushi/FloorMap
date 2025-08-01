@@ -127,15 +127,21 @@ export default class CrossBuildingNavigationService {
 
     console.log('Processed coordinates:', { startCoord, endCoord, startBuilding, endBuilding });
 
+    // Detect buildings from coordinates if not explicitly provided
+    const detectedStartBuilding = startBuilding || this.detectBuildingFromCoordinate(startCoord);
+    const detectedEndBuilding = endBuilding || this.detectBuildingFromCoordinate(endCoord);
+
+    console.log('Building detection:', { detectedStartBuilding, detectedEndBuilding });
+
     // If both points are in the same building, use indoor routing only
-    if (startBuilding && endBuilding && startBuilding === endBuilding) {
-      console.log('Same building detected, using indoor-only route');
+    if (detectedStartBuilding && detectedEndBuilding && detectedStartBuilding === detectedEndBuilding) {
+      console.log(`Same building detected (${detectedStartBuilding}), using indoor-only route`);
       return this.getIndoorOnlyRoute(start, end);
     }
 
     // Check if either point is actually within a building (indoor POI)
-    const startIsIndoor = startBuilding || this.detectBuildingFromCoordinate(startCoord);
-    const endIsIndoor = endBuilding || this.detectBuildingFromCoordinate(endCoord);
+    const startIsIndoor = detectedStartBuilding;
+    const endIsIndoor = detectedEndBuilding;
 
     console.log('Building detection:', { startIsIndoor, endIsIndoor });
 
@@ -414,7 +420,25 @@ export default class CrossBuildingNavigationService {
     const startCoord = Array.isArray(start) ? start : start.coordinates;
     const endCoord = Array.isArray(end) ? end : end.coordinates;
 
+    console.log('🏠 Getting indoor-only route from', startCoord, 'to', endCoord);
+
     const indoorRoute = this.getIndoorRoute(startCoord, endCoord);
+    
+    if (!indoorRoute) {
+      console.warn('❌ No indoor route found between coordinates');
+    } else {
+      console.log('✅ Indoor route found with geometry:', indoorRoute);
+    }
+    
+    const totalDistance = indoorRoute ? this.calculateDistance(indoorRoute.coordinates as [number, number][]) : 0;
+    const totalDuration = indoorRoute ? this.estimateIndoorDuration(indoorRoute) : 0;
+    
+    console.log('🛤️ Indoor route calculated:', { 
+      hasRoute: !!indoorRoute, 
+      distance: totalDistance, 
+      duration: totalDuration,
+      coordinateCount: indoorRoute?.coordinates?.length || 0
+    });
     
     return {
       indoor: {
@@ -428,11 +452,13 @@ export default class CrossBuildingNavigationService {
         weight: 0,
         weight_name: 'duration'
       },
-      totalDistance: indoorRoute ? this.calculateDistance(indoorRoute.coordinates as [number, number][]) : 0,
-      totalDuration: indoorRoute ? this.estimateIndoorDuration(indoorRoute) : 0,
+      totalDistance,
+      totalDuration,
       instructions: [{
         type: 'indoor',
         text: 'Navigate to your destination',
+        distance: totalDistance,
+        duration: totalDuration,
         geometry: indoorRoute || undefined
       }]
     };
@@ -443,14 +469,52 @@ export default class CrossBuildingNavigationService {
    */
   private getIndoorRoute(start: [number, number], end: [number, number]): GeoJSON.LineString | null {
     try {
-      if (!this.indoorDirections) return null;
+      if (!this.indoorDirections) {
+        console.warn('Indoor directions instance not available');
+        return null;
+      }
 
+      console.log('🏠 Setting waypoints for indoor navigation:', { start, end });
       this.indoorDirections.setWaypoints([start, end]);
-      const routeGeometry = this.indoorDirections.routelinesCoordinates[0]?.[0]?.geometry;
+      
+      // Try to get the route from fullRoute directly since that's populated immediately
+      const fullRouteCoordinates = this.indoorDirections.fullRoute;
+      console.log('🛤️ Full route coordinates:', {
+        fullRouteLength: fullRouteCoordinates?.length,
+        coordinates: fullRouteCoordinates
+      });
+      
+      // Also check the routelines to see if they're populated
+      const routeLines = this.indoorDirections.routelinesCoordinates;
+      console.log('📊 Route lines status:', {
+        routeLinesLength: routeLines?.length,
+        firstRouteLines: routeLines?.[0]?.length
+      });
+      
+      if (fullRouteCoordinates && fullRouteCoordinates.length >= 2) {
+        // Create a LineString geometry from the full route coordinates
+        const routeGeometry: GeoJSON.LineString = {
+          type: 'LineString',
+          coordinates: fullRouteCoordinates
+        };
+        console.log('📍 Created route geometry from fullRoute:', routeGeometry);
+        return routeGeometry;
+      }
+      
+      // Fallback: try the original method
+      const routeCoordinates = this.indoorDirections.routelinesCoordinates;
+      console.log('🛤️ Indoor route coordinates result (fallback):', {
+        routeCoordinatesLength: routeCoordinates?.length,
+        firstRoute: routeCoordinates?.[0]?.length,
+        fullResult: routeCoordinates
+      });
+      
+      const routeGeometry = routeCoordinates[0]?.[0]?.geometry;
+      console.log('📍 Indoor route geometry (fallback):', routeGeometry);
       
       return routeGeometry || null;
     } catch (error) {
-      console.warn('Indoor routing failed:', error);
+      console.error('Indoor routing failed with error:', error);
       return null;
     }
   }
@@ -519,6 +583,11 @@ export default class CrossBuildingNavigationService {
     // Darnall Hall (more precise bounds)
     if (longitude > -77.0740 && longitude < -77.0730 && latitude > 38.9110 && latitude < 38.9118) {
       return 'darnall';
+    }
+    
+    // Reiss Science Building (based on generated routes coordinate range)
+    if (longitude > -77.074281 && longitude < -77.072698 && latitude > 38.908721 && latitude < 38.910237) {
+      return 'reiss';
     }
     
     // Lauinger Library (more precise bounds)
@@ -615,6 +684,23 @@ export default class CrossBuildingNavigationService {
         name: 'Darnall Hall Side Entrance',
         coordinates: [-77.0735, 38.9115],
         building_id: 'darnall',
+        floor: 'G',
+        accessibility: false
+      },
+      // Reiss Science Building
+      {
+        id: 'reiss_main',
+        name: 'Reiss Science Building Main Entrance',
+        coordinates: [-77.073485, 38.909537], // Near the building POI coordinate
+        building_id: 'reiss',
+        floor: 'G',
+        accessibility: true
+      },
+      {
+        id: 'reiss_north',
+        name: 'Reiss Science Building North Entrance',
+        coordinates: [-77.073498, 38.909658], // Near door coordinate
+        building_id: 'reiss',
         floor: 'G',
         accessibility: false
       },

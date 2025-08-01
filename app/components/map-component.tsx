@@ -8,6 +8,7 @@ import IndoorMapLayer from "~/layers/indoor-map-layer";
 import POIsLayer from "~/layers/pois-layer";
 import building from "~/mock/building.json";
 import useMapStore from "~/stores/use-map-store";
+import useFloorStore from "~/stores/floor-store";
 import DiscoveryPanel from "./discovery-panel/discovery-panel";
 import { FloorSelector } from "./floor-selector";
 import { FloorUpDownControl } from "./floor-up-down-control";
@@ -18,6 +19,7 @@ import "~/maplibre.css";
 export default function MapComponent() {
   const mapContainer = useRef<HTMLDivElement>(null);
   const [theme] = useTheme();
+  const { currentFloor } = useFloorStore();
 
   const setMapInstance = useMapStore((state) => state.setMapInstance);
   const indoorMapLayer = useMemo(
@@ -50,9 +52,9 @@ export default function MapComponent() {
         map.addLayer(indoorMapLayer);
         map.addLayer(poisLayer);
         
-        // Set initial floor to 1 and apply filters (G and M removed for now)
-        indoorMapLayer.setFloorLevel(1);
-        poisLayer.setFloorLevel(1);
+        // Set initial floor from store and apply filters
+        indoorMapLayer.setFloorLevel(currentFloor);
+        poisLayer.setFloorLevel(currentFloor);
       } catch (error) {
         console.error("Failed to initialize map layers:", error);
       }
@@ -77,6 +79,12 @@ export default function MapComponent() {
       map.remove();
     };
   }, [indoorMapLayer, poisLayer, setMapInstance, theme]);
+
+  // Listen for floor changes and update map layers
+  useEffect(() => {
+    indoorMapLayer.setFloorLevel(currentFloor);
+    poisLayer.setFloorLevel(currentFloor);
+  }, [currentFloor, indoorMapLayer, poisLayer]);
 
   return (
     <div className="flex size-full flex-col">

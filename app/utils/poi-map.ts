@@ -14,10 +14,14 @@ const indoorMap = building.indoor_map as GeoJSON.FeatureCollection;
 const unitFeatures = indoorMap.features.filter((element) =>
   isPolygonFeature(element),
 );
-const poiMap = new Map<number, GeoJSON.Feature<GeoJSON.Point>[]>();
+const poiMap = new Map<string | number, GeoJSON.Feature<GeoJSON.Point>[]>();
 
 unitFeatures.forEach((unitFeature) => {
-  poiMap.set(Number(unitFeature.id), []);
+  // Handle both string and numeric IDs by using the original ID
+  const featureId = unitFeature.id;
+  if (featureId !== null && featureId !== undefined) {
+    poiMap.set(featureId, []);
+  }
 });
 
 (building.pois.features as GeoJSON.Feature<GeoJSON.Point>[]).forEach(
@@ -29,9 +33,9 @@ unitFeatures.forEach((unitFeature) => {
         booleanPointInPolygon(
           poiCoordinates,
           unitFeature as GeoJSON.Feature<GeoJSON.Polygon>,
-        )
+        ) && unitFeature.id !== null && unitFeature.id !== undefined
       ) {
-        poiMap.get(Number(unitFeature.id))?.push(poiFeature);
+        poiMap.get(unitFeature.id)?.push(poiFeature);
 
         break;
       }

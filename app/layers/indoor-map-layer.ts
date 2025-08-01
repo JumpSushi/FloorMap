@@ -161,6 +161,9 @@ export default class IndoorMapLayer implements CustomLayerInterface {
             this.currentPopup.remove();
           }
           
+          // Determine the display type based on the indoor property
+          const displayType = feature.properties.indoor || 'Room';
+          
           // Create new popup
           this.currentPopup = new Popup({
             closeButton: false,
@@ -168,7 +171,7 @@ export default class IndoorMapLayer implements CustomLayerInterface {
             maxWidth: 'none'
           })
           .setLngLat(e.lngLat)
-          .setHTML(`<div style="padding: 4px 8px; font-size: 12px; font-weight: bold; background: white; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">Room ${feature.properties.name}</div>`)
+          .setHTML(`<div style="padding: 4px 8px; font-size: 12px; font-weight: bold; background: white; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">${displayType} ${feature.properties.name}</div>`)
           .addTo(map);
         }
       }

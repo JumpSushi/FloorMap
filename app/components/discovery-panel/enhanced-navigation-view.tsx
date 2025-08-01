@@ -18,18 +18,22 @@ import { Toggle } from "../ui/toggle";
 import EnhancedSuggestionsList from "./enhanced-suggestions-list";
 import useEnhancedDirections from "~/hooks/use-enhanced-directions";
 import useMapStore from "~/stores/use-map-store";
+import useFloorStore from "~/stores/floor-store";
 import { CrossBuildingRoute, RouteInstruction } from "~/services/cross-building-navigation";
+import IndoorDirections from "~/indoor-directions/directions/main";
 
 interface EnhancedNavigationViewProps {
   handleBackClick: () => void;
   selectedPOI: POI | null;
   indoorGeocoder: EnhancedIndoorGeocoder;
+  indoorDirections: IndoorDirections | null;
 }
 
 export default function EnhancedNavigationView({
   handleBackClick,
   selectedPOI,
   indoorGeocoder,
+  indoorDirections,
 }: EnhancedNavigationViewProps) {
   const [activeInput, setActiveInput] = useState<
     "departure" | "destination" | null
@@ -47,11 +51,12 @@ export default function EnhancedNavigationView({
   const [includeOSM, setIncludeOSM] = useState(true);
   
   const map = useMapStore((state) => state.mapInstance);
+  const { currentFloor, setCurrentFloor } = useFloorStore();
   const {
     navigateToLocation,
     navigateFromCurrentLocation,
     clearRouteFromMap,
-  } = useEnhancedDirections(map);
+  } = useEnhancedDirections(map, indoorDirections);
 
   const activeQuery =
     activeInput === "departure" ? departureLocation : destinationLocation;
@@ -207,6 +212,27 @@ export default function EnhancedNavigationView({
 
       console.log('Final coordinates for routing:', { start, end });
 
+      // Check if both points are in REISS building and switch to ground floor if needed
+      // First check building properties from geocoder results
+      let isReissRoute = (departureGeo.building === 'reiss' && destinationGeo.building === 'reiss');
+      
+      // If building property isn't available, check coordinate ranges for REISS 
+      if (!isReissRoute) {
+        const isStartInReiss = start[0] > -77.074281 && start[0] < -77.072698 && start[1] > 38.908721 && start[1] < 38.910237;
+        const isEndInReiss = end[0] > -77.074281 && end[0] < -77.072698 && end[1] > 38.908721 && end[1] < 38.910237;
+        isReissRoute = isStartInReiss && isEndInReiss;
+      }
+      
+      // Also check if location names contain REISS
+      if (!isReissRoute) {
+        isReissRoute = (departureValue.toLowerCase().includes('reiss') && destinationValue.toLowerCase().includes('reiss'));
+      }
+      
+      if (isReissRoute && currentFloor !== 'G') {
+        console.log('REISS navigation detected, switching to ground floor');
+        setCurrentFloor('G');
+      }
+
       const route = await navigateToLocation(start, end, {
         profile: 'walking',
         overview: 'full',
@@ -226,7 +252,7 @@ export default function EnhancedNavigationView({
   };
 
   const clearRoute = () => {
-    clearRouteFromMap();
+    clearRouteFromMap(false); // Clear all routes including indoor
     setCurrentRoute(null);
     setRouteInstructions([]);
   };
