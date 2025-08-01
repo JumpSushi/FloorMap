@@ -26005,35 +26005,6 @@
           "type": "room_connection",
           "building": "reiss"
         }
-      },
-      {
-        "type": "Feature",
-        "geometry": {
-          "type": "LineString",
-          "coordinates": [
-            [
-              -77.073303898,
-              38.90949408
-            ],
-            [
-              -77.07333455337377,
-              38.90947047091521
-            ],
-            [
-              -77.07323607307843,
-              38.909371483527394
-            ],
-            [
-              -77.073185052,
-              38.909389227999995
-            ]
-          ]
-        },
-        "properties": {
-          "level": 0,
-          "type": "room_connection",
-          "building": "reiss"
-        }
       }
     ]
   },

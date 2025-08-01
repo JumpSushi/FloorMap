@@ -28,7 +28,7 @@ export default class POIsLayer implements CustomLayerInterface {
         ["get", "type"], 
         [
           "literal", 
-          ["residence_hall", "academic_building", "library", "dining", "athletic_facility", "chapel", "outdoor_space"]
+          ["residence_hall", "academic_building", "library", "dining", "athletic_facility", "chapel", "outdoor_space", "entrance"]
         ]
       ], // Show building-level POIs
       ["==", ["get", "floor"], level] // Show POIs for current floor (rooms, restrooms)
@@ -58,6 +58,7 @@ export default class POIsLayer implements CustomLayerInterface {
       residence: "#ec4899", // Pink for residence halls
       dorm_room: "#f97316", // Orange for individual dorm rooms
       restroom: "#6366f1", // Indigo for restrooms
+      entrance: "#065f46", // Dark green for entrances
     };
 
     const darkColor = {
@@ -73,6 +74,7 @@ export default class POIsLayer implements CustomLayerInterface {
       residence: "#f472b6", // Light pink for residence halls
       dorm_room: "#fb923c", // Light orange for individual dorm rooms
       restroom: "#818cf8", // Light indigo for restrooms
+      entrance: "#10b981", // Light green for entrances
     };
 
     const color = this.theme === "light" ? lightColor : darkColor;
@@ -97,6 +99,7 @@ export default class POIsLayer implements CustomLayerInterface {
           ["==", ["get", "type"], "athletic_facility"], 5,
           ["==", ["get", "type"], "chapel"], 5,
           ["==", ["get", "type"], "outdoor_space"], 4,
+          ["==", ["get", "type"], "entrance"], 5, // Medium size for entrances
           ["==", ["get", "type"], "dorm_room"], 3, // Smaller for individual rooms
           ["==", ["get", "type"], "restroom"], 4, // Medium size for restrooms
           4 // default
@@ -110,6 +113,7 @@ export default class POIsLayer implements CustomLayerInterface {
           ["==", ["get", "type"], "athletic_facility"], color.athletic,
           ["==", ["get", "type"], "chapel"], color.chapel,
           ["==", ["get", "type"], "outdoor_space"], color.outdoor,
+          ["==", ["get", "type"], "entrance"], color.entrance,
           ["==", ["get", "type"], "dorm_room"], color.dorm_room,
           ["==", ["get", "type"], "restroom"], color.restroom,
           color.circle // default
@@ -133,6 +137,7 @@ export default class POIsLayer implements CustomLayerInterface {
           ["==", ["get", "type"], "library"], 13,
           ["==", ["get", "type"], "residence_hall"], 13,
           ["==", ["get", "type"], "outdoor_space"], 14,
+          ["==", ["get", "type"], "entrance"], 12, // Medium text for entrances
           ["==", ["get", "type"], "dorm_room"], 10, // Smaller text for rooms
           ["==", ["get", "type"], "restroom"], 11, // Medium text for restrooms
           12 // default

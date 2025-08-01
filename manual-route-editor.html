@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Route Editor - Reiss Building</title>
+    <link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+        }
+        
+        #sidebar {
+            width: 300px;
+            background: #f5f5f5;
+            padding: 20px;
+            overflow-y: auto;
+            border-right: 1px solid #ddd;
+        }
+        
+        #map {
+            flex: 1;
+            position: relative;
+        }
+        
+        .tool-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .tool-section h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+        
+        button {
+            background: #007cba;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px 5px 5px 0;
+            font-size: 14px;
+        }
+        
+        button:hover {
+            background: #005a87;
+        }
+        
+        button.active {
+            background: #28a745;
+        }
+        
+        button.danger {
+            background: #dc3545;
+        }
+        
+        button.danger:hover {
+            background: #c82333;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .route-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            background: white;
+        }
+        
+        .route-item {
+            padding: 8px;
+            margin: 5px 0;
+            background: #f8f9fa;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+        }
+        
+        .route-item button {
+            padding: 4px 8px;
+            font-size: 11px;
+            margin: 0;
+        }
+        
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        #coordinates {
+            font-family: monospace;
+            font-size: 12px;
+            background: #f8f9fa;
+            padding: 5px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div id="sidebar">
+        <h2>Manual Route Editor</h2>
+        
+        <div class="tool-section">
+            <h3>Drawing Tools</h3>
+            <button id="draw-btn" class="active">Draw Route</button>
+            <button id="select-btn">Select/Move</button>
+            <button id="delete-btn" class="danger">Delete Mode</button>
+        </div>
+        
+        <div class="tool-section">
+            <h3>Route Properties</h3>
+            <label>Route Type:</label>
+            <select id="route-type">
+                <option value="corridor">Corridor</option>
+                <option value="room_connection">Room Connection</option>
+                <option value="exit_connection">Exit Connection</option>
+            </select>
+            
+            <label>Room Name (for room connections):</label>
+            <input type="text" id="room-name" placeholder="Enter room name...">
+        </div>
+        
+        <div class="tool-section">
+            <h3>Actions</h3>
+            <button id="clear-all" class="danger">Clear All Routes</button>
+            <button id="save-routes">Save Routes</button>
+            <button id="load-routes">Load Existing Routes</button>
+        </div>
+        
+        <div class="tool-section">
+            <h3>Current Routes (<span id="route-count">0</span>)</h3>
+            <div id="route-list" class="route-list"></div>
+        </div>
+        
+        <div id="status" class="status info">
+            Click on map to start drawing routes. Click points to create a route.
+        </div>
+        
+        <div id="coordinates">
+            Mouse: ---, ---
+        </div>
+    </div>
+    
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+    <script>
+        class ManualRouteEditor {
+            constructor() {
+                this.map = null;
+                this.routes = [];
+                this.currentRoute = null;
+                this.drawingMode = true;
+                this.deleteMode = false;
+                this.reissData = null;
+                
+                this.init();
+            }
+            
+            async init() {
+                await this.initMap();
+                await this.loadReissData();
+                this.setupEventListeners();
+                this.loadExistingRoutes();
+                this.updateStatus('Ready to draw routes!', 'success');
+            }
+            
+            async initMap() {
+                this.map = new maplibregl.Map({
+                    container: 'map',
+                    style: {
+                        version: 8,
+                        sources: {},
+                        layers: []
+                    },
+                    center: [-77.0735, 38.9093], // Reiss building approximate center
+                    zoom: 18,
+                    bearing: 0,
+                    pitch: 0
+                });
+                
+                await new Promise(resolve => this.map.on('load', resolve));
+                
+                // Add mouse coordinate tracking
+                this.map.on('mousemove', (e) => {
+                    document.getElementById('coordinates').textContent = 
+                        `Mouse: ${e.lngLat.lng.toFixed(6)}, ${e.lngLat.lat.toFixed(6)}`;
+                });
+            }
+            
+            async loadReissData() {
+                try {
+                    const response = await fetch('./reissG.geojson');
+                    this.reissData = await response.json();
+                    this.addReissDataToMap();
+                } catch (error) {
+                    console.error('Could not load Reiss data:', error);
+                    this.updateStatus('Could not load building data. Place reissG.geojson in same directory.', 'error');
+                }
+            }
+            
+            addReissDataToMap() {
+                if (!this.reissData) return;
+                
+                // Add corridors
+                this.map.addSource('corridors', {
+                    type: 'geojson',
+                    data: {
+                        type: 'FeatureCollection',
+                        features: this.reissData.features.filter(f => 
+                            f.properties?.tags?.indoor === 'corridor' || 
+                            f.properties?.indoor === 'corridor'
+                        )
+                    }
+                });
+                
+                this.map.addLayer({
+                    id: 'corridors',
+                    source: 'corridors',
+                    type: 'fill',
+                    paint: {
+                        'fill-color': '#e3f2fd',
+                        'fill-opacity': 0.6,
+                        'fill-outline-color': '#1976d2'
+                    }
+                });
+                
+                // Add rooms
+                this.map.addSource('rooms', {
+                    type: 'geojson',
+                    data: {
+                        type: 'FeatureCollection',
+                        features: this.reissData.features.filter(f => 
+                            f.properties?.tags?.indoor === 'room' || 
+                            f.properties?.indoor === 'room'
+                        )
+                    }
+                });
+                
+                this.map.addLayer({
+                    id: 'rooms',
+                    source: 'rooms',
+                    type: 'fill',
+                    paint: {
+                        'fill-color': '#fff3e0',
+                        'fill-opacity': 0.8,
+                        'fill-outline-color': '#f57c00'
+                    }
+                });
+                
+                // Add doors
+                this.map.addSource('doors', {
+                    type: 'geojson',
+                    data: {
+                        type: 'FeatureCollection',
+                        features: this.reissData.features.filter(f => 
+                            f.properties?.tags?.door === 'yes' || 
+                            f.properties?.door === 'yes'
+                        )
+                    }
+                });
+                
+                this.map.addLayer({
+                    id: 'doors',
+                    source: 'doors',
+                    type: 'circle',
+                    paint: {
+                        'circle-color': '#4caf50',
+                        'circle-radius': 4,
+                        'circle-stroke-color': '#2e7d32',
+                        'circle-stroke-width': 2
+                    }
+                });
+                
+                // Add exits
+                this.map.addSource('exits', {
+                    type: 'geojson',
+                    data: {
+                        type: 'FeatureCollection',
+                        features: this.reissData.features.filter(f => 
+                            f.properties?.tags?.role === 'platform_exit_only' || 
+                            f.properties?.role === 'platform_exit_only'
+                        )
+                    }
+                });
+                
+                this.map.addLayer({
+                    id: 'exits',
+                    source: 'exits',
+                    type: 'circle',
+                    paint: {
+                        'circle-color': '#f44336',
+                        'circle-radius': 6,
+                        'circle-stroke-color': '#d32f2f',
+                        'circle-stroke-width': 2
+                    }
+                });
+            }
+            
+            setupEventListeners() {
+                // Tool buttons
+                document.getElementById('draw-btn').addEventListener('click', () => this.setDrawMode());
+                document.getElementById('select-btn').addEventListener('click', () => this.setSelectMode());
+                document.getElementById('delete-btn').addEventListener('click', () => this.setDeleteMode());
+                
+                // Action buttons
+                document.getElementById('clear-all').addEventListener('click', () => this.clearAllRoutes());
+                document.getElementById('save-routes').addEventListener('click', () => this.saveRoutes());
+                document.getElementById('load-routes').addEventListener('click', () => this.loadExistingRoutes());
+                
+                // Map click for drawing
+                this.map.on('click', (e) => this.handleMapClick(e));
+                
+                // Keyboard shortcuts
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        this.cancelCurrentRoute();
+                    } else if (e.key === 'Enter') {
+                        this.finishCurrentRoute();
+                    }
+                });
+            }
+            
+            setDrawMode() {
+                this.drawingMode = true;
+                this.deleteMode = false;
+                this.updateToolButtons();
+                this.updateStatus('Draw mode: Click points to create routes. Press Enter to finish, Escape to cancel.', 'info');
+            }
+            
+            setSelectMode() {
+                this.drawingMode = false;
+                this.deleteMode = false;
+                this.cancelCurrentRoute();
+                this.updateToolButtons();
+                this.updateStatus('Select mode: Click routes to select/edit.', 'info');
+            }
+            
+            setDeleteMode() {
+                this.drawingMode = false;
+                this.deleteMode = true;
+                this.cancelCurrentRoute();
+                this.updateToolButtons();
+                this.updateStatus('Delete mode: Click routes to delete them.', 'error');
+            }
+            
+            updateToolButtons() {
+                document.getElementById('draw-btn').classList.toggle('active', this.drawingMode);
+                document.getElementById('select-btn').classList.toggle('active', !this.drawingMode && !this.deleteMode);
+                document.getElementById('delete-btn').classList.toggle('active', this.deleteMode);
+            }
+            
+            handleMapClick(e) {
+                const { lng, lat } = e.lngLat;
+                
+                if (this.deleteMode) {
+                    this.handleDeleteClick(e);
+                } else if (this.drawingMode) {
+                    this.handleDrawClick([lng, lat]);
+                }
+            }
+            
+            handleDrawClick(coordinate) {
+                if (!this.currentRoute) {
+                    // Start new route
+                    this.currentRoute = {
+                        coordinates: [coordinate],
+                        type: document.getElementById('route-type').value,
+                        room: document.getElementById('room-name').value
+                    };
+                    this.updateStatus(`Started route. Click next point or press Enter to finish.`, 'info');
+                } else {
+                    // Add point to current route
+                    this.currentRoute.coordinates.push(coordinate);
+                    this.updateStatus(`Added point ${this.currentRoute.coordinates.length}. Click next point or press Enter to finish.`, 'info');
+                }
+                
+                this.updateCurrentRoutePreview();
+            }
+            
+            handleDeleteClick(e) {
+                const features = this.map.queryRenderedFeatures(e.point, {
+                    layers: ['routes']
+                });
+                
+                if (features.length > 0) {
+                    const routeId = features[0].properties.routeId;
+                    this.deleteRoute(routeId);
+                }
+            }
+            
+            finishCurrentRoute() {
+                if (!this.currentRoute || this.currentRoute.coordinates.length < 2) {
+                    this.updateStatus('Route needs at least 2 points.', 'error');
+                    return;
+                }
+                
+                const route = {
+                    id: Date.now() + Math.random(),
+                    type: "Feature",
+                    geometry: {
+                        type: "LineString",
+                        coordinates: this.currentRoute.coordinates
+                    },
+                    properties: {
+                        level: 0,
+                        type: this.currentRoute.type,
+                        building: "reiss"
+                    }
+                };
+                
+                if (this.currentRoute.type === 'room_connection' && this.currentRoute.room) {
+                    route.properties.room = this.currentRoute.room;
+                }
+                
+                this.routes.push(route);
+                this.currentRoute = null;
+                this.updateRoutesDisplay();
+                this.updateStatus(`Route added! Total routes: ${this.routes.length}`, 'success');
+                
+                // Clear room name for next route
+                document.getElementById('room-name').value = '';
+            }
+            
+            cancelCurrentRoute() {
+                this.currentRoute = null;
+                this.updateCurrentRoutePreview();
+                this.updateStatus('Route cancelled.', 'info');
+            }
+            
+            updateCurrentRoutePreview() {
+                if (this.map.getSource('current-route')) {
+                    this.map.removeLayer('current-route');
+                    this.map.removeSource('current-route');
+                }
+                
+                if (this.currentRoute && this.currentRoute.coordinates.length > 0) {
+                    this.map.addSource('current-route', {
+                        type: 'geojson',
+                        data: {
+                            type: 'Feature',
+                            geometry: {
+                                type: this.currentRoute.coordinates.length === 1 ? 'Point' : 'LineString',
+                                coordinates: this.currentRoute.coordinates.length === 1 ? 
+                                    this.currentRoute.coordinates[0] : this.currentRoute.coordinates
+                            }
+                        }
+                    });
+                    
+                    this.map.addLayer({
+                        id: 'current-route',
+                        source: 'current-route',
+                        type: this.currentRoute.coordinates.length === 1 ? 'circle' : 'line',
+                        paint: this.currentRoute.coordinates.length === 1 ? {
+                            'circle-color': '#ff9800',
+                            'circle-radius': 6,
+                            'circle-stroke-color': '#f57c00',
+                            'circle-stroke-width': 2
+                        } : {
+                            'line-color': '#ff9800',
+                            'line-width': 4,
+                            'line-dasharray': [2, 2]
+                        }
+                    });
+                }
+            }
+            
+            updateRoutesDisplay() {
+                if (this.map.getSource('routes')) {
+                    this.map.removeLayer('routes');
+                    this.map.removeSource('routes');
+                }
+                
+                if (this.routes.length > 0) {
+                    this.map.addSource('routes', {
+                        type: 'geojson',
+                        data: {
+                            type: 'FeatureCollection',
+                            features: this.routes.map(route => ({
+                                ...route,
+                                properties: {
+                                    ...route.properties,
+                                    routeId: route.id
+                                }
+                            }))
+                        }
+                    });
+                    
+                    this.map.addLayer({
+                        id: 'routes',
+                        source: 'routes',
+                        type: 'line',
+                        paint: {
+                            'line-color': [
+                                'case',
+                                ['==', ['get', 'type'], 'corridor'], '#2196f3',
+                                ['==', ['get', 'type'], 'room_connection'], '#4caf50',
+                                ['==', ['get', 'type'], 'exit_connection'], '#f44336',
+                                '#9c27b0'
+                            ],
+                            'line-width': 3,
+                            'line-opacity': 0.8
+                        }
+                    });
+                }
+                
+                this.updateRoutesList();
+                document.getElementById('route-count').textContent = this.routes.length;
+            }
+            
+            updateRoutesList() {
+                const listEl = document.getElementById('route-list');
+                listEl.innerHTML = '';
+                
+                this.routes.forEach((route, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'route-item';
+                    item.innerHTML = `
+                        <span>
+                            ${route.properties.type}
+                            ${route.properties.room ? ` (${route.properties.room})` : ''}
+                        </span>
+                        <button onclick="editor.deleteRoute('${route.id}')">Delete</button>
+                    `;
+                    listEl.appendChild(item);
+                });
+            }
+            
+            deleteRoute(routeId) {
+                this.routes = this.routes.filter(route => route.id != routeId);
+                this.updateRoutesDisplay();
+                this.updateStatus(`Route deleted. Total routes: ${this.routes.length}`, 'info');
+            }
+            
+            clearAllRoutes() {
+                if (confirm('Are you sure you want to clear all routes?')) {
+                    this.routes = [];
+                    this.cancelCurrentRoute();
+                    this.updateRoutesDisplay();
+                    this.updateStatus('All routes cleared.', 'info');
+                }
+            }
+            
+            async saveRoutes() {
+                try {
+                    // Convert routes to the required format
+                    const formattedRoutes = this.routes.map(route => ({
+                        type: "Feature",
+                        geometry: route.geometry,
+                        properties: {
+                            level: 0,
+                            type: route.properties.type,
+                            building: "reiss",
+                            ...(route.properties.room && { room: route.properties.room })
+                        }
+                    }));
+                    
+                    // Create download
+                    const dataStr = JSON.stringify(formattedRoutes, null, 2);
+                    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                    const url = URL.createObjectURL(dataBlob);
+                    
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'reiss-routes.json';
+                    link.click();
+                    
+                    URL.revokeObjectURL(url);
+                    
+                    this.updateStatus(`Saved ${this.routes.length} routes to file.`, 'success');
+                } catch (error) {
+                    this.updateStatus('Error saving routes: ' + error.message, 'error');
+                }
+            }
+            
+            async loadExistingRoutes() {
+                try {
+                    const response = await fetch('./app/mock/building.json');
+                    const buildingData = await response.json();
+                    
+                    const existingReissRoutes = buildingData.indoor_routes.features.filter(
+                        route => route.properties?.building === 'reiss'
+                    );
+                    
+                    if (existingReissRoutes.length > 0) {
+                        this.routes = existingReissRoutes.map(route => ({
+                            ...route,
+                            id: Date.now() + Math.random()
+                        }));
+                        
+                        this.updateRoutesDisplay();
+                        this.updateStatus(`Loaded ${this.routes.length} existing routes.`, 'success');
+                    } else {
+                        this.updateStatus('No existing Reiss routes found.', 'info');
+                    }
+                } catch (error) {
+                    this.updateStatus('Could not load existing routes: ' + error.message, 'error');
+                }
+            }
+            
+            updateStatus(message, type = 'info') {
+                const statusEl = document.getElementById('status');
+                statusEl.textContent = message;
+                statusEl.className = `status ${type}`;
+            }
+        }
+        
+        // Initialize the editor
+        const editor = new ManualRouteEditor();
+        
+        // Make editor globally accessible for button callbacks
+        window.editor = editor;
+    </script>
+</body>
+</html>

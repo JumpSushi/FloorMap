@@ -149,9 +149,6 @@ function useEnhancedDirections(map: Map | null, indoorDirections: IndoorDirectio
     if (isIndoorOnly) {
       console.log('Displaying indoor-only route via IndoorDirections');
       
-      // Add dotted lines to show POI connections to route
-      addPOIConnectionLines(route);
-      
       // Check if the indoor directions source exists and has data
       const indoorSource = map.getSource('maplibre-gl-indoor-directions');
       if (indoorSource && 'getData' in indoorSource) {
@@ -296,136 +293,6 @@ function useEnhancedDirections(map: Map | null, indoorDirections: IndoorDirectio
   }, [map]);
 
   /**
-   * Add dotted lines to show POI connections to room entrances/exits
-   */
-  const addPOIConnectionLines = useCallback((route: CrossBuildingRoute) => {
-    if (!map || !route.indoor.start) return;
-
-    // Get the route coordinates to identify start and end points
-    const routeCoords = route.indoor.start.coordinates as [number, number][];
-    if (routeCoords.length < 2) return;
-
-    const startPoint = routeCoords[0];
-    const endPoint = routeCoords[routeCoords.length - 1];
-
-    console.log('🔗 Adding POI connection lines for:', { startPoint, endPoint });
-
-    // Helper function to find the nearest route point to a POI
-    const findNearestRoutePoint = (poiCoord: [number, number]): [number, number] => {
-      let nearestPoint = routeCoords[0];
-      let minDistance = calculateDistance(poiCoord, nearestPoint);
-
-      for (const coord of routeCoords) {
-        const distance = calculateDistance(poiCoord, coord);
-        if (distance < minDistance) {
-          minDistance = distance;
-          nearestPoint = coord;
-        }
-      }
-
-      return nearestPoint;
-    };
-
-    // Create connection lines for start and end POIs
-    const connectionLines: GeoJSON.Feature<GeoJSON.LineString>[] = [];
-
-    // For indoor routes, we'll assume the start and end points are POIs
-    // that need visual connections to the nearest navigable corridor points
-    
-    // Check if start point is significantly far from the second route point
-    // (indicating it's a POI that needs a connection line)
-    if (routeCoords.length > 1) {
-      const startToCorridor = calculateDistance(startPoint, routeCoords[1]);
-      if (startToCorridor > 0.000005) { // ~0.5 meters threshold
-        const nearestCorridorPoint = routeCoords[1]; // Second point is likely the corridor connection
-        connectionLines.push({
-          type: 'Feature',
-          geometry: {
-            type: 'LineString',
-            coordinates: [startPoint, nearestCorridorPoint]
-          },
-          properties: {
-            type: 'poi-connection',
-            connection_type: 'start'
-          }
-        });
-        console.log('📍 Added start POI connection line');
-      }
-    }
-
-    // Check if end point needs a connection line
-    if (routeCoords.length > 1) {
-      const endToCorridor = calculateDistance(endPoint, routeCoords[routeCoords.length - 2]);
-      if (endToCorridor > 0.000005) { // ~0.5 meters threshold
-        const nearestCorridorPoint = routeCoords[routeCoords.length - 2]; // Second-to-last point
-        connectionLines.push({
-          type: 'Feature',
-          geometry: {
-            type: 'LineString',
-            coordinates: [nearestCorridorPoint, endPoint]
-          },
-          properties: {
-            type: 'poi-connection',
-            connection_type: 'end'
-          }
-        });
-        console.log('📍 Added end POI connection line');
-      }
-    }
-
-    if (connectionLines.length === 0) {
-      console.log('🔗 No POI connection lines needed');
-      return;
-    }
-
-    // Create GeoJSON for the connection lines
-    const connectionData: GeoJSON.FeatureCollection = {
-      type: 'FeatureCollection',
-      features: connectionLines
-    };
-
-    // Add source and layer for POI connections
-    if (!map.getSource('poi-connections')) {
-      map.addSource('poi-connections', {
-        type: 'geojson',
-        data: connectionData
-      });
-
-      // Add dotted line layer for POI connections
-      map.addLayer({
-        id: 'poi-connection-lines',
-        type: 'line',
-        source: 'poi-connections',
-        layout: {
-          'line-join': 'round',
-          'line-cap': 'round'
-        },
-        paint: {
-          'line-color': '#10b981', // Green color to distinguish from main route
-          'line-width': 2,
-          'line-opacity': 0.8,
-          'line-dasharray': [2, 3] // Dotted line pattern
-        }
-      });
-
-      console.log('✅ Added POI connection layer with', connectionLines.length, 'connections');
-    } else {
-      // Update existing source
-      (map.getSource('poi-connections') as any).setData(connectionData);
-      console.log('🔄 Updated POI connections with', connectionLines.length, 'connections');
-    }
-  }, [map]);
-
-  /**
-   * Helper function to calculate distance between two coordinates
-   */
-  const calculateDistance = (coord1: [number, number], coord2: [number, number]): number => {
-    const dx = coord1[0] - coord2[0];
-    const dy = coord1[1] - coord2[1];
-    return Math.sqrt(dx * dx + dy * dy);
-  };
-
-  /**
    * Clear route visualization from map
    */
   const clearRouteFromMap = useCallback((preserveIndoor: boolean = false) => {
@@ -441,16 +308,6 @@ function useEnhancedDirections(map: Map | null, indoorDirections: IndoorDirectio
     if (map.getSource('outdoor-route')) {
       console.log('Removing outdoor-route source');
       map.removeSource('outdoor-route');
-    }
-    
-    // Clear POI connection lines when clearing routes
-    if (map.getLayer('poi-connection-lines')) {
-      console.log('Removing POI connection lines');
-      map.removeLayer('poi-connection-lines');
-    }
-    if (map.getSource('poi-connections')) {
-      console.log('Removing POI connections source');
-      map.removeSource('poi-connections');
     }
     
     // Clear indoor directions only if not preserving indoor routes

@@ -273,32 +273,6 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "poi_11",
-        "name": "Leavey Center",
-        "type": "building",
-        "floor": 0,
-        "metadata": {
-          "building": "Leavey Center",
-          "category": "student_services",
-          "amenities": [
-            "dining",
-            "student_services"
-          ],
-          "description": "Student center and dining"
-        },
-        "building_id": "leavey_center"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -77.0723,
-          38.9076
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "id": "poi_12",
         "name": "Room - Reiss Science Building",
         "type": "bathroom",
