@@ -228,9 +228,9 @@ export default function EnhancedNavigationView({
         isReissRoute = (departureValue.toLowerCase().includes('reiss') && destinationValue.toLowerCase().includes('reiss'));
       }
       
-      if (isReissRoute && currentFloor !== 'G') {
-        console.log('REISS navigation detected, switching to ground floor');
-        setCurrentFloor('G');
+      if (isReissRoute && currentFloor !== 1) {
+        console.log('REISS navigation detected, switching to floor 1');
+        setCurrentFloor(1);
       }
 
       const route = await navigateToLocation(start, end, {

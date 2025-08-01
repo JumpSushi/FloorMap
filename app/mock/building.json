@@ -16608,8 +16608,8 @@
           },
           "entrance": "yes",
           "source": "survey",
-          "level_id": "G",
-          "level": "0",
+          "level_id": 1,
+          "level": "1",
           "alt_name": null,
           "category": null,
           "indoor": null,
@@ -16664,8 +16664,8 @@
           },
           "highway": "elevator",
           "wheelchair": "yes",
-          "level_id": "G",
-          "level": "0",
+          "level_id": 1,
+          "level": "1",
           "alt_name": null,
           "category": null,
           "indoor": null,
@@ -16704,9 +16704,9 @@
             "onBuildingContour": false,
             "fixed": true
           },
-          "level": "0",
+          "level": "1",
           "door": "yes",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": null,
           "indoor": null,
@@ -16746,9 +16746,9 @@
             "onBuildingContour": false,
             "fixed": true
           },
-          "level": "0",
+          "level": "1",
           "door": "yes",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": null,
           "indoor": null,
@@ -16788,9 +16788,9 @@
             "onBuildingContour": false,
             "fixed": true
           },
-          "level": "0",
+          "level": "1",
           "door": "yes",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": null,
           "indoor": null,
@@ -16830,9 +16830,9 @@
             "onBuildingContour": false,
             "fixed": true
           },
-          "level": "0",
+          "level": "1",
           "door": "yes",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": null,
           "indoor": null,
@@ -16874,10 +16874,10 @@
             "onBuildingContour": false,
             "fixed": true
           },
-          "level": "0",
+          "level": "1",
           "door": "yes",
           "automatic_door": "no",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": null,
           "indoor": null,
@@ -16917,11 +16917,11 @@
               0
             ]
           },
-          "level": "0",
+          "level": "1",
           "indoor": "Classroom",
           "room": "class",
           "name": "172A",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": "Classroom",
           "restriction": null,
@@ -16986,11 +16986,11 @@
               0
             ]
           },
-          "level": "0",
+          "level": "1",
           "indoor": "Classroom",
           "room": "class",
           "name": "172",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": "Classroom",
           "restriction": null,
@@ -17055,11 +17055,11 @@
               0
             ]
           },
-          "level": "0",
+          "level": "1",
           "indoor": "Classroom",
           "room": "class",
           "name": "152",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": "Classroom",
           "restriction": null,
@@ -17124,11 +17124,11 @@
               0
             ]
           },
-          "level": "0",
+          "level": "1",
           "indoor": "Classroom",
           "name": "154",
           "room": "class",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": "Classroom",
           "restriction": null,
@@ -17189,11 +17189,11 @@
               0
             ]
           },
-          "level": "0",
+          "level": "1",
           "indoor": "Classroom",
           "name": "156",
           "room": "class",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": "Classroom",
           "restriction": null,
@@ -17254,11 +17254,11 @@
               0
             ]
           },
-          "level": "0",
+          "level": "1",
           "indoor": "Classroom",
           "room": "class",
           "name": "103",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": "Classroom",
           "restriction": null,
@@ -17319,9 +17319,9 @@
             "onBuildingContour": false,
             "fixed": true
           },
-          "level": "0",
+          "level": "1",
           "door": "yes",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": null,
           "indoor": null,
@@ -17361,9 +17361,9 @@
             "onBuildingContour": false,
             "fixed": true
           },
-          "level": "0",
+          "level": "1",
           "door": "yes",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": null,
           "indoor": null,
@@ -17403,11 +17403,11 @@
               0
             ]
           },
-          "level": "0",
+          "level": "1",
           "indoor": "Classroom",
           "room": "class",
           "name": "112",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": "Classroom",
           "restriction": null,
@@ -17468,9 +17468,9 @@
             "onBuildingContour": false,
             "fixed": true
           },
-          "level": "0",
+          "level": "1",
           "door": "yes",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": null,
           "indoor": null,
@@ -17509,10 +17509,10 @@
               0
             ]
           },
-          "level": "0",
+          "level": "1",
           "indoor": "Bathroom",
           "room": "bathroom",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": "Bathroom",
           "restriction": null,
@@ -17572,10 +17572,10 @@
               0
             ]
           },
-          "level": "0",
+          "level": "1",
           "indoor": "Bathroom",
           "room": "bathroom",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": "Bathroom",
           "restriction": null,
@@ -17644,9 +17644,9 @@
             "onBuildingContour": false,
             "fixed": true
           },
-          "level": "0",
+          "level": "1",
           "door": "yes",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": null,
           "indoor": null,
@@ -17688,10 +17688,10 @@
             "onBuildingContour": false,
             "fixed": true
           },
-          "level": "0",
+          "level": "1",
           "door": "yes",
           "entrance": "main",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": null,
           "indoor": null,
@@ -17733,10 +17733,10 @@
             "onBuildingContour": false,
             "fixed": true
           },
-          "level": "0",
+          "level": "1",
           "door": "yes",
           "entrance": "main",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": null,
           "indoor": null,
@@ -17776,11 +17776,11 @@
               0
             ]
           },
-          "level": "0",
+          "level": "1",
           "indoor": "Classroom",
           "room": "class",
           "name": "185",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": "Classroom",
           "restriction": null,
@@ -17841,9 +17841,9 @@
             "onBuildingContour": false,
             "fixed": true
           },
-          "level": "0",
+          "level": "1",
           "door": "yes",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": null,
           "indoor": null,
@@ -17883,11 +17883,11 @@
               0
             ]
           },
-          "level": "0",
+          "level": "1",
           "indoor": "Classroom",
           "room": "class",
           "name": "186",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": "Classroom",
           "restriction": null,
@@ -17956,9 +17956,9 @@
             "onBuildingContour": false,
             "fixed": true
           },
-          "level": "0",
+          "level": "1",
           "door": "yes",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": null,
           "indoor": null,
@@ -18131,9 +18131,9 @@
             "onBuildingContour": false,
             "fixed": true
           },
-          "level": "0",
+          "level": "1",
           "door": "yes",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": null,
           "indoor": null,
@@ -18171,9 +18171,9 @@
               0
             ]
           },
-          "level": "0",
+          "level": "1",
           "indoor": "corridor",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": "corridor",
           "restriction": null,
@@ -18230,9 +18230,9 @@
               0
             ]
           },
-          "level": "0",
+          "level": "1",
           "indoor": "corridor",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": "corridor",
           "restriction": null,
@@ -18289,9 +18289,9 @@
               0
             ]
           },
-          "level": "0",
+          "level": "1",
           "indoor": "corridor",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": "corridor",
           "restriction": null,
@@ -18396,9 +18396,9 @@
               0
             ]
           },
-          "level": "0",
+          "level": "1",
           "indoor": "corridor",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": "corridor",
           "restriction": null,
@@ -18463,9 +18463,9 @@
               0
             ]
           },
-          "level": "0",
+          "level": "1",
           "indoor": "corridor",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": "corridor",
           "restriction": null,
@@ -18558,9 +18558,9 @@
               0
             ]
           },
-          "level": "0",
+          "level": "1",
           "indoor": "corridor",
-          "level_id": "G",
+          "level_id": 1,
           "alt_name": null,
           "category": "corridor",
           "restriction": null,
@@ -18888,8 +18888,8 @@
             ]
           },
           "indoor": "level",
-          "level": "0",
-          "level_id": "G",
+          "level": "1",
+          "level_id": 1,
           "alt_name": null,
           "category": "level",
           "restriction": null,
@@ -37939,7 +37939,7 @@
           "id": 2004,
           "name": "Classroom 172A",
           "type": "classroom",
-          "floor": "G",
+          "floor": 1,
           "metadata": {
             "description": "Classroom 172A in Reiss Science Building",
             "room_number": "172A",
@@ -37962,7 +37962,7 @@
           "id": 2005,
           "name": "Classroom 172",
           "type": "classroom",
-          "floor": "G",
+          "floor": 1,
           "metadata": {
             "description": "Classroom 172 in Reiss Science Building",
             "room_number": "172",
@@ -37985,7 +37985,7 @@
           "id": 2006,
           "name": "Classroom 152",
           "type": "classroom",
-          "floor": "G",
+          "floor": 1,
           "metadata": {
             "description": "Classroom 152 in Reiss Science Building",
             "room_number": "152",
@@ -38008,7 +38008,7 @@
           "id": 2007,
           "name": "Classroom 154",
           "type": "classroom",
-          "floor": "G",
+          "floor": 1,
           "metadata": {
             "description": "Classroom 154 in Reiss Science Building",
             "room_number": "154",
@@ -38031,7 +38031,7 @@
           "id": 2008,
           "name": "Classroom 156",
           "type": "classroom",
-          "floor": "G",
+          "floor": 1,
           "metadata": {
             "description": "Classroom 156 in Reiss Science Building",
             "room_number": "156",
@@ -38054,7 +38054,7 @@
           "id": 2009,
           "name": "Classroom 103",
           "type": "classroom",
-          "floor": "G",
+          "floor": 1,
           "metadata": {
             "description": "Classroom 103 in Reiss Science Building",
             "room_number": "103",
@@ -38077,7 +38077,7 @@
           "id": 2010,
           "name": "Classroom 112",
           "type": "classroom",
-          "floor": "G",
+          "floor": 1,
           "metadata": {
             "description": "Classroom 112 in Reiss Science Building",
             "room_number": "112",
@@ -38100,7 +38100,7 @@
           "id": 2011,
           "name": "Classroom 185",
           "type": "classroom",
-          "floor": "G",
+          "floor": 1,
           "metadata": {
             "description": "Classroom 185 in Reiss Science Building",
             "room_number": "185",
@@ -38123,7 +38123,7 @@
           "id": 2012,
           "name": "Classroom 186",
           "type": "classroom",
-          "floor": "G",
+          "floor": 1,
           "metadata": {
             "description": "Classroom 186 in Reiss Science Building",
             "room_number": "186",
@@ -38169,10 +38169,10 @@
           "type": "classroom",
           "category": "academic",
           "building": "reiss",
-          "floor": "0",
+          "floor": 1,
           "description": "Room 172A in Reiss Science Building",
           "access": "public",
-          "level": 0
+          "level": 1
         },
         "building_id": "reiss"
       },
@@ -38192,10 +38192,10 @@
           "type": "classroom",
           "category": "academic",
           "building": "reiss",
-          "floor": "0",
+          "floor": 1,
           "description": "Room 172 in Reiss Science Building",
           "access": "public",
-          "level": 0
+          "level": 1
         },
         "building_id": "reiss"
       },
@@ -38215,10 +38215,10 @@
           "type": "classroom",
           "category": "academic",
           "building": "reiss",
-          "floor": "0",
+          "floor": 1,
           "description": "Room 152 in Reiss Science Building",
           "access": "public",
-          "level": 0
+          "level": 1
         },
         "building_id": "reiss"
       },
@@ -38238,10 +38238,10 @@
           "type": "classroom",
           "category": "academic",
           "building": "reiss",
-          "floor": "0",
+          "floor": 1,
           "description": "Room 154 in Reiss Science Building",
           "access": "public",
-          "level": 0
+          "level": 1
         },
         "building_id": "reiss"
       },
@@ -38261,10 +38261,10 @@
           "type": "classroom",
           "category": "academic",
           "building": "reiss",
-          "floor": "0",
+          "floor": 1,
           "description": "Room 156 in Reiss Science Building",
           "access": "public",
-          "level": 0
+          "level": 1
         },
         "building_id": "reiss"
       },
@@ -38284,10 +38284,10 @@
           "type": "classroom",
           "category": "academic",
           "building": "reiss",
-          "floor": "0",
+          "floor": 1,
           "description": "Room 103 in Reiss Science Building",
           "access": "public",
-          "level": 0
+          "level": 1
         },
         "building_id": "reiss"
       },
@@ -38307,10 +38307,10 @@
           "type": "classroom",
           "category": "academic",
           "building": "reiss",
-          "floor": "0",
+          "floor": 1,
           "description": "Room 112 in Reiss Science Building",
           "access": "public",
-          "level": 0
+          "level": 1
         },
         "building_id": "reiss"
       },
@@ -38330,10 +38330,10 @@
           "type": "classroom",
           "category": "academic",
           "building": "reiss",
-          "floor": "0",
+          "floor": 1,
           "description": "Room 185 in Reiss Science Building",
           "access": "public",
-          "level": 0
+          "level": 1
         },
         "building_id": "reiss"
       },
@@ -38353,10 +38353,10 @@
           "type": "classroom",
           "category": "academic",
           "building": "reiss",
-          "floor": "0",
+          "floor": 1,
           "description": "Room 186 in Reiss Science Building",
           "access": "public",
-          "level": 0
+          "level": 1
         },
         "building_id": "reiss"
       },
@@ -38376,10 +38376,10 @@
           "type": "entrance",
           "category": "building",
           "building": "reiss",
-          "floor": "0",
+          "floor": 1,
           "description": "Main exit/entrance for Reiss Science Building",
           "access": "public",
-          "level": 0,
+          "level": 1,
           "show": "true",
           "fill": "#22c55e",
           "stroke": "#16a34a",
@@ -38401,7 +38401,7 @@
           "id": 2014,
           "name": "Classroom 234",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 234 in Reiss Science Building (2nd floor)",
             "room_number": "234",
@@ -38424,7 +38424,7 @@
           "id": 2015,
           "name": "Classroom 232",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 232 in Reiss Science Building (2nd floor)",
             "room_number": "232",
@@ -38447,7 +38447,7 @@
           "id": 2016,
           "name": "Classroom 230",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 230 in Reiss Science Building (2nd floor)",
             "room_number": "230",
@@ -38470,7 +38470,7 @@
           "id": 2017,
           "name": "Classroom 228",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 228 in Reiss Science Building (2nd floor)",
             "room_number": "228",
@@ -38493,7 +38493,7 @@
           "id": 2018,
           "name": "Classroom 226",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 226 in Reiss Science Building (2nd floor)",
             "room_number": "226",
@@ -38516,7 +38516,7 @@
           "id": 2019,
           "name": "Classroom 224",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 224 in Reiss Science Building (2nd floor)",
             "room_number": "224",
@@ -38539,7 +38539,7 @@
           "id": 2020,
           "name": "Classroom 222",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 222 in Reiss Science Building (2nd floor)",
             "room_number": "222",
@@ -38562,7 +38562,7 @@
           "id": 2021,
           "name": "Classroom 209",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 209 in Reiss Science Building (2nd floor)",
             "room_number": "209",
@@ -38585,7 +38585,7 @@
           "id": 2022,
           "name": "Classroom 208",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 208 in Reiss Science Building (2nd floor)",
             "room_number": "208",
@@ -38608,7 +38608,7 @@
           "id": 2023,
           "name": "Classroom 207",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 207 in Reiss Science Building (2nd floor)",
             "room_number": "207",
@@ -38631,7 +38631,7 @@
           "id": 2024,
           "name": "Classroom 206",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 206 in Reiss Science Building (2nd floor)",
             "room_number": "206",
@@ -38654,7 +38654,7 @@
           "id": 2025,
           "name": "Classroom 205",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 205 in Reiss Science Building (2nd floor)",
             "room_number": "205",
@@ -38677,7 +38677,7 @@
           "id": 2026,
           "name": "Classroom 242",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 242 in Reiss Science Building (2nd floor)",
             "room_number": "242",
@@ -38700,7 +38700,7 @@
           "id": 2027,
           "name": "Classroom 244",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 244 in Reiss Science Building (2nd floor)",
             "room_number": "244",
@@ -38723,7 +38723,7 @@
           "id": 2028,
           "name": "Classroom 246",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 246 in Reiss Science Building (2nd floor)",
             "room_number": "246",
@@ -38746,7 +38746,7 @@
           "id": 2029,
           "name": "Classroom 248",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 248 in Reiss Science Building (2nd floor)",
             "room_number": "248",
@@ -38769,7 +38769,7 @@
           "id": 2030,
           "name": "Classroom 252",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 252 in Reiss Science Building (2nd floor)",
             "room_number": "252",
@@ -38792,7 +38792,7 @@
           "id": 2031,
           "name": "Classroom 254",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 254 in Reiss Science Building (2nd floor)",
             "room_number": "254",
@@ -38815,7 +38815,7 @@
           "id": 2032,
           "name": "Classroom 256",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 256 in Reiss Science Building (2nd floor)",
             "room_number": "256",
@@ -38838,7 +38838,7 @@
           "id": 2033,
           "name": "Classroom 238",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 238 in Reiss Science Building (2nd floor)",
             "room_number": "238",
@@ -38861,7 +38861,7 @@
           "id": 2034,
           "name": "Classroom 240A",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 240A in Reiss Science Building (2nd floor)",
             "room_number": "240A",
@@ -38884,7 +38884,7 @@
           "id": 2035,
           "name": "Classroom 261A",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 261A in Reiss Science Building (2nd floor)",
             "room_number": "261A",
@@ -38907,7 +38907,7 @@
           "id": 2036,
           "name": "Room Toilet",
           "type": "room",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Room Toilet in Reiss Science Building (2nd floor)",
             "room_number": "Toilet",
@@ -38930,7 +38930,7 @@
           "id": 2037,
           "name": "Classroom 264",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 264 in Reiss Science Building (2nd floor)",
             "room_number": "264",
@@ -38953,7 +38953,7 @@
           "id": 2038,
           "name": "Classroom 262",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 262 in Reiss Science Building (2nd floor)",
             "room_number": "262",
@@ -38976,7 +38976,7 @@
           "id": 2039,
           "name": "Classroom 282",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 282 in Reiss Science Building (2nd floor)",
             "room_number": "282",
@@ -38999,7 +38999,7 @@
           "id": 2040,
           "name": "Classroom 284",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 284 in Reiss Science Building (2nd floor)",
             "room_number": "284",
@@ -39022,7 +39022,7 @@
           "id": 2041,
           "name": "Room Toilet",
           "type": "room",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Room Toilet in Reiss Science Building (2nd floor)",
             "room_number": "Toilet",
@@ -39045,7 +39045,7 @@
           "id": 2042,
           "name": "Classroom 281",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 281 in Reiss Science Building (2nd floor)",
             "room_number": "281",
@@ -39068,7 +39068,7 @@
           "id": 2043,
           "name": "Classroom 283",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 283 in Reiss Science Building (2nd floor)",
             "room_number": "283",
@@ -39091,7 +39091,7 @@
           "id": 2044,
           "name": "Classroom 261",
           "type": "classroom",
-          "floor": "2",
+          "floor": 2,
           "metadata": {
             "description": "Classroom 261 in Reiss Science Building (2nd floor)",
             "room_number": "261",
