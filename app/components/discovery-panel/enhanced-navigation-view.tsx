@@ -159,9 +159,9 @@ export default function EnhancedNavigationView({
   };
 
   const handleCrossBuildingRouting = async (departureValue: string, destinationValue: string) => {
-    console.log('handleCrossBuildingRouting called:', { departureValue, destinationValue, useCurrentLocation });
+    console.log('🚀 handleCrossBuildingRouting called:', { departureValue, destinationValue, useCurrentLocation });
     if ((!departureValue && !useCurrentLocation) || !destinationValue) {
-      console.log('Missing departure or destination');
+      console.log('❌ Missing departure or destination:', { departureValue: !!departureValue, destinationValue: !!destinationValue, useCurrentLocation });
       return;
     }
 
@@ -175,8 +175,9 @@ export default function EnhancedNavigationView({
       let departureGeo, destinationGeo;
       
       try {
+        console.log('🔍 Geocoding departure value:', departureValue);
         departureGeo = await indoorGeocoder.indoorGeocodeInput(departureValue);
-        console.log('Departure geocoded:', departureGeo);
+        console.log('✅ Departure geocoded:', departureGeo);
       } catch (error) {
         console.error(`Geocoding failed for departure "${departureValue}":`, error);
         // Try to get suggestions to see what's available
@@ -186,8 +187,9 @@ export default function EnhancedNavigationView({
       }
       
       try {
+        console.log('🔍 Geocoding destination value:', destinationValue);
         destinationGeo = await indoorGeocoder.indoorGeocodeInput(destinationValue);
-        console.log('Destination geocoded:', destinationGeo);
+        console.log('✅ Destination geocoded:', destinationGeo);
       } catch (error) {
         console.error(`Geocoding failed for destination "${destinationValue}":`, error);
         // Try to get suggestions to see what's available

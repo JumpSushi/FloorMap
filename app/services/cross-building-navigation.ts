@@ -75,6 +75,10 @@ export interface CrossBuildingRoute {
     end?: GeoJSON.LineString;
   };
   outdoor: OSMRoute;
+  transition: {
+    toOutdoor?: GeoJSON.LineString; // Dotted line from building exit to road
+    toIndoor?: GeoJSON.LineString;  // Dotted line from road to building entrance
+  };
   totalDistance: number;
   totalDuration: number;
   instructions: RouteInstruction[];
@@ -153,6 +157,7 @@ export default class CrossBuildingNavigationService {
         return {
           indoor: {},
           outdoor: outdoorRoute,
+          transition: {},
           totalDistance: outdoorRoute.distance,
           totalDuration: outdoorRoute.duration,
           instructions: this.createOutdoorInstructions(outdoorRoute)
@@ -193,6 +198,7 @@ export default class CrossBuildingNavigationService {
     const route: CrossBuildingRoute = {
       indoor: {},
       outdoor: outdoorRoute,
+      transition: {},
       totalDistance: 0,
       totalDuration: 0,
       instructions: []
@@ -200,42 +206,22 @@ export default class CrossBuildingNavigationService {
 
     console.log('Outdoor route calculated:', route.outdoor);
 
-    // Add indoor route from start to building entrance (if needed)
-    if (startIsIndoor && routeStartCoord !== startCoord) {
-      try {
-        const indoorStart = this.getIndoorRoute(startCoord, routeStartCoord);
-        if (indoorStart) {
-          route.indoor.start = indoorStart;
-          route.instructions.push({
-            type: 'indoor',
-            text: `Navigate inside ${startIsIndoor} to building exit`,
-            building: startIsIndoor,
-            floor: Array.isArray(start) ? undefined : start.floor,
-            geometry: indoorStart
-          });
-        }
-      } catch (error) {
-        console.warn('Could not generate indoor start route:', error);
-      }
-    }
+    // For cross-building routes, we can only display one indoor segment at a time
+    // Priority order: destination indoor route > start indoor route
+    let displayedIndoorRoute: 'start' | 'end' | null = null;
 
-    // Add transition instruction (if coming from indoor)
-    if (startIsIndoor) {
-      route.instructions.push({
-        type: 'transition',
-        text: `Exit ${startIsIndoor || 'building'} and head towards ${endIsIndoor ? endIsIndoor : 'destination'}`,
-      });
-    }
-
-    // Add outdoor route instructions
-    route.instructions.push(...this.createOutdoorInstructions(route.outdoor));
-
-    // Add indoor route from building entrance to end (if needed)
+    // Add indoor route from building entrance to end (if needed) - PRIORITY
     if (endIsIndoor && routeEndCoord !== endCoord) {
       try {
         const indoorEnd = this.getIndoorRoute(routeEndCoord, endCoord);
         if (indoorEnd) {
           route.indoor.end = indoorEnd;
+          displayedIndoorRoute = 'end';
+          
+          // Create dotted transition line from end of outdoor route to building entrance
+          const outdoorEndCoord = outdoorRoute.geometry.coordinates[outdoorRoute.geometry.coordinates.length - 1] as [number, number];
+          route.transition.toIndoor = this.createTransitionLine(outdoorEndCoord, routeEndCoord);
+          
           route.instructions.push({
             type: 'transition',
             text: `Enter ${endIsIndoor}`,
@@ -253,14 +239,97 @@ export default class CrossBuildingNavigationService {
       }
     }
 
-    // Calculate totals
+    // Add indoor route from start to building entrance (if needed) - SECONDARY
+    // Only if we haven't already displayed an indoor route
+    if (startIsIndoor && routeStartCoord !== startCoord && displayedIndoorRoute === null) {
+      try {
+        console.log('🏠 Indoor start route debug:', {
+          startCoord: startCoord,
+          routeStartCoord: routeStartCoord,
+          startIsIndoor: startIsIndoor,
+          message: 'Should route FROM startCoord TO routeStartCoord (room to entrance)'
+        });
+        const indoorStart = this.getIndoorRoute(startCoord, routeStartCoord);
+        if (indoorStart) {
+          route.indoor.start = indoorStart;
+          displayedIndoorRoute = 'start';
+          route.instructions.unshift({
+            type: 'indoor',
+            text: `Navigate inside ${startIsIndoor} to building exit`,
+            building: startIsIndoor,
+            floor: Array.isArray(start) ? undefined : start.floor,
+            geometry: indoorStart
+          });
+          
+          // Create dotted transition line from building exit to start of outdoor route
+          const outdoorStartCoord = outdoorRoute.geometry.coordinates[0] as [number, number];
+          route.transition.toOutdoor = this.createTransitionLine(routeStartCoord, outdoorStartCoord);
+        }
+      } catch (error) {
+        console.warn('Could not generate indoor start route:', error);
+      }
+    } else if (startIsIndoor && routeStartCoord !== startCoord && displayedIndoorRoute === 'end') {
+      // If we're displaying the end route but also have a start route, still calculate geometry for completeness
+      // but don't call setWaypoints (which would overwrite the displayed route)
+      try {
+        console.log('📍 Calculating start indoor route geometry without displaying (end route has priority)');
+        // We can still create the transition line even if we don't display the indoor route
+        const outdoorStartCoord = outdoorRoute.geometry.coordinates[0] as [number, number];
+        route.transition.toOutdoor = this.createTransitionLine(routeStartCoord, outdoorStartCoord);
+        
+        route.instructions.unshift({
+          type: 'indoor',
+          text: `Navigate inside ${startIsIndoor} to building exit`,
+          building: startIsIndoor,
+          floor: Array.isArray(start) ? undefined : start.floor,
+          geometry: undefined // Don't include geometry since we're not displaying this route
+        });
+      } catch (error) {
+        console.warn('Could not generate transition for indoor start route:', error);
+      }
+    }
+
+    // Add transition instruction (if coming from indoor)
+    if (startIsIndoor && !route.instructions.some(i => i.type === 'transition' && i.text.includes('Exit'))) {
+      const transitionIndex = route.instructions.findIndex(i => i.type === 'outdoor');
+      if (transitionIndex > 0) {
+        route.instructions.splice(transitionIndex, 0, {
+          type: 'transition',
+          text: `Exit ${startIsIndoor || 'building'} and head towards ${endIsIndoor ? endIsIndoor : 'destination'}`,
+        });
+      }
+    }
+
+    // Add outdoor route instructions
+    const outdoorInstructionIndex = route.instructions.findIndex(i => i.type === 'outdoor');
+    if (outdoorInstructionIndex === -1) {
+      route.instructions.push(...this.createOutdoorInstructions(route.outdoor));
+    }
+
+    console.log(`📍 Indoor route display priority: ${displayedIndoorRoute || 'none'}`);
+    console.log(`📋 Instructions generated: ${route.instructions.length} total`);
+
+    // Calculate totals including transition distances
+    let transitionDistance = 0;
+    if (route.transition.toOutdoor) {
+      transitionDistance += this.calculateDistance(route.transition.toOutdoor.coordinates as [number, number][]);
+    }
+    if (route.transition.toIndoor) {
+      transitionDistance += this.calculateDistance(route.transition.toIndoor.coordinates as [number, number][]);
+    }
+
     route.totalDistance = route.outdoor.distance +
       (route.indoor.start ? this.calculateDistance(route.indoor.start.coordinates as [number, number][]) : 0) +
-      (route.indoor.end ? this.calculateDistance(route.indoor.end.coordinates as [number, number][]) : 0);
+      (route.indoor.end ? this.calculateDistance(route.indoor.end.coordinates as [number, number][]) : 0) +
+      transitionDistance;
 
+    // Estimate additional time for transitions (building exit/entry)
+    const transitionTime = (route.transition.toOutdoor ? 30 : 0) + (route.transition.toIndoor ? 30 : 0); // 30 seconds per transition
+    
     route.totalDuration = route.outdoor.duration +
       (route.indoor.start ? this.estimateIndoorDuration(route.indoor.start) : 0) +
-      (route.indoor.end ? this.estimateIndoorDuration(route.indoor.end) : 0);
+      (route.indoor.end ? this.estimateIndoorDuration(route.indoor.end) : 0) +
+      transitionTime;
 
     console.log('Final route calculated:', {
       totalDistance: route.totalDistance,
@@ -452,6 +521,7 @@ export default class CrossBuildingNavigationService {
         weight: 0,
         weight_name: 'duration'
       },
+      transition: {},
       totalDistance,
       totalDuration,
       instructions: [{
@@ -465,7 +535,18 @@ export default class CrossBuildingNavigationService {
   }
 
   /**
+   * Create a simple transition line between two points (for dotted line display)
+   */
+  private createTransitionLine(start: [number, number], end: [number, number]): GeoJSON.LineString {
+    return {
+      type: 'LineString',
+      coordinates: [start, end]
+    };
+  }
+
+  /**
    * Get indoor route using existing indoor directions system
+   * NOTE: This will display the route visually via the IndoorDirections instance
    */
   private getIndoorRoute(start: [number, number], end: [number, number]): GeoJSON.LineString | null {
     try {
@@ -474,8 +555,16 @@ export default class CrossBuildingNavigationService {
         return null;
       }
 
-      console.log('🏠 Setting waypoints for indoor navigation:', { start, end });
+      console.log('🏠 Setting waypoints for indoor navigation (this will be displayed):', { start, end });
+      
+      // Clear any existing waypoints before setting new ones to avoid conflicts
+      this.indoorDirections.clear();
+      
+      // Set new waypoints for this indoor segment - this will trigger visual display
       this.indoorDirections.setWaypoints([start, end]);
+      
+      // The indoor directions will handle the visual display automatically
+      // We still need to return the geometry for route calculations
       
       // Try to get the route from fullRoute directly since that's populated immediately
       const fullRouteCoordinates = this.indoorDirections.fullRoute;
@@ -498,6 +587,7 @@ export default class CrossBuildingNavigationService {
           coordinates: fullRouteCoordinates
         };
         console.log('📍 Created route geometry from fullRoute:', routeGeometry);
+        console.log('✅ Indoor route should now be visible on map');
         return routeGeometry;
       }
       
@@ -511,6 +601,12 @@ export default class CrossBuildingNavigationService {
       
       const routeGeometry = routeCoordinates[0]?.[0]?.geometry;
       console.log('📍 Indoor route geometry (fallback):', routeGeometry);
+      
+      if (routeGeometry) {
+        console.log('✅ Indoor route should now be visible on map (fallback method)');
+      } else {
+        console.warn('❌ No indoor route geometry found');
+      }
       
       return routeGeometry || null;
     } catch (error) {
@@ -572,31 +668,39 @@ export default class CrossBuildingNavigationService {
     const longitude = coord[0];
     const latitude = coord[1];
     
+    console.log(`🏗️ Building detection for coordinate [${longitude.toFixed(6)}, ${latitude.toFixed(6)}]`);
+    
     // Use a smaller, more precise detection area for each building
     // Only return building ID if the coordinate is clearly inside the building
     
     // Healy Hall (more precise bounds)
     if (longitude > -77.0723 && longitude < -77.0715 && latitude > 38.9072 && latitude < 38.9080) {
+      console.log('✅ Detected as Healy Hall');
       return 'healy';
     }
     
     // Darnall Hall (more precise bounds)
     if (longitude > -77.0740 && longitude < -77.0730 && latitude > 38.9110 && latitude < 38.9118) {
+      console.log('✅ Detected as Darnall Hall');
       return 'darnall';
     }
     
-    // Reiss Science Building (based on generated routes coordinate range)
-    if (longitude > -77.074281 && longitude < -77.072698 && latitude > 38.908721 && latitude < 38.910237) {
+    // Reiss Science Building (expanded bounds to cover all rooms)
+    // The original bounds were too restrictive, missing many room coordinates
+    if (longitude > -77.074500 && longitude < -77.072500 && latitude > 38.909200 && latitude < 38.910500) {
+      console.log('✅ Detected as Reiss Science Building');
       return 'reiss';
     }
     
     // Lauinger Library (more precise bounds)
     if (longitude > -77.0730 && longitude < -77.0720 && latitude > 38.9076 && latitude < 38.9084) {
+      console.log('✅ Detected as Lauinger Library');
       return 'lauinger';
     }
     
     // Default: return null for outdoor/external coordinates
     // This ensures most OSM locations are treated as outdoor destinations
+    console.log('❌ No building detected - treating as outdoor coordinate');
     return null;
   }
 
@@ -674,7 +778,7 @@ export default class CrossBuildingNavigationService {
       {
         id: 'darnall_main',
         name: 'Darnall Hall Main Entrance',
-        coordinates: [-77.0736, 38.9113],
+        coordinates: [-77.07349839, 38.91127125], // Well-connected corridor coordinate from indoor routes
         building_id: 'darnall',
         floor: 'G',
         accessibility: true
@@ -691,7 +795,7 @@ export default class CrossBuildingNavigationService {
       {
         id: 'reiss_main',
         name: 'Reiss Science Building Main Entrance',
-        coordinates: [-77.073485, 38.909537], // Near the building POI coordinate
+        coordinates: [-77.07360623, 38.90946303], // Use the actual entrance POI coordinates
         building_id: 'reiss',
         floor: 'G',
         accessibility: true
@@ -699,45 +803,11 @@ export default class CrossBuildingNavigationService {
       {
         id: 'reiss_north',
         name: 'Reiss Science Building North Entrance',
-        coordinates: [-77.073498, 38.909658], // Near door coordinate
+        coordinates: [-77.07360623, 38.90946303], // Use the working exit/entrance POI coordinates
         building_id: 'reiss',
         floor: 'G',
         accessibility: false
       },
-      // Healy Hall
-      {
-        id: 'healy_main',
-        name: 'Healy Hall Main Entrance',
-        coordinates: [-77.0719, 38.9076],
-        building_id: 'healy',
-        floor: 'G',
-        accessibility: true
-      },
-      {
-        id: 'healy_south',
-        name: 'Healy Hall South Entrance',
-        coordinates: [-77.0720, 38.9074],
-        building_id: 'healy',
-        floor: 'G',
-        accessibility: false
-      },
-      // Lauinger Library
-      {
-        id: 'lauinger_main',
-        name: 'Lauinger Library Main Entrance',
-        coordinates: [-77.0725, 38.908],
-        building_id: 'lauinger',
-        floor: 'G',
-        accessibility: true
-      },
-      {
-        id: 'lauinger_east',
-        name: 'Lauinger Library East Entrance',
-        coordinates: [-77.0723, 38.9081],
-        building_id: 'lauinger',
-        floor: 'G',
-        accessibility: false
-      }
     ];
   }
 

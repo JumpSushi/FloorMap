@@ -123,7 +123,8 @@ function useEnhancedDirections(map: Map | null, indoorDirections: IndoorDirectio
     console.log('displayRouteOnMap called:', route);
     if (!map) return;
 
-    // For indoor-only routes, don't clear the indoor directions layers
+    // Check if this route has indoor segments that need to be preserved
+    const hasIndoorSegments = route.indoor.start || route.indoor.end;
     const isIndoorOnly = route.indoor.start && 
       (!route.outdoor.geometry || 
        !route.outdoor.geometry.coordinates || 
@@ -131,23 +132,25 @@ function useEnhancedDirections(map: Map | null, indoorDirections: IndoorDirectio
     
     console.log('Route type detection:', {
       hasIndoorStart: !!route.indoor.start,
+      hasIndoorEnd: !!route.indoor.end,
       hasOutdoorGeometry: !!route.outdoor.geometry,
       outdoorCoordinatesLength: route.outdoor.geometry?.coordinates?.length || 0,
+      hasIndoorSegments,
       isIndoorOnly
     });
     
-    if (!isIndoorOnly) {
-      // Clear any existing route displays only for outdoor/mixed routes
-      clearRouteFromMap(false); // false = don't preserve indoor routes
-    } else {
-      // For indoor-only routes, preserve indoor directions by calling clear with preserveIndoor=true
-      console.log('Indoor-only route detected, preserving indoor directions');
+    // Always preserve indoor routes if they exist (for both indoor-only and cross-building routes)
+    if (hasIndoorSegments) {
+      console.log('Route has indoor segments, preserving indoor directions');
       clearRouteFromMap(true); // true = preserve indoor routes
+    } else {
+      console.log('Route has no indoor segments, clearing all routes');
+      clearRouteFromMap(false); // false = don't preserve indoor routes
     }
 
-    // Display indoor routes if they exist (for same-building navigation)
-    if (isIndoorOnly) {
-      console.log('Displaying indoor-only route via IndoorDirections');
+    // Display indoor routes if they exist (for both indoor-only and cross-building routes)
+    if (hasIndoorSegments) {
+      console.log('Displaying indoor routes via IndoorDirections');
       
       // Check if the indoor directions source exists and has data
       const indoorSource = map.getSource('maplibre-gl-indoor-directions');
@@ -171,11 +174,70 @@ function useEnhancedDirections(map: Map | null, indoorDirections: IndoorDirectio
         }
       });
       
-      // For indoor-only routes, the route should already be displayed via the IndoorDirections instance
-      // The IndoorDirections.setWaypoints() call in getIndoorRoute should have triggered the display
-      
-      // Make sure we don't clear indoor directions in this case
-      return;
+      // For indoor-only routes, we can return early since no outdoor display is needed
+      if (isIndoorOnly) {
+        console.log('Indoor-only route, skipping outdoor display');
+        return;
+      }
+    }
+
+    // Display transition lines (dotted lines from building to road)
+    const transitionFeatures: GeoJSON.Feature[] = [];
+    
+    if (route.transition.toOutdoor) {
+      transitionFeatures.push({
+        type: 'Feature',
+        geometry: route.transition.toOutdoor,
+        properties: {
+          route_type: 'transition',
+          transition_type: 'exit_to_road',
+          description: 'Walking from building exit to main road'
+        }
+      });
+    }
+    
+    if (route.transition.toIndoor) {
+      transitionFeatures.push({
+        type: 'Feature',
+        geometry: route.transition.toIndoor,
+        properties: {
+          route_type: 'transition',
+          transition_type: 'road_to_entrance',
+          description: 'Walking from main road to building entrance'
+        }
+      });
+    }
+
+    if (transitionFeatures.length > 0) {
+      const transitionData: GeoJSON.FeatureCollection = {
+        type: 'FeatureCollection',
+        features: transitionFeatures
+      };
+
+      if (!map.getSource('transition-route')) {
+        map.addSource('transition-route', {
+          type: 'geojson',
+          data: transitionData
+        });
+
+        map.addLayer({
+          id: 'transition-route-line',
+          type: 'line',
+          source: 'transition-route',
+          layout: {
+            'line-join': 'round',
+            'line-cap': 'round'
+          },
+          paint: {
+            'line-color': '#8b5cf6', // Purple color for transitions
+            'line-width': 3,
+            'line-opacity': 0.8,
+            'line-dasharray': [2, 3] // Dotted line pattern
+          }
+        });
+      } else {
+        (map.getSource('transition-route') as any).setData(transitionData);
+      }
     }
 
     // Display outdoor route if exists (use geometry from OSMRoute)
@@ -270,24 +332,46 @@ function useEnhancedDirections(map: Map | null, indoorDirections: IndoorDirectio
       }
     }
 
-    // Fit map to show the entire route
+    // Fit map to show the entire route including transitions
+    const allCoordinates: [number, number][] = [];
+    
+    // Add outdoor route coordinates
     if (route.outdoor.geometry && route.outdoor.geometry.coordinates.length > 0) {
-      const coordinates = route.outdoor.geometry.coordinates;
-      
-      // Only fit bounds if we have valid coordinates
-      if (coordinates.length > 0) {
-        try {
-          const bounds = coordinates.reduce((bounds, coord) => {
-            return bounds.extend(coord as [number, number]);
-          }, new LngLatBounds(coordinates[0] as [number, number], coordinates[0] as [number, number]));
+      allCoordinates.push(...route.outdoor.geometry.coordinates as [number, number][]);
+    }
+    
+    // Add transition coordinates
+    if (route.transition.toOutdoor) {
+      allCoordinates.push(...route.transition.toOutdoor.coordinates as [number, number][]);
+    }
+    if (route.transition.toIndoor) {
+      allCoordinates.push(...route.transition.toIndoor.coordinates as [number, number][]);
+    }
+    
+    // Add indoor route coordinates (start points for bounds calculation)
+    if (route.indoor.start && route.indoor.start.coordinates.length > 0) {
+      // Just add the start and end points of indoor routes to avoid too much zoom
+      const startCoords = route.indoor.start.coordinates as [number, number][];
+      allCoordinates.push(startCoords[0], startCoords[startCoords.length - 1]);
+    }
+    if (route.indoor.end && route.indoor.end.coordinates.length > 0) {
+      const endCoords = route.indoor.end.coordinates as [number, number][];
+      allCoordinates.push(endCoords[0], endCoords[endCoords.length - 1]);
+    }
+    
+    // Fit bounds to all coordinates
+    if (allCoordinates.length > 0) {
+      try {
+        const bounds = allCoordinates.reduce((bounds, coord) => {
+          return bounds.extend(coord);
+        }, new LngLatBounds(allCoordinates[0], allCoordinates[0]));
 
-          map.fitBounds(bounds, {
-            padding: 50,
-            duration: 1000
-          });
-        } catch (error) {
-          console.error('Error fitting bounds to route:', error);
-        }
+        map.fitBounds(bounds, {
+          padding: 80, // More padding for complex routes
+          duration: 1000
+        });
+      } catch (error) {
+        console.error('Error fitting bounds to route:', error);
       }
     }
   }, [map]);
@@ -308,6 +392,16 @@ function useEnhancedDirections(map: Map | null, indoorDirections: IndoorDirectio
     if (map.getSource('outdoor-route')) {
       console.log('Removing outdoor-route source');
       map.removeSource('outdoor-route');
+    }
+    
+    // Clear transition routes (dotted lines)
+    if (map.getLayer('transition-route-line')) {
+      console.log('Removing transition-route-line layer');
+      map.removeLayer('transition-route-line');
+    }
+    if (map.getSource('transition-route')) {
+      console.log('Removing transition-route source');
+      map.removeSource('transition-route');
     }
     
     // Clear indoor directions only if not preserving indoor routes
