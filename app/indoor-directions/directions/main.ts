@@ -213,7 +213,7 @@ export default class IndoorDirections extends IndoorDirectionsEvented {
         if (routeType === "corridor") {
           weight *= 0.5; // Strongly prefer main corridors
         } else if (routeType === "room_connection") {
-          weight *= 1.2; // Discourage room connections unless necessary
+          weight *= 10.0; // Heavily discourage room connections for transit - use only for final destination access
         } else if (featureType === "corridor") {
           weight *= 0.6; // Prefer corridors from indoor_map
         } else if (featureType === "walkway" || featureType === "footway" || featureType === "path") {

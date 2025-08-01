@@ -28,10 +28,10 @@ export default class POIsLayer implements CustomLayerInterface {
         ["get", "type"], 
         [
           "literal", 
-          ["residence_hall", "academic_building", "library", "dining", "athletic_facility", "chapel", "outdoor_space", "entrance"]
+          ["residence_hall", "academic_building", "library", "dining", "athletic_facility", "chapel", "outdoor_space"]
         ]
-      ], // Show building-level POIs
-      ["==", ["get", "floor"], level] // Show POIs for current floor (rooms, restrooms)
+      ], // Show building-level POIs (removed "entrance" to make entrances floor-specific)
+      ["==", ["get", "floor"], level] // Show POIs for current floor (rooms, restrooms, entrances)
     ] as any;
     
     this.map.setFilter("point", floorFilter);
