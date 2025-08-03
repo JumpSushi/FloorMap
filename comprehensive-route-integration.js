@@ -28,8 +28,8 @@ async function comprehensiveRouteIntegration() {
     console.log('📁 Step 1: Checking available route files...');
     
     const routeFiles = [];
-    if (fs.existsSync('./Reiss Building Routes (13).json')) {
-      routeFiles.push('./Reiss Building Routes (13).json');
+    if (fs.existsSync('./Reiss Routes (1).json')) {
+      routeFiles.push('./Reiss Routes (1).json');
     }
     if (fs.existsSync('./test-routes-with-exit.json')) {
       routeFiles.push('./test-routes-with-exit.json');
@@ -54,12 +54,16 @@ async function comprehensiveRouteIntegration() {
     console.log('📊 Step 2: Analyzing current building data...');
     const buildingData = JSON.parse(fs.readFileSync('./app/mock/building.json', 'utf8'));
     
-    const totalRoutes = buildingData.indoor_routes.features.length;
-    const reissRoutes = buildingData.indoor_routes.features.filter(route => 
-      route.properties?.building === 'reiss'
-    );
+    // Load existing route files
+    const reissRoutesPath = './app/mock/routes/reiss-routes.json';
+    let reissRoutesData = { features: [] };
+    let reissRoutes = [];
     
-    console.log(`   Total routes in system: ${totalRoutes}`);
+    if (fs.existsSync(reissRoutesPath)) {
+      reissRoutesData = JSON.parse(fs.readFileSync(reissRoutesPath, 'utf8'));
+      reissRoutes = reissRoutesData.features || [];
+    }
+    
     console.log(`   Current Reiss routes: ${reissRoutes.length}`);
     
     // Analyze POIs
@@ -125,6 +129,23 @@ async function comprehensiveRouteIntegration() {
     });
     
     console.log(`   Valid routes: ${validRoutes}/${newRoutes.length}\n`);
+
+    // Step 5b: Determine target floor for routes
+    console.log('🏢 Step 5b: Floor assignment');
+    const floorChoice = await question(
+      'What floor are these routes for?\n' +
+      '  0. Ground Floor (0)\n' +
+      '  1. First Floor (1)\n' +
+      '  2. Second Floor (2)\n' +
+      '  3. Third Floor (3)\n' +
+      '  4. Fourth Floor (4)\n' +
+      '  5. Fifth Floor (5)\n' +
+      '  6. Sixth Floor (6)\n' +
+      'Choice (0-6): '
+    );
+    
+    const targetFloor = parseInt(floorChoice) || 0;
+    console.log(`   Selected: Floor ${targetFloor}\n`);
 
     // Step 6: Ask about route endpoint handling
     console.log('🎯 Step 6: Route endpoint configuration');
@@ -206,7 +227,7 @@ async function comprehensiveRouteIntegration() {
     console.log(`   ${shouldDeletePrevious ? '🗑️' : '📌'} ${shouldDeletePrevious ? 'Remove' : 'Keep'} ${reissRoutes.length} existing Reiss routes`);
     console.log(`   ➕ Add ${validRoutes} new routes from ${selectedFile}`);
     console.log(`   🎯 Endpoint mode: ${endpointMode === 1 ? 'POI centers' : endpointMode === 2 ? 'Original' : 'Interactive'}`);
-    console.log(`   📊 Final total: ${totalRoutes + (shouldDeletePrevious ? -reissRoutes.length : 0) + validRoutes} routes\n`);
+    console.log(`   📊 Final total: ${reissRoutes.length + (shouldDeletePrevious ? -reissRoutes.length : 0) + validRoutes} Reiss routes\n`);
 
     const confirm = await question('Proceed with integration? (Y/n): ');
     if (confirm.toLowerCase() === 'n' || confirm.toLowerCase() === 'no') {
@@ -220,113 +241,68 @@ async function comprehensiveRouteIntegration() {
     
     // Remove existing Reiss routes if requested
     if (shouldDeletePrevious) {
-      const nonReissRoutes = buildingData.indoor_routes.features.filter(route => 
-        route.properties?.building !== 'reiss'
-      );
-      buildingData.indoor_routes.features = nonReissRoutes;
+      reissRoutesData.features = [];
       console.log(`   🗑️ Removed ${reissRoutes.length} existing Reiss routes`);
     }
 
-    // Add new routes
-    const routesToAdd = [...newRoutes];
-    buildingData.indoor_routes.features.push(...routesToAdd);
-    console.log(`   ➕ Added ${routesToAdd.length} new routes`);
+    // Add new routes with proper floor assignment
+    const routesToAdd = newRoutes.map(route => {
+      // Ensure routes have proper floor/level properties
+      if (!route.properties) route.properties = {};
+      route.properties.floor = targetFloor;
+      route.properties.level = targetFloor;
+      route.properties.building = 'reiss'; // Ensure building is set
+      return route;
+    });
+    
+    reissRoutesData.features.push(...routesToAdd);
+    console.log(`   ➕ Added ${routesToAdd.length} new routes for floor ${targetFloor}`);
 
     // Handle endpoints if needed
     if (endpointMode === 1) {
       console.log('   🎯 Snapping endpoints to POI centers...');
       
-      // Get all Reiss routes (including newly added ones, but excluding exit connections for now)
-      const allReissRoutes = buildingData.indoor_routes.features.filter(route => 
-        route.properties?.building === 'reiss' && route.properties?.type !== 'exit_connection'
+      // Get POIs for the target floor from building.json
+      // Include both reiss building POIs and classroom POIs with null building
+      const floorPOIs = buildingData.pois.features.filter(poi => 
+        (poi.properties?.building === 'reiss' || 
+         (poi.properties?.building === null && poi.properties?.name?.startsWith('Classroom'))) && (
+          poi.properties?.floor == targetFloor || 
+          poi.properties?.level == targetFloor ||
+          (poi.properties?.floor === String(targetFloor)) ||
+          (poi.properties?.level === String(targetFloor))
+        )
       );
+      
+      console.log(`   📍 Found ${floorPOIs.length} POIs on floor ${targetFloor}`);
+      
+      if (floorPOIs.length === 0) {
+        console.log(`   ⚠️  No POIs found for floor ${targetFloor}. Skipping endpoint snapping.`);
+        console.log(`   💡 You may need to add POIs for floor ${targetFloor} first.`);
+      } else {
+        // Get all Reiss routes for the target floor (including newly added ones)
+        const allReissRoutes = reissRoutesData.features.filter(route => 
+          route.properties?.building === 'reiss' && 
+          route.properties?.type !== 'exit_connection' &&
+          (route.properties?.floor == targetFloor || route.properties?.level == targetFloor)
+        );
 
-      console.log(`   📍 Found ${reissPois.length} POI coordinates`);
-      console.log(`   🛤️ Processing ${allReissRoutes.length} routes for endpoint snapping`);
+        console.log(`   🛤️ Processing ${allReissRoutes.length} routes on floor ${targetFloor} for endpoint snapping`);
 
-      let snappedCount = 0;
+        let snappedCount = 0;
 
-      allReissRoutes.forEach((route, routeIndex) => {
-        const coords = route.geometry.coordinates;
-        const startCoord = coords[0];
-        const endCoord = coords[coords.length - 1];
-        
-        let routeModified = false;
-
-        // Check start point - find closest POI within reasonable distance
-        let closestStartPOI = null;
-        let minStartDistance = Infinity;
-
-        reissPois.forEach(poi => {
-          const poiCoord = poi.geometry.coordinates;
-          const distance = Math.sqrt(
-            Math.pow(startCoord[0] - poiCoord[0], 2) + 
-            Math.pow(startCoord[1] - poiCoord[1], 2)
-          );
-          
-          if (distance < minStartDistance) {
-            minStartDistance = distance;
-            closestStartPOI = poi;
-          }
-        });
-
-        // Snap start if close enough (within ~30 meters in coordinate space)
-        if (minStartDistance < 0.0003) {
-          console.log(`   🎯 Route ${routeIndex + 1}: Snapping START to Room ${closestStartPOI.properties.name}`);
-          coords[0] = [...closestStartPOI.geometry.coordinates];
-          routeModified = true;
-        }
-
-        // Check end point - find closest POI within reasonable distance
-        let closestEndPOI = null;
-        let minEndDistance = Infinity;
-
-        reissPois.forEach(poi => {
-          const poiCoord = poi.geometry.coordinates;
-          const distance = Math.sqrt(
-            Math.pow(endCoord[0] - poiCoord[0], 2) + 
-            Math.pow(endCoord[1] - poiCoord[1], 2)
-          );
-          
-          if (distance < minEndDistance) {
-            minEndDistance = distance;
-            closestEndPOI = poi;
-          }
-        });
-
-        // Snap end if close enough
-        if (minEndDistance < 0.0003) {
-          console.log(`   🎯 Route ${routeIndex + 1}: Snapping END to Room ${closestEndPOI.properties.name}`);
-          coords[coords.length - 1] = [...closestEndPOI.geometry.coordinates];
-          routeModified = true;
-        }
-
-        if (routeModified) {
-          snappedCount++;
-        }
-      });
-
-      // Handle exit connections separately
-      const allExitConnections = buildingData.indoor_routes.features.filter(route => 
-        route.properties?.building === 'reiss' && route.properties?.type === 'exit_connection'
-      );
-
-      if (allExitConnections.length > 0) {
-        console.log(`   🚪 Processing ${allExitConnections.length} exit connections for endpoint snapping`);
-        
-        allExitConnections.forEach((route, routeIndex) => {
+        allReissRoutes.forEach((route, routeIndex) => {
           const coords = route.geometry.coordinates;
           const startCoord = coords[0];
           const endCoord = coords[coords.length - 1];
           
           let routeModified = false;
 
-          // Snap start to closest room POI (excluding exit POI)
-          const roomPOIs = reissPois.filter(poi => poi.properties?.type !== 'exit' && poi.properties?.type !== 'entrance');
+          // Check start point - find closest POI within reasonable distance
           let closestStartPOI = null;
           let minStartDistance = Infinity;
 
-          roomPOIs.forEach(poi => {
+          floorPOIs.forEach(poi => {
             const poiCoord = poi.geometry.coordinates;
             const distance = Math.sqrt(
               Math.pow(startCoord[0] - poiCoord[0], 2) + 
@@ -339,17 +315,34 @@ async function comprehensiveRouteIntegration() {
             }
           });
 
-          if (minStartDistance < 0.0003 && closestStartPOI) {
-            console.log(`   🎯 Exit ${routeIndex + 1}: Snapping START to Room ${closestStartPOI.properties.name}`);
+          // Snap start if close enough (within ~30 meters in coordinate space)
+          if (minStartDistance < 0.0003) {
+            console.log(`   🎯 Route ${routeIndex + 1}: Snapping START to Room ${closestStartPOI.properties.name} (Floor ${targetFloor})`);
             coords[0] = [...closestStartPOI.geometry.coordinates];
             routeModified = true;
           }
 
-          // Snap end to exit POI if it exists
-          const exitPOI = reissPois.find(poi => poi.properties?.type === 'exit' || poi.properties?.type === 'entrance');
-          if (exitPOI) {
-            console.log(`   🎯 Exit ${routeIndex + 1}: Snapping END to ${exitPOI.properties.name}`);
-            coords[coords.length - 1] = [...exitPOI.geometry.coordinates];
+          // Check end point - find closest POI within reasonable distance
+          let closestEndPOI = null;
+          let minEndDistance = Infinity;
+
+          floorPOIs.forEach(poi => {
+            const poiCoord = poi.geometry.coordinates;
+            const distance = Math.sqrt(
+              Math.pow(endCoord[0] - poiCoord[0], 2) + 
+              Math.pow(endCoord[1] - poiCoord[1], 2)
+            );
+            
+            if (distance < minEndDistance) {
+              minEndDistance = distance;
+              closestEndPOI = poi;
+            }
+          });
+
+          // Snap end if close enough
+          if (minEndDistance < 0.0003) {
+            console.log(`   🎯 Route ${routeIndex + 1}: Snapping END to Room ${closestEndPOI.properties.name} (Floor ${targetFloor})`);
+            coords[coords.length - 1] = [...closestEndPOI.geometry.coordinates];
             routeModified = true;
           }
 
@@ -357,32 +350,106 @@ async function comprehensiveRouteIntegration() {
             snappedCount++;
           }
         });
-      }
 
-      console.log(`   ✅ Snapped ${snappedCount} routes to POI coordinates`);
+        // Handle exit connections separately (these typically connect to ground floor exits)
+        const allExitConnections = reissRoutesData.features.filter(route => 
+          route.properties?.building === 'reiss' && 
+          route.properties?.type === 'exit_connection' &&
+          (route.properties?.floor == targetFloor || route.properties?.level == targetFloor)
+        );
+
+        if (allExitConnections.length > 0) {
+          console.log(`   🚪 Processing ${allExitConnections.length} exit connections for endpoint snapping`);
+          
+          allExitConnections.forEach((route, routeIndex) => {
+            const coords = route.geometry.coordinates;
+            const startCoord = coords[0];
+            const endCoord = coords[coords.length - 1];
+            
+            let routeModified = false;
+
+            // Snap start to closest room POI on the current floor
+            const roomPOIs = floorPOIs.filter(poi => 
+              poi.properties?.type !== 'exit' && poi.properties?.type !== 'entrance'
+            );
+            let closestStartPOI = null;
+            let minStartDistance = Infinity;
+
+            roomPOIs.forEach(poi => {
+              const poiCoord = poi.geometry.coordinates;
+              const distance = Math.sqrt(
+                Math.pow(startCoord[0] - poiCoord[0], 2) + 
+                Math.pow(startCoord[1] - poiCoord[1], 2)
+              );
+              
+              if (distance < minStartDistance) {
+                minStartDistance = distance;
+                closestStartPOI = poi;
+              }
+            });
+
+            if (minStartDistance < 0.0003 && closestStartPOI) {
+              console.log(`   🎯 Exit ${routeIndex + 1}: Snapping START to Room ${closestStartPOI.properties.name} (Floor ${targetFloor})`);
+              coords[0] = [...closestStartPOI.geometry.coordinates];
+              routeModified = true;
+            }
+
+            // For exit connections, snap end to ground floor exit POI
+            const exitPOI = buildingData.pois.features.find(poi => 
+              poi.properties?.building === 'reiss' && 
+              (poi.properties?.type === 'exit' || poi.properties?.type === 'entrance') &&
+              (poi.properties?.floor == '0' || poi.properties?.level == 0)
+            );
+            
+            if (exitPOI) {
+              console.log(`   🎯 Exit ${routeIndex + 1}: Snapping END to ${exitPOI.properties.name} (Ground Floor)`);
+              coords[coords.length - 1] = [...exitPOI.geometry.coordinates];
+              routeModified = true;
+            }
+
+            if (routeModified) {
+              snappedCount++;
+            }
+          });
+        }
+
+        console.log(`   ✅ Snapped ${snappedCount} routes to POI coordinates on floor ${targetFloor}`);
+      }
     }
 
     // Step 9: Create backup and save
     console.log('\n💾 Step 9: Saving results...');
     
-    // Create backup
+    // Create backup of route file
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const backupFile = `./app/mock/building.json.backup.${timestamp}`;
-    fs.copyFileSync('./app/mock/building.json', backupFile);
-    console.log(`   📦 Created backup: ${backupFile}`);
+    const backupFile = `./app/mock/routes/reiss-routes.json.backup.${timestamp}`;
+    if (fs.existsSync(reissRoutesPath)) {
+      fs.copyFileSync(reissRoutesPath, backupFile);
+      console.log(`   📦 Created route backup: ${backupFile}`);
+    }
     
-    // Save updated building data
-    fs.writeFileSync('./app/mock/building.json', JSON.stringify(buildingData, null, 2));
-    console.log(`   💾 Updated building.json`);
+    // Update route file metadata
+    reissRoutesData.metadata = {
+      ...reissRoutesData.metadata,
+      updated: new Date().toISOString(),
+      total_routes: reissRoutesData.features.length,
+      floors: [...new Set(reissRoutesData.features.map(r => r.properties?.floor || r.properties?.level).filter(f => f !== undefined))]
+    };
+    
+    // Save updated route data
+    fs.writeFileSync(reissRoutesPath, JSON.stringify(reissRoutesData, null, 2));
+    console.log(`   💾 Updated reiss-routes.json`);
 
     // Step 10: Summary and next steps
     console.log('\n✅ Integration completed successfully!');
     console.log('==========================================');
     console.log(`📊 Final statistics:`);
-    console.log(`   Total routes: ${buildingData.indoor_routes.features.length}`);
-    console.log(`   Reiss routes: ${buildingData.indoor_routes.features.filter(r => r.properties?.building === 'reiss').length}`);
-    const exitConnectionCount = buildingData.indoor_routes.features.filter(r => 
-      r.properties?.building === 'reiss' && r.properties?.type === 'exit_connection'
+    console.log(`   Total Reiss routes: ${reissRoutesData.features.length}`);
+    console.log(`   Floor ${targetFloor} routes: ${reissRoutesData.features.filter(r => 
+      r.properties?.floor == targetFloor || r.properties?.level == targetFloor
+    ).length}`);
+    const exitConnectionCount = reissRoutesData.features.filter(r => 
+      r.properties?.type === 'exit_connection'
     ).length;
     console.log(`   Exit connections: ${exitConnectionCount}`);
     console.log(`   Reiss POIs: ${buildingData.pois.features.filter(p => p.properties?.building === 'reiss').length}`);
@@ -398,7 +465,10 @@ async function comprehensiveRouteIntegration() {
       console.log('   3. Test navigation in the UI');
     }
     
-    console.log('\n🚀 Routes are ready for use!');
+    console.log('\n� Route files:');
+    console.log(`   📂 app/mock/routes/${reissRoutesPath.split('/').pop()}`);
+    console.log('   📂 app/mock/building.json (building structure & POIs only)');
+    console.log('\n�🚀 Routes are ready for use!');
 
   } catch (error) {
     console.error('❌ Error during integration:', error.message);
