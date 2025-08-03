@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manual Route Editor - Reiss Building</title>
+    <title>Enhanced Route Editor - Reiss Building</title>
     <link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet">
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             display: flex;
             height: 100vh;
+            background: #f5f5f5;
         }
         
         #sidebar {
-            width: 300px;
-            background: #f5f5f5;
-            padding: 20px;
+            width: 320px;
+            background: #ffffff;
+            padding: 24px;
             overflow-y: auto;
-            border-right: 1px solid #ddd;
+            border-right: 1px solid #e1e5e9;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
         
         #map {
@@ -27,71 +29,105 @@
         }
         
         .tool-section {
-            margin-bottom: 20px;
-            padding: 15px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 24px;
+            padding: 16px;
+            background: #ffffff;
+            border-radius: 6px;
+            border: 1px solid #e1e5e9;
         }
         
         .tool-section h3 {
-            margin: 0 0 10px 0;
-            color: #333;
+            margin: 0 0 12px 0;
+            color: #1a1a1a;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         button {
-            background: #007cba;
+            background: #2563eb;
             color: white;
             border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
+            padding: 8px 16px;
+            border-radius: 4px;
             cursor: pointer;
-            margin: 5px 5px 5px 0;
-            font-size: 14px;
+            margin: 4px 4px 4px 0;
+            font-size: 13px;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
         }
         
         button:hover {
-            background: #005a87;
+            background: #1d4ed8;
         }
         
         button.active {
-            background: #28a745;
+            background: #059669;
+        }
+        
+        button.active:hover {
+            background: #047857;
         }
         
         button.danger {
-            background: #dc3545;
+            background: #dc2626;
         }
         
         button.danger:hover {
-            background: #c82333;
+            background: #b91c1c;
+        }
+        
+        button.secondary {
+            background: #6b7280;
+        }
+        
+        button.secondary:hover {
+            background: #4b5563;
         }
         
         select, input {
             width: 100%;
-            padding: 8px;
-            margin: 5px 0;
-            border: 1px solid #ddd;
+            padding: 8px 12px;
+            margin: 6px 0;
+            border: 1px solid #d1d5db;
             border-radius: 4px;
+            font-size: 13px;
+            transition: border-color 0.2s ease;
+            box-sizing: border-box;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: #2563eb;
         }
         
         .route-list {
             max-height: 200px;
             overflow-y: auto;
-            border: 1px solid #ddd;
+            border: 1px solid #e1e5e9;
             border-radius: 4px;
-            padding: 10px;
-            background: white;
+            background: #fafafa;
         }
         
         .route-item {
-            padding: 8px;
-            margin: 5px 0;
-            background: #f8f9fa;
-            border-radius: 4px;
+            padding: 12px;
+            margin: 0;
+            background: #ffffff;
+            border-bottom: 1px solid #f3f4f6;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 12px;
+            font-size: 13px;
+            border-left: 3px solid;
+        }
+        
+        .route-item:last-child {
+            border-bottom: none;
+        }
+        
+        .route-item:hover {
+            background: #f9fafb;
         }
         
         .route-item button {
@@ -101,78 +137,343 @@
         }
         
         .status {
-            margin: 10px 0;
-            padding: 10px;
+            margin: 16px 0;
+            padding: 12px;
             border-radius: 4px;
-            font-size: 14px;
+            font-size: 13px;
+            border-left: 3px solid;
         }
         
         .status.info {
-            background: #d1ecf1;
-            color: #0c5460;
+            background: #eff6ff;
+            color: #1e40af;
+            border-left-color: #3b82f6;
         }
         
         .status.success {
-            background: #d4edda;
-            color: #155724;
+            background: #f0fdf4;
+            color: #166534;
+            border-left-color: #22c55e;
         }
         
         .status.error {
-            background: #f8d7da;
-            color: #721c24;
+            background: #fef2f2;
+            color: #991b1b;
+            border-left-color: #ef4444;
+        }
+        
+        .status.warning {
+            background: #fffbeb;
+            color: #92400e;
+            border-left-color: #f59e0b;
         }
         
         #coordinates {
-            font-family: monospace;
-            font-size: 12px;
-            background: #f8f9fa;
-            padding: 5px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 11px;
+            background: #f9fafb;
+            padding: 8px;
             border-radius: 4px;
+            border: 1px solid #e5e7eb;
+            color: #6b7280;
+        }
+        
+        .snap-indicator {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #059669;
+            border-radius: 50%;
+            background: rgba(5, 150, 105, 0.2);
+            pointer-events: none;
+            z-index: 1000;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .snap-indicator.hallway-vertex {
+            border-color: #7c3aed;
+            background: rgba(124, 58, 237, 0.2);
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        
+        .snap-indicator.hallway_line {
+            border-color: #2563eb;
+            background: rgba(37, 99, 235, 0.3);
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+        }
+        
+        .snap-indicator.connection-endpoint {
+            border-color: #dc2626;
+            background: rgba(220, 38, 38, 0.2);
+            width: 18px;
+            height: 18px;
+            border-radius: 2px;
+        }
+        
+        .snap-indicator.door {
+            border-color: #059669;
+            background: rgba(5, 150, 105, 0.2);
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .collapsible {
+            cursor: pointer;
+            background: #f8f9fa;
+            border: 1px solid #e1e5e9;
+            border-radius: 4px;
+            padding: 12px;
+            margin: 8px 0;
+            transition: background-color 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .collapsible:hover {
+            background: #e9ecef;
+        }
+        
+        .collapsible.active {
+            background: #e3f2fd;
+            border-color: #2563eb;
+        }
+        
+        .collapsible-content {
+            display: none;
+            padding: 16px;
+            background: #ffffff;
+            border: 1px solid #e1e5e9;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            margin-top: -8px;
+        }
+        
+        .collapsible-content.active {
+            display: block;
+        }
+        
+        .collapsible::after {
+            content: '▼';
+            font-size: 12px;
+            color: #6b7280;
+            transition: transform 0.2s ease;
+        }
+        
+        .collapsible.active::after {
+            transform: rotate(180deg);
+        }
+        
+        .color-picker {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin: 8px 0;
+        }
+        
+        .color-option {
+            width: 24px;
+            height: 24px;
+            border-radius: 3px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+        
+        .color-option:hover {
+            transform: scale(1.05);
+        }
+        
+        .color-option.active {
+            border-color: #1f2937;
+        }
+        
+        .route-progress {
+            background: #f9fafb;
+            border-radius: 4px;
+            padding: 8px;
+            margin: 8px 0;
+            font-size: 12px;
+            color: #6b7280;
+        }
+        
+        .snap-settings {
+            background: #f9fafb;
+            padding: 12px;
+            border-radius: 4px;
+            margin: 8px 0;
+        }
+        
+        .snap-settings label {
+            display: flex;
+            align-items: center;
+            margin: 6px 0;
+            font-size: 13px;
+            color: #4b5563;
+        }
+        
+        .snap-settings input[type="checkbox"] {
+            margin-right: 8px;
+            width: auto;
+        }
+        
+        .snap-settings input[type="range"] {
+            width: 100%;
+            margin: 6px 0;
+        }
+        
+        .compact-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        .compact-row button {
+            flex: 1;
+            margin: 0;
         }
     </style>
 </head>
 <body>
     <div id="sidebar">
-        <h2>Manual Route Editor</h2>
+        <h2 style="color: #1a1a1a; margin-bottom: 24px; font-size: 18px; font-weight: 600;">Route Editor</h2>
         
         <div class="tool-section">
-            <h3>Drawing Tools</h3>
-            <button id="draw-btn" class="active">Draw Route</button>
-            <button id="select-btn">Select/Move</button>
-            <button id="delete-btn" class="danger">Delete Mode</button>
+            <h3>Floor Level</h3>
+            <label>Current Floor:</label>
+            <select id="floor-selector">
+                <option value="all">All Floors</option>
+                <option value="-1">Basement (-1)</option>
+                <option value="0" selected>Ground Floor (0)</option>
+                <option value="1">First Floor (1)</option>
+                <option value="2">Second Floor (2)</option>
+                <option value="3">Third Floor (3)</option>
+                <option value="4">Fourth Floor (4)</option>
+                <option value="5">Fifth Floor (5)</option>
+                <option value="6">Sixth Floor (6)</option>
+            </select>
         </div>
         
         <div class="tool-section">
-            <h3>Route Properties</h3>
-            <label>Route Type:</label>
-            <select id="route-type">
-                <option value="corridor">Corridor</option>
-                <option value="room_connection">Room Connection</option>
-                <option value="exit_connection">Exit Connection</option>
-            </select>
-            
-            <label>Room Name (for room connections):</label>
-            <input type="text" id="room-name" placeholder="Enter room name...">
+            <h3>Tools</h3>
+            <div class="compact-row">
+                <button id="draw-btn" class="active">Draw</button>
+                <button id="select-btn">Select</button>
+                <button id="delete-btn" class="danger">Delete</button>
+            </div>
         </div>
         
         <div class="tool-section">
             <h3>Actions</h3>
-            <button id="clear-all" class="danger">Clear All Routes</button>
-            <button id="save-routes">Save Routes</button>
-            <button id="load-routes">Load Existing Routes</button>
+            <div class="compact-row">
+                <button id="undo-btn" class="secondary">Undo</button>
+                <button id="finish-btn" class="secondary">Finish</button>
+            </div>
+            <button id="cancel-btn" class="secondary" style="width: 100%; margin-top: 4px;">Cancel Route</button>
+            
+            <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #e1e5e9;">
+                <div class="compact-row">
+                    <button id="save-routes">Save</button>
+                    <button id="load-routes">Load</button>
+                </div>
+                <button id="generate-checklist" style="width: 100%; margin-top: 4px;">Generate Checklist</button>
+                <button id="auto-connect-rooms" style="width: 100%; margin-top: 4px; background: #7c3aed;">Auto-Connect Rooms</button>
+                <button id="clear-all" class="danger" style="width: 100%; margin-top: 4px;">Clear All</button>
+            </div>
         </div>
         
         <div class="tool-section">
-            <h3>Current Routes (<span id="route-count">0</span>)</h3>
+            <h3>Progress</h3>
+            <div class="route-progress">
+                <div>Points: <span id="point-count">0</span></div>
+                <div>Distance: <span id="route-distance">0m</span></div>
+                <div>Snapped: <span id="snapped-count">0</span></div>
+            </div>
+        </div>
+        
+        <div class="tool-section">
+            <h3>Routes (<span id="route-count">0</span>)</h3>
             <div id="route-list" class="route-list"></div>
         </div>
         
+        <!-- Collapsible sections at bottom -->
+        <div class="collapsible" id="route-settings-toggle">
+            <span>Route Settings</span>
+        </div>
+        <div class="collapsible-content" id="route-settings-content">
+            <label>Type:</label>
+            <select id="route-type">
+                <option value="room_connection">Room Connection</option>
+                <option value="exit_connection">Exit Connection</option>
+                <option value="hallway">Hallway</option>
+                <option value="elevator">Elevator</option>
+                <option value="stairs">Stairs</option>
+            </select>
+            
+            <label>Color:</label>
+            <div class="color-picker">
+                <div class="color-option active" data-color="#2563eb" style="background: #2563eb;"></div>
+                <div class="color-option" data-color="#059669" style="background: #059669;"></div>
+                <div class="color-option" data-color="#dc2626" style="background: #dc2626;"></div>
+                <div class="color-option" data-color="#d97706" style="background: #d97706;"></div>
+                <div class="color-option" data-color="#7c3aed" style="background: #7c3aed;"></div>
+                <div class="color-option" data-color="#db2777" style="background: #db2777;"></div>
+                <div class="color-option" data-color="#0891b2" style="background: #0891b2;"></div>
+                <div class="color-option" data-color="#65a30d" style="background: #65a30d;"></div>
+            </div>
+            
+            <label>Name:</label>
+            <input type="text" id="route-name" placeholder="Auto-generated..." readonly>
+        </div>
+        
+        <div class="collapsible" id="snap-settings-toggle">
+            <span>Snapping</span>
+        </div>
+        <div class="collapsible-content" id="snap-settings-content">
+            <div class="snap-settings">
+                <label>
+                    <input type="checkbox" id="auto-snap" checked>
+                    Auto-snap to POIs
+                </label>
+                <label>
+                    Distance: <span id="snap-distance-value">15</span>px
+                    <input type="range" id="snap-distance" min="5" max="50" value="15">
+                </label>
+                <label>
+                    <input type="checkbox" id="snap-to-rooms" checked>
+                    Snap to rooms
+                </label>
+                <label>
+                    <input type="checkbox" id="snap-to-doors">
+                    Snap to doors
+                </label>
+                <label>
+                    <input type="checkbox" id="snap-to-hallways" checked>
+                    Snap to hallway vertices
+                </label>
+                <label>
+                    Hallway snap: <span id="hallway-snap-distance-value">25</span>px
+                    <input type="range" id="hallway-snap-distance" min="10" max="100" value="25">
+                </label>
+            </div>
+        </div>
+        
         <div id="status" class="status info">
-            Click on map to start drawing routes. Click points to create a route.
+            Click on map to start drawing routes
         </div>
         
         <div id="coordinates">
-            Mouse: ---, ---
+            Mouse: ---, ---<br>
+            Snap: No target
         </div>
     </div>
     
@@ -180,7 +481,7 @@
 
     <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
     <script>
-        class ManualRouteEditor {
+        class EnhancedRouteEditor {
             constructor() {
                 this.map = null;
                 this.routes = [];
@@ -188,6 +489,25 @@
                 this.drawingMode = true;
                 this.deleteMode = false;
                 this.reissData = null;
+                this.poisData = null;
+                this.existingRoutes = [];
+                this.hallwayVertices = [];
+                this.snapIndicator = null;
+                this.currentColor = '#007bff';
+                this.currentFloor = '0'; // Default to ground floor
+                this.snapSettings = {
+                    enabled: true,
+                    distance: 15,
+                    snapToRooms: true,
+                    snapToDoors: false,
+                    snapToHallways: true,
+                    hallwaySnapDistance: 25
+                };
+                this.routeColors = [
+                    '#2563eb', '#059669', '#dc2626', '#d97706', 
+                    '#7c3aed', '#db2777', '#0891b2', '#65a30d'
+                ];
+                this.colorIndex = 0;
                 
                 this.init();
             }
@@ -195,9 +515,10 @@
             async init() {
                 await this.initMap();
                 await this.loadReissData();
+                await this.loadPOIData();
                 this.setupEventListeners();
                 this.loadExistingRoutes();
-                this.updateStatus('Ready to draw routes!', 'success');
+                this.updateStatus('Route editor ready. Auto-snapping enabled.', 'success');
             }
             
             async initMap() {
@@ -208,57 +529,89 @@
                         sources: {},
                         layers: []
                     },
-                    center: [-77.0735, 38.9093], // Reiss building approximate center
-                    zoom: 18,
+                    center: [-77.0735, 38.9093],
+                    zoom: 19,
                     bearing: 0,
                     pitch: 0
                 });
                 
                 await new Promise(resolve => this.map.on('load', resolve));
                 
-                // Add mouse coordinate tracking
                 this.map.on('mousemove', (e) => {
-                    document.getElementById('coordinates').textContent = 
-                        `Mouse: ${e.lngLat.lng.toFixed(6)}, ${e.lngLat.lat.toFixed(6)}`;
+                    const snapTarget = this.findNearestSnapTarget(e.lngLat);
+                    const coordsText = `Mouse: ${e.lngLat.lng.toFixed(6)}, ${e.lngLat.lat.toFixed(6)}`;
+                    const snapText = snapTarget ? 
+                        `Snap: ${snapTarget.name} (${snapTarget.distance}px)` : 
+                        'Snap: No target';
+                    
+                    document.getElementById('coordinates').innerHTML = `${coordsText}<br>${snapText}`;
+                    
+                    this.updateSnapIndicator(e.point, snapTarget);
                 });
             }
             
             async loadReissData() {
                 try {
-                    const response = await fetch('./reissG.geojson');
+                    const response = await fetch('Reiss 2nd.geojson');
                     this.reissData = await response.json();
                     this.addReissDataToMap();
                 } catch (error) {
                     console.error('Could not load Reiss data:', error);
-                    this.updateStatus('Could not load building data. Place reissG.geojson in same directory.', 'error');
+                    this.updateStatus('Could not load building data. Place Indoor GeoJSON.osm.geojson in same directory.', 'error');
+                }
+            }
+            
+            async loadPOIData() {
+                try {
+                    const response = await fetch('./app/mock/building.json');
+                    const buildingData = await response.json();
+                    this.poisData = buildingData.pois;
+                    this.addPOIsToMap();
+                } catch (error) {
+                    console.error('Could not load POI data:', error);
+                    this.updateStatus('Could not load POI data for auto-snapping.', 'warning');
                 }
             }
             
             addReissDataToMap() {
                 if (!this.reissData) return;
                 
-                // Add corridors
-                this.map.addSource('corridors', {
+                // Add building outline
+                this.map.addSource('building-outline', {
                     type: 'geojson',
                     data: {
                         type: 'FeatureCollection',
                         features: this.reissData.features.filter(f => 
-                            f.properties?.tags?.indoor === 'corridor' || 
-                            f.properties?.indoor === 'corridor'
+                            f.properties?.tags?.building === 'yes' || 
+                            f.properties?.building === 'yes' ||
+                            f.properties?.tags?.building === 'university' ||
+                            f.properties?.building === 'university' ||
+                            (f.properties?.tags && Object.keys(f.properties.tags).some(key => key.includes('building'))) ||
+                            f.geometry?.type === 'Polygon' && f.properties?.name
                         )
                     }
                 });
                 
                 this.map.addLayer({
-                    id: 'corridors',
-                    source: 'corridors',
-                    type: 'fill',
+                    id: 'building-outline',
+                    source: 'building-outline',
+                    type: 'line',
                     paint: {
-                        'fill-color': '#e3f2fd',
-                        'fill-opacity': 0.6,
-                        'fill-outline-color': '#1976d2'
+                        'line-color': '#6b7280',
+                        'line-width': 3,
+                        'line-opacity': 0.8
                     }
                 });
+                
+                this.map.addLayer({
+                    id: 'building-fill',
+                    source: 'building-outline',
+                    type: 'fill',
+                    paint: {
+                        'fill-color': '#f8fafc',
+                        'fill-opacity': 0.2
+                    }
+                }, 'building-outline'); // Insert before the outline layer
                 
                 // Add rooms
                 this.map.addSource('rooms', {
@@ -277,11 +630,14 @@
                     source: 'rooms',
                     type: 'fill',
                     paint: {
-                        'fill-color': '#fff3e0',
-                        'fill-opacity': 0.8,
-                        'fill-outline-color': '#f57c00'
+                        'fill-color': '#e3f2fd',
+                        'fill-opacity': 0.4,
+                        'fill-outline-color': '#1976d2'
                     }
                 });
+                
+                // Note: Room labels disabled due to font requirements
+                // Would need proper glyphs configuration in map style
                 
                 // Add doors
                 this.map.addSource('doors', {
@@ -301,9 +657,10 @@
                     type: 'circle',
                     paint: {
                         'circle-color': '#4caf50',
-                        'circle-radius': 4,
+                        'circle-radius': 6,
                         'circle-stroke-color': '#2e7d32',
-                        'circle-stroke-width': 2
+                        'circle-stroke-width': 2,
+                        'circle-opacity': 0.8
                     }
                 });
                 
@@ -325,23 +682,205 @@
                     type: 'circle',
                     paint: {
                         'circle-color': '#f44336',
-                        'circle-radius': 6,
+                        'circle-radius': 8,
                         'circle-stroke-color': '#d32f2f',
-                        'circle-stroke-width': 2
+                        'circle-stroke-width': 3,
+                        'circle-opacity': 0.9
                     }
                 });
+                
+                // Apply initial floor filtering
+                this.updateFloorVisibility();
+            }
+            
+            addPOIsToMap() {
+                if (!this.poisData) return;
+                
+                // Filter POIs to include both reiss building POIs and classroom POIs with null building
+                const reissPOIs = this.poisData.features.filter(poi => 
+                    poi.properties?.building === 'reiss' || 
+                    poi.properties?.building_id === 'reiss' ||
+                    (poi.properties?.building === null && poi.properties?.name?.startsWith('Classroom'))
+                );
+                
+                this.map.addSource('pois', {
+                    type: 'geojson',
+                    data: {
+                        type: 'FeatureCollection',
+                        features: reissPOIs
+                    }
+                });
+                
+                this.map.addLayer({
+                    id: 'pois',
+                    source: 'pois',
+                    type: 'circle',
+                    paint: {
+                        'circle-color': [
+                            'case',
+                            ['==', ['get', 'type'], 'class'], '#2196f3',
+                            ['==', ['get', 'type'], 'lab'], '#9c27b0',
+                            ['==', ['get', 'type'], 'office'], '#ff9800',
+                            ['==', ['get', 'type'], 'bathroom'], '#4caf50',
+                            '#607d8b'
+                        ],
+                        'circle-radius': 5,
+                        'circle-stroke-color': '#ffffff',
+                        'circle-stroke-width': 2,
+                        'circle-opacity': 0.8
+                    }
+                });
+                
+                // Note: POI labels disabled due to font requirements  
+                // Would need proper glyphs configuration in map style
+            }
+            
+            updateFloorVisibility() {
+                if (!this.reissData) return;
+                
+                // Filter features based on selected floor
+                const filterFeaturesByFloor = (features) => {
+                    if (this.currentFloor === 'all') return features;
+                    
+                    return features.filter(f => {
+                        // Check for Indoor GeoJSON format (reiss building data)
+                        const levels = f.properties?.own?.levels;
+                        if (levels && Array.isArray(levels)) {
+                            const targetLevel = parseInt(this.currentFloor);
+                            return levels.includes(targetLevel);
+                        }
+                        
+                        // Check for POI format (building.json data)
+                        const floor = f.properties?.floor;
+                        const level = f.properties?.level;
+                        if (floor !== undefined || level !== undefined) {
+                            const targetLevel = parseInt(this.currentFloor);
+                            return (floor == targetLevel) || (level == targetLevel);
+                        }
+                        
+                        // If no floor/level info, don't show on specific floors
+                        return false;
+                    });
+                };
+                
+                // Update building outline - always show all floors for context
+                // (buildings themselves don't typically change by floor)
+                
+                // Update rooms for current floor
+                const roomFeatures = this.reissData.features.filter(f => 
+                    f.properties?.tags?.indoor === 'room' || 
+                    f.properties?.indoor === 'room'
+                );
+                const filteredRooms = filterFeaturesByFloor(roomFeatures);
+                
+                if (this.map.getSource('rooms')) {
+                    this.map.getSource('rooms').setData({
+                        type: 'FeatureCollection',
+                        features: filteredRooms
+                    });
+                }
+                
+                // Update doors for current floor
+                const doorFeatures = this.reissData.features.filter(f => 
+                    f.properties?.tags?.door === 'yes' || 
+                    f.properties?.door === 'yes'
+                );
+                const filteredDoors = filterFeaturesByFloor(doorFeatures);
+                
+                if (this.map.getSource('doors')) {
+                    this.map.getSource('doors').setData({
+                        type: 'FeatureCollection',
+                        features: filteredDoors
+                    });
+                }
+                
+                // Update POIs for current floor if they exist
+                if (this.poisData && this.map.getSource('pois')) {
+                    // Filter POIs to include both reiss building POIs and classroom POIs with null building
+                    const reissPOIs = this.poisData.features.filter(poi => 
+                        poi.properties?.building === 'reiss' || 
+                        poi.properties?.building_id === 'reiss' ||
+                        (poi.properties?.building === null && poi.properties?.name?.startsWith('Classroom'))
+                    );
+                    const filteredPOIs = filterFeaturesByFloor(reissPOIs);
+                    
+                    this.map.getSource('pois').setData({
+                        type: 'FeatureCollection',
+                        features: filteredPOIs
+                    });
+                }
+                
+                // Update status to show current floor
+                const floorName = this.currentFloor === 'all' ? 'All Floors' : 
+                                 this.currentFloor === '-1' ? 'Basement' : 
+                                 this.currentFloor === '0' ? 'Ground Floor' : 
+                                 `Floor ${this.currentFloor}`;
+                this.updateStatus(`Viewing: ${floorName}`, 'info');
+                
+                // Update hallway vertices display for current floor
+                this.updateHallwayVerticesDisplay();
             }
             
             setupEventListeners() {
+                // Floor selector
+                document.getElementById('floor-selector').addEventListener('change', (e) => {
+                    this.currentFloor = e.target.value;
+                    this.updateFloorVisibility();
+                });
+                
                 // Tool buttons
                 document.getElementById('draw-btn').addEventListener('click', () => this.setDrawMode());
                 document.getElementById('select-btn').addEventListener('click', () => this.setSelectMode());
                 document.getElementById('delete-btn').addEventListener('click', () => this.setDeleteMode());
                 
+                // Quick action buttons
+                document.getElementById('undo-btn').addEventListener('click', () => this.undoLastPoint());
+                document.getElementById('finish-btn').addEventListener('click', () => this.finishCurrentRoute());
+                document.getElementById('cancel-btn').addEventListener('click', () => this.cancelCurrentRoute());
+                
                 // Action buttons
                 document.getElementById('clear-all').addEventListener('click', () => this.clearAllRoutes());
                 document.getElementById('save-routes').addEventListener('click', () => this.saveRoutes());
                 document.getElementById('load-routes').addEventListener('click', () => this.loadExistingRoutes());
+                document.getElementById('generate-checklist').addEventListener('click', () => this.generateRoomConnectionChecklist());
+                document.getElementById('auto-connect-rooms').addEventListener('click', () => this.autoConnectRoomsToHallways());
+                
+                // Snap settings
+                document.getElementById('auto-snap').addEventListener('change', (e) => {
+                    this.snapSettings.enabled = e.target.checked;
+                });
+                
+                document.getElementById('snap-distance').addEventListener('input', (e) => {
+                    this.snapSettings.distance = parseInt(e.target.value);
+                    document.getElementById('snap-distance-value').textContent = e.target.value;
+                });
+                
+                document.getElementById('snap-to-rooms').addEventListener('change', (e) => {
+                    this.snapSettings.snapToRooms = e.target.checked;
+                });
+                
+                document.getElementById('snap-to-doors').addEventListener('change', (e) => {
+                    this.snapSettings.snapToDoors = e.target.checked;
+                });
+                
+                document.getElementById('snap-to-hallways').addEventListener('change', (e) => {
+                    this.snapSettings.snapToHallways = e.target.checked;
+                    this.updateHallwayVerticesDisplay();
+                });
+                
+                document.getElementById('hallway-snap-distance').addEventListener('input', (e) => {
+                    this.snapSettings.hallwaySnapDistance = parseInt(e.target.value);
+                    document.getElementById('hallway-snap-distance-value').textContent = e.target.value;
+                });
+                
+                // Color picker
+                document.querySelectorAll('.color-option').forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        document.querySelectorAll('.color-option').forEach(o => o.classList.remove('active'));
+                        e.target.classList.add('active');
+                        this.currentColor = e.target.dataset.color;
+                    });
+                });
                 
                 // Map click for drawing
                 this.map.on('click', (e) => this.handleMapClick(e));
@@ -352,15 +891,562 @@
                         this.cancelCurrentRoute();
                     } else if (e.key === 'Enter') {
                         this.finishCurrentRoute();
+                    } else if (e.key === 'z' && (e.ctrlKey || e.metaKey)) {
+                        e.preventDefault();
+                        this.undoLastPoint();
                     }
                 });
+                
+                // Collapsible sections
+                this.setupCollapsibleSections();
+                
+                // Create snap indicator
+                this.snapIndicator = document.createElement('div');
+                this.snapIndicator.className = 'snap-indicator';
+                this.snapIndicator.style.display = 'none';
+                document.body.appendChild(this.snapIndicator);
+            }
+            
+            setupCollapsibleSections() {
+                // Handle Route Settings collapsible
+                const routeSettingsToggle = document.getElementById('route-settings-toggle');
+                const routeSettingsContent = document.getElementById('route-settings-content');
+                
+                routeSettingsToggle.addEventListener('click', () => {
+                    routeSettingsToggle.classList.toggle('active');
+                    routeSettingsContent.classList.toggle('active');
+                });
+                
+                // Handle Snap Settings collapsible
+                const snapSettingsToggle = document.getElementById('snap-settings-toggle');
+                const snapSettingsContent = document.getElementById('snap-settings-content');
+                
+                snapSettingsToggle.addEventListener('click', () => {
+                    snapSettingsToggle.classList.toggle('active');
+                    snapSettingsContent.classList.toggle('active');
+                });
+            }
+            
+            findNearestSnapTarget(lngLat) {
+                if (!this.snapSettings.enabled) return null;
+                
+                const point = this.map.project(lngLat);
+                let nearestTarget = null;
+                let minDistance = this.snapSettings.distance;
+                
+                // Check POIs
+                if (this.poisData && this.snapSettings.snapToRooms) {
+                    this.poisData.features.forEach(poi => {
+                        // Include both reiss building POIs and classroom POIs with null building
+                        if (poi.properties?.building === 'reiss' || 
+                            poi.properties?.building_id === 'reiss' ||
+                            (poi.properties?.building === null && poi.properties?.name?.startsWith('Classroom'))) {
+                            
+                            // Only snap to POIs on the current floor
+                            if (this.currentFloor !== 'all') {
+                                const targetLevel = parseInt(this.currentFloor);
+                                const poiFloor = poi.properties?.floor;
+                                const poiLevel = poi.properties?.level;
+                                
+                                // Skip if POI is not on current floor
+                                if (poiFloor != targetLevel && poiLevel != targetLevel) {
+                                    return;
+                                }
+                            }
+                            
+                            const poiPoint = this.map.project(poi.geometry.coordinates);
+                            const distance = Math.sqrt(
+                                Math.pow(point.x - poiPoint.x, 2) + Math.pow(point.y - poiPoint.y, 2)
+                            );
+                            
+                            if (distance < minDistance) {
+                                minDistance = distance;
+                                nearestTarget = {
+                                    coordinates: poi.geometry.coordinates,
+                                    name: poi.properties.name,
+                                    type: 'poi',
+                                    distance: Math.round(distance)
+                                };
+                            }
+                        }
+                    });
+                }
+                
+                // Check doors and exits
+                if (this.reissData && this.snapSettings.snapToDoors) {
+                    const doorFeatures = this.reissData.features.filter(f => 
+                        f.properties?.tags?.door === 'yes' || 
+                        f.properties?.door === 'yes' ||
+                        f.properties?.tags?.role === 'platform_exit_only' || 
+                        f.properties?.role === 'platform_exit_only'
+                    );
+                    
+                    doorFeatures.forEach(door => {
+                        if (door.geometry.type === 'Point') {
+                            const doorPoint = this.map.project(door.geometry.coordinates);
+                            const distance = Math.sqrt(
+                                Math.pow(point.x - doorPoint.x, 2) + Math.pow(point.y - doorPoint.y, 2)
+                            );
+                            
+                            if (distance < minDistance) {
+                                minDistance = distance;
+                                nearestTarget = {
+                                    coordinates: door.geometry.coordinates,
+                                    name: door.properties?.tags?.role ? 'Exit' : 'Door',
+                                    type: 'door',
+                                    distance: Math.round(distance)
+                                };
+                            }
+                        }
+                    });
+                }
+                
+                // Check hallway lines (snap to any point on the line)
+                if (this.snapSettings.snapToHallways && this.routes.length > 0) {
+                    const hallwayMinDistance = this.snapSettings.hallwaySnapDistance;
+                    
+                    // Debug: Log available routes
+                    console.log('🔍 Checking', this.routes.length, 'routes for hallway snapping');
+                    
+                    this.routes.forEach(route => {
+                        const routeType = route.properties?.type || '';
+                        
+                        // Debug: Log each route type
+                        console.log('📍 Route:', route.properties?.name, 'Type:', routeType);
+                        
+                        // Only check hallway and corridor routes
+                        if (routeType.includes('hallway') || 
+                            routeType.includes('corridor') || 
+                            route.properties?.name?.toLowerCase().includes('hallway') ||
+                            route.properties?.name?.toLowerCase().includes('corridor')) {
+                            
+                            console.log('✅ Found hallway route:', route.properties?.name);
+                            
+                            // Only snap to routes on the current floor
+                            if (this.currentFloor !== 'all') {
+                                const targetLevel = parseInt(this.currentFloor);
+                                const routeFloor = route.properties?.level || route.properties?.floor || 0;
+                                
+                                if (routeFloor != targetLevel) {
+                                    console.log('❌ Wrong floor:', routeFloor, 'vs', targetLevel);
+                                    return;
+                                }
+                            }
+                            
+                            const coordinates = route.geometry.coordinates;
+                            console.log('🔍 Checking coordinates:', coordinates.length, 'points');
+                            
+                            // Find the nearest point on this hallway line
+                            const nearestOnLine = this.findNearestPointOnLine(lngLat, coordinates);
+                            console.log('📏 Nearest on line result:', nearestOnLine);
+                            
+                            if (nearestOnLine && nearestOnLine.distance < hallwayMinDistance && nearestOnLine.distance < minDistance) {
+                                console.log('🎯 Setting as nearest target! Distance:', nearestOnLine.distance, 'vs min:', minDistance);
+                                minDistance = nearestOnLine.distance;
+                                nearestTarget = {
+                                    coordinates: nearestOnLine.coordinates,
+                                    name: `${route.properties.name || 'Hallway'} (Line)`,
+                                    type: 'hallway_line',
+                                    distance: Math.round(nearestOnLine.distance),
+                                    routeId: route.id,
+                                    segmentIndex: nearestOnLine.segmentIndex
+                                };
+                            } else {
+                                console.log('❌ Not close enough. Distance:', nearestOnLine?.distance, 'Min required:', hallwayMinDistance, 'Current min:', minDistance);
+                            }
+                        }
+                    });
+                }
+                
+                // Check hallway vertices (original vertex snapping)
+                if (this.snapSettings.snapToHallways && this.hallwayVertices.length > 0) {
+                    // Use larger distance for hallway snapping as these are navigation graph connections
+                    const hallwayMinDistance = this.snapSettings.hallwaySnapDistance;
+                    
+                    this.hallwayVertices.forEach(vertex => {
+                        // Only snap to vertices on the current floor
+                        if (this.currentFloor !== 'all') {
+                            const targetLevel = parseInt(this.currentFloor);
+                            const vertexFloor = vertex.floor;
+                            
+                            // Skip if vertex is not on current floor
+                            if (vertexFloor != targetLevel) {
+                                return;
+                            }
+                        }
+                        
+                        const vertexPoint = this.map.project(vertex.coordinates);
+                        const distance = Math.sqrt(
+                            Math.pow(point.x - vertexPoint.x, 2) + Math.pow(point.y - vertexPoint.y, 2)
+                        );
+                        
+                        if (distance < hallwayMinDistance && distance < minDistance) {
+                            minDistance = distance;
+                            nearestTarget = {
+                                coordinates: vertex.coordinates,
+                                name: `${vertex.routeName} (${vertex.type === 'hallway_vertex' ? 'Vertex' : 'Endpoint'} ${vertex.vertexIndex})`,
+                                type: vertex.type,
+                                distance: Math.round(distance),
+                                routeId: vertex.routeId,
+                                vertexIndex: vertex.vertexIndex,
+                                isEndpoint: vertex.isEndpoint
+                            };
+                        }
+                    });
+                }
+                
+                return nearestTarget;
+            }
+            
+            findNearestHallwayVertex(poiCoordinates, floor = null) {
+                // Try line-based snapping first (more flexible)
+                const nearestLine = this.findNearestHallwayLine(poiCoordinates, floor);
+                if (nearestLine) {
+                    return {
+                        coordinates: nearestLine.coordinates,
+                        routeName: nearestLine.routeName,
+                        routeId: nearestLine.routeId,
+                        type: 'hallway_line_connection',
+                        floor: floor || 0,
+                        screenDistance: Math.round(nearestLine.distance)
+                    };
+                }
+                
+                // Fallback to vertex-based snapping if no lines found
+                if (!this.hallwayVertices.length) return null;
+                
+                const point = this.map.project(poiCoordinates);
+                let nearestVertex = null;
+                let minDistance = Infinity;
+                
+                this.hallwayVertices.forEach(vertex => {
+                    // Filter by floor if specified
+                    if (floor !== null && vertex.floor != floor) {
+                        return;
+                    }
+                    
+                    const vertexPoint = this.map.project(vertex.coordinates);
+                    const distance = Math.sqrt(
+                        Math.pow(point.x - vertexPoint.x, 2) + Math.pow(point.y - vertexPoint.y, 2)
+                    );
+                    
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        nearestVertex = {
+                            ...vertex,
+                            screenDistance: Math.round(distance)
+                        };
+                    }
+                });
+                
+                return nearestVertex;
+            }
+            
+            findNearestHallwayLine(poiCoordinates, floor = null) {
+                if (!this.routes.length) return null;
+                
+                const poiLngLat = { lng: poiCoordinates[0], lat: poiCoordinates[1] };
+                let nearestLine = null;
+                let minDistance = Infinity;
+                
+                this.routes.forEach(route => {
+                    const routeType = route.properties?.type || '';
+                    
+                    // Only check hallway and corridor routes
+                    if (routeType.includes('hallway') || 
+                        routeType.includes('corridor') || 
+                        route.properties?.name?.toLowerCase().includes('hallway') ||
+                        route.properties?.name?.toLowerCase().includes('corridor')) {
+                        
+                        // Filter by floor if specified
+                        if (floor !== null) {
+                            const routeFloor = route.properties?.level || route.properties?.floor || 0;
+                            if (routeFloor != floor) {
+                                return;
+                            }
+                        }
+                        
+                        const coordinates = route.geometry.coordinates;
+                        const nearestOnLine = this.findNearestPointOnLine(poiLngLat, coordinates);
+                        
+                        if (nearestOnLine && nearestOnLine.distance < minDistance) {
+                            minDistance = nearestOnLine.distance;
+                            nearestLine = {
+                                coordinates: nearestOnLine.coordinates,
+                                distance: nearestOnLine.distance,
+                                routeName: route.properties.name || 'Hallway',
+                                routeId: route.id,
+                                segmentIndex: nearestOnLine.segmentIndex
+                            };
+                        }
+                    }
+                });
+                
+                return nearestLine;
+            }
+            
+            findNearestPointOnLine(lngLat, lineCoordinates) {
+                if (!lineCoordinates || lineCoordinates.length < 2) return null;
+                
+                const mousePoint = this.map.project(lngLat);
+                let nearestPoint = null;
+                let minDistance = Infinity;
+                let nearestSegmentIndex = -1;
+                
+                // Check each line segment
+                for (let i = 0; i < lineCoordinates.length - 1; i++) {
+                    const start = this.map.project(lineCoordinates[i]);
+                    const end = this.map.project(lineCoordinates[i + 1]);
+                    
+                    // Find the closest point on this line segment
+                    const segmentResult = this.closestPointOnSegment(mousePoint, start, end);
+                    
+                    if (segmentResult.distance < minDistance) {
+                        minDistance = segmentResult.distance;
+                        // Convert back to lng/lat coordinates
+                        nearestPoint = this.map.unproject(segmentResult.point);
+                        nearestSegmentIndex = i;
+                    }
+                }
+                
+                return nearestPoint ? {
+                    coordinates: [nearestPoint.lng, nearestPoint.lat],
+                    distance: minDistance,
+                    segmentIndex: nearestSegmentIndex
+                } : null;
+            }
+            
+            closestPointOnSegment(point, segmentStart, segmentEnd) {
+                const A = point.x - segmentStart.x;
+                const B = point.y - segmentStart.y;
+                const C = segmentEnd.x - segmentStart.x;
+                const D = segmentEnd.y - segmentStart.y;
+                
+                const dot = A * C + B * D;
+                const lenSq = C * C + D * D;
+                
+                let param = -1;
+                if (lenSq !== 0) {
+                    param = dot / lenSq;
+                }
+                
+                let closestPoint;
+                if (param < 0) {
+                    closestPoint = { x: segmentStart.x, y: segmentStart.y };
+                } else if (param > 1) {
+                    closestPoint = { x: segmentEnd.x, y: segmentEnd.y };
+                } else {
+                    closestPoint = {
+                        x: segmentStart.x + param * C,
+                        y: segmentStart.y + param * D
+                    };
+                }
+                
+                const distance = Math.sqrt(
+                    Math.pow(point.x - closestPoint.x, 2) + 
+                    Math.pow(point.y - closestPoint.y, 2)
+                );
+                
+                return { point: closestPoint, distance: distance };
+            }
+            
+            updateSnapIndicator(mousePoint, snapTarget) {
+                // Check if snap indicator exists, create if not
+                if (!this.snapIndicator) {
+                    this.snapIndicator = document.createElement('div');
+                    this.snapIndicator.className = 'snap-indicator';
+                    this.snapIndicator.style.display = 'none';
+                    document.body.appendChild(this.snapIndicator);
+                }
+                
+                if (snapTarget && this.drawingMode) {
+                    const snapPoint = this.map.project(snapTarget.coordinates);
+                    const mapContainer = this.map.getContainer();
+                    const mapRect = mapContainer.getBoundingClientRect();
+                    
+                    // Reset classes
+                    this.snapIndicator.className = 'snap-indicator';
+                    
+                    // Add specific class based on snap target type
+                    if (snapTarget.type === 'hallway_vertex') {
+                        this.snapIndicator.classList.add('hallway-vertex');
+                    } else if (snapTarget.type === 'hallway_line') {
+                        this.snapIndicator.classList.add('hallway_line');
+                    } else if (snapTarget.type === 'connection_endpoint') {
+                        this.snapIndicator.classList.add('connection-endpoint');
+                    } else if (snapTarget.type === 'door') {
+                        this.snapIndicator.classList.add('door');
+                    }
+                    
+                    this.snapIndicator.style.display = 'block';
+                    
+                    // Adjust positioning based on indicator size
+                    const size = snapTarget.type === 'hallway_vertex' ? 20 : 
+                                snapTarget.type === 'hallway_line' ? 18 :
+                                snapTarget.type === 'connection_endpoint' ? 18 : 16;
+                    const offset = size / 2;
+                    
+                    this.snapIndicator.style.left = (mapRect.left + snapPoint.x - offset) + 'px';
+                    this.snapIndicator.style.top = (mapRect.top + snapPoint.y - offset) + 'px';
+                } else if (this.snapIndicator) {
+                    this.snapIndicator.style.display = 'none';
+                }
+            }
+            
+            calculateDistance(coords) {
+                if (coords.length < 2) return 0;
+                
+                let total = 0;
+                for (let i = 1; i < coords.length; i++) {
+                    const R = 6371e3;
+                    const φ1 = coords[i-1][1] * Math.PI/180;
+                    const φ2 = coords[i][1] * Math.PI/180;
+                    const Δφ = (coords[i][1] - coords[i-1][1]) * Math.PI/180;
+                    const Δλ = (coords[i][0] - coords[i-1][0]) * Math.PI/180;
+                    
+                    const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                            Math.cos(φ1) * Math.cos(φ2) *
+                            Math.sin(Δλ/2) * Math.sin(Δλ/2);
+                    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+                    
+                    total += R * c;
+                }
+                
+                return Math.round(total);
+            }
+            
+            generateRouteName(coordinates, snappedPOIs) {
+                const routeType = document.getElementById('route-type').value;
+                const routeTypeName = routeType.replace('_', ' ');
+                
+                if (snappedPOIs.length >= 2) {
+                    return `${routeTypeName} "${snappedPOIs[0]}" > "${snappedPOIs[snappedPOIs.length - 1]}"`;
+                } else if (snappedPOIs.length === 1) {
+                    return `${routeTypeName} to "${snappedPOIs[0]}"`;
+                } else {
+                    return `${routeTypeName} ${this.routes.length + 1}`;
+                }
+            }
+            
+            createRoomToHallwayConnection(poiCoordinates, poiName, floor = null) {
+                const nearestVertex = this.findNearestHallwayVertex(poiCoordinates, floor);
+                
+                if (!nearestVertex) {
+                    this.updateStatus(`No hallway vertex found for connection to ${poiName}`, 'warning');
+                    return null;
+                }
+                
+                // Create a direct connection from POI to hallway vertex
+                const route = {
+                    id: Date.now() + Math.random(),
+                    type: "Feature",
+                    geometry: {
+                        type: "LineString",
+                        coordinates: [poiCoordinates, nearestVertex.coordinates]
+                    },
+                    properties: {
+                        level: floor || 0,
+                        type: "room_connection",
+                        building: "reiss",
+                        name: `${poiName} > Hallway (${nearestVertex.routeName})`,
+                        color: '#dc2626', // Red for room connections
+                        distance: this.calculateDistance([poiCoordinates, nearestVertex.coordinates]),
+                        snappedPOIs: [poiName],
+                        connectedToVertex: {
+                            routeId: nearestVertex.routeId,
+                            vertexIndex: nearestVertex.vertexIndex,
+                            coordinates: nearestVertex.coordinates
+                        }
+                    }
+                };
+                
+                this.routes.push(route);
+                this.updateRoutesDisplay();
+                this.updateStatus(`Created room connection: ${route.properties.name}`, 'success');
+                
+                return route;
+            }
+            
+            autoConnectRoomsToHallways() {
+                if (!this.poisData) {
+                    this.updateStatus('No POI data loaded for auto-connection.', 'error');
+                    return;
+                }
+                
+                if (!this.hallwayVertices.length) {
+                    this.updateStatus('No hallway vertices found. Load existing routes first.', 'error');
+                    return;
+                }
+                
+                const targetFloor = this.currentFloor === 'all' ? 0 : parseInt(this.currentFloor);
+                let connectionsCreated = 0;
+                
+                // Filter POIs for the current floor and building
+                const relevantPOIs = this.poisData.features.filter(poi => {
+                    if (poi.properties?.building !== 'reiss' && 
+                        poi.properties?.building_id !== 'reiss' &&
+                        !(poi.properties?.building === null && poi.properties?.name?.startsWith('Classroom'))) {
+                        return false;
+                    }
+                    
+                    // Filter by floor if not showing all
+                    if (this.currentFloor !== 'all') {
+                        const poiFloor = poi.properties?.floor;
+                        const poiLevel = poi.properties?.level;
+                        return (poiFloor == targetFloor) || (poiLevel == targetFloor);
+                    }
+                    
+                    return true;
+                });
+                
+                relevantPOIs.forEach(poi => {
+                    const poiName = poi.properties.name;
+                    const poiFloor = poi.properties?.floor || poi.properties?.level || 0;
+                    
+                    // Check if this POI already has a room connection
+                    const existingConnection = this.routes.find(route => 
+                        route.properties?.type === 'room_connection' &&
+                        route.properties?.snappedPOIs?.includes(poiName)
+                    );
+                    
+                    if (!existingConnection) {
+                        const connection = this.createRoomToHallwayConnection(
+                            poi.geometry.coordinates, 
+                            poiName, 
+                            poiFloor
+                        );
+                        
+                        if (connection) {
+                            connectionsCreated++;
+                        }
+                    }
+                });
+                
+                this.updateStatus(`Auto-connected ${connectionsCreated} rooms to hallway vertices on floor ${this.currentFloor === 'all' ? 'all floors' : targetFloor}.`, 'success');
+            }
+            
+            updateRouteProgress() {
+                if (!this.currentRoute) {
+                    document.getElementById('point-count').textContent = '0';
+                    document.getElementById('route-distance').textContent = '0m';
+                    document.getElementById('snapped-count').textContent = '0';
+                    return;
+                }
+                
+                const coords = this.currentRoute.coordinates;
+                const distance = this.calculateDistance(coords);
+                const snappedCount = this.currentRoute.snappedPOIs ? this.currentRoute.snappedPOIs.length : 0;
+                
+                document.getElementById('point-count').textContent = coords.length;
+                document.getElementById('route-distance').textContent = distance + 'm';
+                document.getElementById('snapped-count').textContent = snappedCount;
             }
             
             setDrawMode() {
                 this.drawingMode = true;
                 this.deleteMode = false;
                 this.updateToolButtons();
-                this.updateStatus('Draw mode: Click points to create routes. Press Enter to finish, Escape to cancel.', 'info');
+                this.updateStatus('Draw mode: Click points to create routes.', 'info');
             }
             
             setSelectMode() {
@@ -391,26 +1477,64 @@
                 if (this.deleteMode) {
                     this.handleDeleteClick(e);
                 } else if (this.drawingMode) {
-                    this.handleDrawClick([lng, lat]);
+                    const snapTarget = this.findNearestSnapTarget(e.lngLat);
+                    const coordinate = snapTarget ? snapTarget.coordinates : [lng, lat];
+                    this.handleDrawClick(coordinate, snapTarget);
                 }
             }
             
-            handleDrawClick(coordinate) {
+            handleDrawClick(coordinate, snapTarget) {
                 if (!this.currentRoute) {
-                    // Start new route
+                    // Start new route with dynamic color
                     this.currentRoute = {
                         coordinates: [coordinate],
                         type: document.getElementById('route-type').value,
-                        room: document.getElementById('room-name').value
+                        color: this.currentColor,
+                        snappedPOIs: snapTarget ? [snapTarget.name] : []
                     };
+                    
                     this.updateStatus(`Started route. Click next point or press Enter to finish.`, 'info');
                 } else {
                     // Add point to current route
                     this.currentRoute.coordinates.push(coordinate);
+                    
+                    if (snapTarget && !this.currentRoute.snappedPOIs.includes(snapTarget.name)) {
+                        this.currentRoute.snappedPOIs.push(snapTarget.name);
+                    }
+                    
                     this.updateStatus(`Added point ${this.currentRoute.coordinates.length}. Click next point or press Enter to finish.`, 'info');
                 }
                 
+                // Update route name automatically
+                const routeName = this.generateRouteName(this.currentRoute.coordinates, this.currentRoute.snappedPOIs);
+                document.getElementById('route-name').value = routeName;
+                
                 this.updateCurrentRoutePreview();
+                this.updateRouteProgress();
+            }
+            
+            undoLastPoint() {
+                if (!this.currentRoute || this.currentRoute.coordinates.length === 0) {
+                    this.updateStatus('No points to undo.', 'warning');
+                    return;
+                }
+                
+                if (this.currentRoute.coordinates.length === 1) {
+                    this.cancelCurrentRoute();
+                    return;
+                }
+                
+                this.currentRoute.coordinates.pop();
+                if (this.currentRoute.snappedPOIs.length > 0) {
+                    this.currentRoute.snappedPOIs.pop();
+                }
+                
+                const routeName = this.generateRouteName(this.currentRoute.coordinates, this.currentRoute.snappedPOIs);
+                document.getElementById('route-name').value = routeName;
+                
+                this.updateCurrentRoutePreview();
+                this.updateRouteProgress();
+                this.updateStatus(`Undid last point. ${this.currentRoute.coordinates.length} points remaining.`, 'info');
             }
             
             handleDeleteClick(e) {
@@ -426,9 +1550,11 @@
             
             finishCurrentRoute() {
                 if (!this.currentRoute || this.currentRoute.coordinates.length < 2) {
-                    this.updateStatus('Route needs at least 2 points.', 'error');
+                    this.updateStatus('Route needs at least 2 points.', 'warning');
                     return;
                 }
+                
+                const routeName = this.generateRouteName(this.currentRoute.coordinates, this.currentRoute.snappedPOIs);
                 
                 const route = {
                     id: Date.now() + Math.random(),
@@ -438,28 +1564,45 @@
                         coordinates: this.currentRoute.coordinates
                     },
                     properties: {
-                        level: 0,
+                        level: parseInt(this.currentFloor) || 0,
                         type: this.currentRoute.type,
-                        building: "reiss"
+                        building: "reiss",
+                        name: routeName,
+                        color: this.currentRoute.color,
+                        distance: this.calculateDistance(this.currentRoute.coordinates),
+                        snappedPOIs: this.currentRoute.snappedPOIs
                     }
                 };
                 
-                if (this.currentRoute.type === 'room_connection' && this.currentRoute.room) {
-                    route.properties.room = this.currentRoute.room;
-                }
+                console.log('🎯 Created route:', {
+                    name: routeName,
+                    type: this.currentRoute.type,
+                    coordinates: this.currentRoute.coordinates.length + ' points'
+                });
                 
                 this.routes.push(route);
                 this.currentRoute = null;
-                this.updateRoutesDisplay();
-                this.updateStatus(`Route added! Total routes: ${this.routes.length}`, 'success');
                 
-                // Clear room name for next route
-                document.getElementById('room-name').value = '';
+                // Cycle to next color for next route
+                this.colorIndex = (this.colorIndex + 1) % this.routeColors.length;
+                this.currentColor = this.routeColors[this.colorIndex];
+                
+                // Update color picker
+                document.querySelectorAll('.color-option').forEach(option => {
+                    option.classList.toggle('active', option.dataset.color === this.currentColor);
+                });
+                
+                document.getElementById('route-name').value = '';
+                this.updateRoutesDisplay();
+                this.updateRouteProgress();
+                this.updateStatus(`Route "${routeName}" added. Total routes: ${this.routes.length}`, 'success');
             }
             
             cancelCurrentRoute() {
                 this.currentRoute = null;
+                document.getElementById('route-name').value = '';
                 this.updateCurrentRoutePreview();
+                this.updateRouteProgress();
                 this.updateStatus('Route cancelled.', 'info');
             }
             
@@ -469,32 +1612,73 @@
                     this.map.removeSource('current-route');
                 }
                 
+                if (this.map.getSource('current-route-points')) {
+                    this.map.removeLayer('current-route-points');
+                    this.map.removeSource('current-route-points');
+                }
+                
                 if (this.currentRoute && this.currentRoute.coordinates.length > 0) {
-                    this.map.addSource('current-route', {
+                    // Add route line
+                    if (this.currentRoute.coordinates.length > 1) {
+                        this.map.addSource('current-route', {
+                            type: 'geojson',
+                            data: {
+                                type: 'Feature',
+                                geometry: {
+                                    type: 'LineString',
+                                    coordinates: this.currentRoute.coordinates
+                                }
+                            }
+                        });
+                        
+                        this.map.addLayer({
+                            id: 'current-route',
+                            source: 'current-route',
+                            type: 'line',
+                            paint: {
+                                'line-color': this.currentRoute.color,
+                                'line-width': 6,
+                                'line-opacity': 0.8,
+                                'line-dasharray': [3, 3]
+                            }
+                        });
+                    }
+                    
+                    // Add points
+                    this.map.addSource('current-route-points', {
                         type: 'geojson',
                         data: {
-                            type: 'Feature',
-                            geometry: {
-                                type: this.currentRoute.coordinates.length === 1 ? 'Point' : 'LineString',
-                                coordinates: this.currentRoute.coordinates.length === 1 ? 
-                                    this.currentRoute.coordinates[0] : this.currentRoute.coordinates
-                            }
+                            type: 'FeatureCollection',
+                            features: this.currentRoute.coordinates.map((coord, index) => ({
+                                type: 'Feature',
+                                geometry: {
+                                    type: 'Point',
+                                    coordinates: coord
+                                },
+                                properties: {
+                                    index: index,
+                                    isStart: index === 0,
+                                    isEnd: index === this.currentRoute.coordinates.length - 1
+                                }
+                            }))
                         }
                     });
                     
                     this.map.addLayer({
-                        id: 'current-route',
-                        source: 'current-route',
-                        type: this.currentRoute.coordinates.length === 1 ? 'circle' : 'line',
-                        paint: this.currentRoute.coordinates.length === 1 ? {
-                            'circle-color': '#ff9800',
-                            'circle-radius': 6,
-                            'circle-stroke-color': '#f57c00',
-                            'circle-stroke-width': 2
-                        } : {
-                            'line-color': '#ff9800',
-                            'line-width': 4,
-                            'line-dasharray': [2, 2]
+                        id: 'current-route-points',
+                        source: 'current-route-points',
+                        type: 'circle',
+                        paint: {
+                            'circle-color': [
+                                'case',
+                                ['get', 'isStart'], '#28a745',
+                                ['get', 'isEnd'], '#dc3545',
+                                this.currentRoute.color
+                            ],
+                            'circle-radius': 8,
+                            'circle-stroke-color': '#ffffff',
+                            'circle-stroke-width': 3,
+                            'circle-opacity': 0.9
                         }
                     });
                 }
@@ -526,14 +1710,8 @@
                         source: 'routes',
                         type: 'line',
                         paint: {
-                            'line-color': [
-                                'case',
-                                ['==', ['get', 'type'], 'corridor'], '#2196f3',
-                                ['==', ['get', 'type'], 'room_connection'], '#4caf50',
-                                ['==', ['get', 'type'], 'exit_connection'], '#f44336',
-                                '#9c27b0'
-                            ],
-                            'line-width': 3,
+                            'line-color': ['get', 'color'],
+                            'line-width': 4,
                             'line-opacity': 0.8
                         }
                     });
@@ -550,25 +1728,35 @@
                 this.routes.forEach((route, index) => {
                     const item = document.createElement('div');
                     item.className = 'route-item';
+                    item.style.borderLeftColor = route.properties.color;
+                    
+                    const routeInfo = `
+                        <div>
+                            <strong>${route.properties.name}</strong><br>
+                            <small>${route.properties.distance}m • ${route.properties.type.replace('_', ' ')}</small>
+                            ${route.properties.snappedPOIs.length > 0 ? `<br><small>Snapped: ${route.properties.snappedPOIs.join(', ')}</small>` : ''}
+                        </div>
+                    `;
+                    
                     item.innerHTML = `
-                        <span>
-                            ${route.properties.type}
-                            ${route.properties.room ? ` (${route.properties.room})` : ''}
-                        </span>
-                        <button onclick="editor.deleteRoute('${route.id}')">Delete</button>
+                        ${routeInfo}
+                        <button onclick="editor.deleteRoute('${route.id}')" class="danger">Delete</button>
                     `;
                     listEl.appendChild(item);
                 });
             }
             
             deleteRoute(routeId) {
-                this.routes = this.routes.filter(route => route.id != routeId);
-                this.updateRoutesDisplay();
-                this.updateStatus(`Route deleted. Total routes: ${this.routes.length}`, 'info');
+                const route = this.routes.find(r => r.id == routeId);
+                if (route) {
+                    this.routes = this.routes.filter(route => route.id != routeId);
+                    this.updateRoutesDisplay();
+                    this.updateStatus(`Route "${route.properties.name}" deleted. Total routes: ${this.routes.length}`, 'info');
+                }
             }
             
             clearAllRoutes() {
-                if (confirm('Are you sure you want to clear all routes?')) {
+                if (confirm('Are you sure you want to clear all routes? This action cannot be undone.')) {
                     this.routes = [];
                     this.cancelCurrentRoute();
                     this.updateRoutesDisplay();
@@ -578,7 +1766,6 @@
             
             async saveRoutes() {
                 try {
-                    // Convert routes to the required format
                     const formattedRoutes = this.routes.map(route => ({
                         type: "Feature",
                         geometry: route.geometry,
@@ -586,18 +1773,20 @@
                             level: 0,
                             type: route.properties.type,
                             building: "reiss",
-                            ...(route.properties.room && { room: route.properties.room })
+                            name: route.properties.name,
+                            color: route.properties.color,
+                            distance: route.properties.distance,
+                            snappedPOIs: route.properties.snappedPOIs
                         }
                     }));
                     
-                    // Create download
                     const dataStr = JSON.stringify(formattedRoutes, null, 2);
                     const dataBlob = new Blob([dataStr], { type: 'application/json' });
                     const url = URL.createObjectURL(dataBlob);
                     
                     const link = document.createElement('a');
                     link.href = url;
-                    link.download = 'reiss-routes.json';
+                    link.download = `reiss-routes-${new Date().toISOString().split('T')[0]}.json`;
                     link.click();
                     
                     URL.revokeObjectURL(url);
@@ -618,18 +1807,243 @@
                     );
                     
                     if (existingReissRoutes.length > 0) {
+                        this.existingRoutes = existingReissRoutes;
+                        this.extractHallwayVertices(existingReissRoutes);
+                        
                         this.routes = existingReissRoutes.map(route => ({
                             ...route,
-                            id: Date.now() + Math.random()
+                            id: Date.now() + Math.random(),
+                            properties: {
+                                ...route.properties,
+                                color: route.properties.color || '#2563eb',
+                                name: route.properties.name || `Route ${this.routes.length + 1}`,
+                                distance: route.properties.distance || 0,
+                                snappedPOIs: route.properties.snappedPOIs || []
+                            }
                         }));
                         
                         this.updateRoutesDisplay();
-                        this.updateStatus(`Loaded ${this.routes.length} existing routes.`, 'success');
+                        this.updateStatus(`Loaded ${this.routes.length} existing routes and ${this.hallwayVertices.length} hallway vertices.`, 'success');
                     } else {
                         this.updateStatus('No existing Reiss routes found.', 'info');
                     }
                 } catch (error) {
-                    this.updateStatus('Could not load existing routes: ' + error.message, 'error');
+                    this.updateStatus('Could not load existing routes: ' + error.message, 'warning');
+                }
+            }
+            
+            extractHallwayVertices(routes) {
+                this.hallwayVertices = [];
+                
+                routes.forEach(route => {
+                    if (route.geometry && route.geometry.type === 'LineString') {
+                        const coordinates = route.geometry.coordinates;
+                        const routeType = route.properties?.type || '';
+                        const floor = route.properties?.level || route.properties?.floor || 0;
+                        
+                        // Extract all vertices from hallway and corridor routes
+                        if (routeType.includes('hallway') || 
+                            routeType.includes('corridor') || 
+                            routeType.includes('connection') ||
+                            route.properties?.name?.toLowerCase().includes('hallway') ||
+                            route.properties?.name?.toLowerCase().includes('corridor')) {
+                            
+                            coordinates.forEach((coord, index) => {
+                                this.hallwayVertices.push({
+                                    coordinates: coord,
+                                    routeId: route.id || route.properties?.id,
+                                    routeName: route.properties?.name || `Route ${route.id}`,
+                                    vertexIndex: index,
+                                    floor: floor,
+                                    type: 'hallway_vertex',
+                                    isEndpoint: index === 0 || index === coordinates.length - 1
+                                });
+                            });
+                        }
+                        
+                        // Also extract endpoints from room_connection routes as they often connect to hallways
+                        if (routeType === 'room_connection') {
+                            // Add first and last points as potential hallway connection points
+                            [0, coordinates.length - 1].forEach(index => {
+                                this.hallwayVertices.push({
+                                    coordinates: coordinates[index],
+                                    routeId: route.id || route.properties?.id,
+                                    routeName: route.properties?.name || `Room Connection ${route.id}`,
+                                    vertexIndex: index,
+                                    floor: floor,
+                                    type: 'connection_endpoint',
+                                    isEndpoint: true
+                                });
+                            });
+                        }
+                    }
+                });
+                
+                console.log(`Extracted ${this.hallwayVertices.length} hallway vertices from ${routes.length} routes`);
+                this.updateHallwayVerticesDisplay();
+            }
+            
+            updateHallwayVerticesDisplay() {
+                // Remove existing hallway vertices layer if it exists
+                if (this.map.getSource('hallway-vertices')) {
+                    this.map.removeLayer('hallway-vertices');
+                    this.map.removeSource('hallway-vertices');
+                }
+                
+                if (this.hallwayVertices.length > 0 && this.snapSettings.snapToHallways) {
+                    // Filter vertices by current floor
+                    const visibleVertices = this.hallwayVertices.filter(vertex => {
+                        if (this.currentFloor === 'all') return true;
+                        return vertex.floor == parseInt(this.currentFloor);
+                    });
+                    
+                    this.map.addSource('hallway-vertices', {
+                        type: 'geojson',
+                        data: {
+                            type: 'FeatureCollection',
+                            features: visibleVertices.map(vertex => ({
+                                type: 'Feature',
+                                geometry: {
+                                    type: 'Point',
+                                    coordinates: vertex.coordinates
+                                },
+                                properties: {
+                                    type: vertex.type,
+                                    routeName: vertex.routeName,
+                                    vertexIndex: vertex.vertexIndex,
+                                    isEndpoint: vertex.isEndpoint
+                                }
+                            }))
+                        }
+                    });
+                    
+                    this.map.addLayer({
+                        id: 'hallway-vertices',
+                        source: 'hallway-vertices',
+                        type: 'circle',
+                        paint: {
+                            'circle-color': [
+                                'case',
+                                ['==', ['get', 'type'], 'hallway_vertex'], '#7c3aed',
+                                ['==', ['get', 'type'], 'connection_endpoint'], '#dc2626',
+                                '#6b7280'
+                            ],
+                            'circle-radius': [
+                                'case',
+                                ['==', ['get', 'type'], 'hallway_vertex'], 6,
+                                ['==', ['get', 'type'], 'connection_endpoint'], 5,
+                                4
+                            ],
+                            'circle-stroke-color': '#ffffff',
+                            'circle-stroke-width': 2,
+                            'circle-opacity': 0.7
+                        }
+                    });
+                }
+            }
+            
+            async generateRoomConnectionChecklist() {
+                try {
+                    // Get all POIs (rooms) from the loaded data
+                    const allRooms = new Set();
+                    
+                    // Extract rooms from POI data if available
+                    if (this.poiData && this.poiData.features) {
+                        this.poiData.features.forEach(poi => {
+                            if (poi.properties && poi.properties.name) {
+                                allRooms.add(poi.properties.name);
+                            }
+                        });
+                    }
+                    
+                    // Get connected rooms from current routes
+                    const connectedPairs = new Set();
+                    const roomConnections = new Map();
+                    
+                    this.routes.forEach(route => {
+                        if (route.properties.snappedPOIs && route.properties.snappedPOIs.length >= 2) {
+                            const rooms = route.properties.snappedPOIs;
+                            const roomA = rooms[0];
+                            const roomB = rooms[rooms.length - 1];
+                            
+                            // Add bidirectional connection
+                            connectedPairs.add(`${roomA} → ${roomB}`);
+                            connectedPairs.add(`${roomB} → ${roomA}`);
+                            
+                            // Track connections for each room
+                            if (!roomConnections.has(roomA)) roomConnections.set(roomA, new Set());
+                            if (!roomConnections.has(roomB)) roomConnections.set(roomB, new Set());
+                            roomConnections.get(roomA).add(roomB);
+                            roomConnections.get(roomB).add(roomA);
+                        }
+                    });
+                    
+                    // Create checklist
+                    const roomList = Array.from(allRooms).sort();
+                    let checklist = '# Room Connection Checklist\\n\\n';
+                    checklist += `Generated: ${new Date().toLocaleString()}\\n`;
+                    checklist += `Total Rooms: ${roomList.length}\\n`;
+                    checklist += `Total Routes: ${this.routes.length}\\n\\n`;
+                    
+                    // Room connectivity summary
+                    checklist += '## Room Connectivity Summary\\n\\n';
+                    roomList.forEach(room => {
+                        const connections = roomConnections.get(room);
+                        if (connections && connections.size > 0) {
+                            checklist += `✅ **${room}** (${connections.size} connections): ${Array.from(connections).join(', ')}\\n`;
+                        } else {
+                            checklist += `❌ **${room}** (ISOLATED - No connections)\\n`;
+                        }
+                    });
+                    
+                    // Missing connections analysis
+                    checklist += '\\n## Potential Missing Connections\\n\\n';
+                    const isolatedRooms = roomList.filter(room => !roomConnections.has(room) || roomConnections.get(room).size === 0);
+                    
+                    if (isolatedRooms.length > 0) {
+                        checklist += '### Isolated Rooms (Need Connections)\\n';
+                        isolatedRooms.forEach(room => {
+                            checklist += `- [ ] Connect **${room}** to adjacent rooms\\n`;
+                        });
+                        checklist += '\\n';
+                    }
+                    
+                    // Low connectivity rooms
+                    const lowConnectivityRooms = roomList.filter(room => {
+                        const connections = roomConnections.get(room);
+                        return connections && connections.size === 1;
+                    });
+                    
+                    if (lowConnectivityRooms.length > 0) {
+                        checklist += '### Rooms with Single Connections (Consider Additional Routes)\\n';
+                        lowConnectivityRooms.forEach(room => {
+                            const connection = Array.from(roomConnections.get(room))[0];
+                            checklist += `- [ ] **${room}** → ${connection} (only 1 connection)\\n`;
+                        });
+                        checklist += '\\n';
+                    }
+                    
+                    // Routes checklist
+                    checklist += '## Current Routes Checklist\\n\\n';
+                    this.routes.forEach((route, index) => {
+                        const name = route.properties.name || `Route ${index + 1}`;
+                        const snapped = route.properties.snappedPOIs ? route.properties.snappedPOIs.join(' → ') : 'No room connections';
+                        checklist += `- [x] ${name}: ${snapped}\\n`;
+                    });
+                    
+                    // Download the checklist
+                    const blob = new Blob([checklist], { type: 'text/markdown' });
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `room-connection-checklist-${new Date().toISOString().split('T')[0]}.md`;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                    
+                    this.updateStatus(`Generated checklist for ${roomList.length} rooms with ${isolatedRooms.length} isolated rooms`, 'success');
+                    
+                } catch (error) {
+                    this.updateStatus('Error generating checklist: ' + error.message, 'error');
                 }
             }
             
@@ -640,8 +2054,8 @@
             }
         }
         
-        // Initialize the editor
-        const editor = new ManualRouteEditor();
+        // Initialize the enhanced editor
+        const editor = new EnhancedRouteEditor();
         
         // Make editor globally accessible for button callbacks
         window.editor = editor;
