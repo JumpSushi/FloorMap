@@ -1,4 +1,6 @@
 import { LngLatBounds } from "maplibre-gl";
+import Concept3DWayfindingService, { Concept3DRoute } from "./concept3d-wayfinding";
+import config from "~/config";
 
 export interface OSMRoutingOptions {
   profile?: 'driving' | 'walking' | 'cycling';
@@ -107,11 +109,19 @@ export default class CrossBuildingNavigationService {
   private routingApiBase: string;
   private indoorDirections: any;
   private buildingEntrances: BuildingEntrance[];
+  private concept3dService: Concept3DWayfindingService;
 
   constructor(routingApiBase: string, indoorDirections: any) {
     this.routingApiBase = routingApiBase;
     this.indoorDirections = indoorDirections;
     this.buildingEntrances = this.loadBuildingEntrances();
+    
+    // Initialize Concept3D wayfinding service with configuration
+    this.concept3dService = new Concept3DWayfindingService({
+      map: config.concept3d.mapId,
+      key: config.concept3d.apiKey,
+      stamp: config.concept3d.defaultStamp
+    });
   }
 
   /**
@@ -323,6 +333,14 @@ export default class CrossBuildingNavigationService {
       (route.indoor.end ? this.calculateDistance(route.indoor.end.coordinates as [number, number][]) : 0) +
       transitionDistance;
 
+    console.log('📊 Distance calculation breakdown:', {
+      outdoorDistance: route.outdoor.distance,
+      indoorStartDistance: route.indoor.start ? this.calculateDistance(route.indoor.start.coordinates as [number, number][]) : 0,
+      indoorEndDistance: route.indoor.end ? this.calculateDistance(route.indoor.end.coordinates as [number, number][]) : 0,
+      transitionDistance,
+      totalCalculated: route.totalDistance
+    });
+
     // Estimate additional time for transitions (building exit/entry)
     const transitionTime = (route.transition.toOutdoor ? 30 : 0) + (route.transition.toIndoor ? 30 : 0); // 30 seconds per transition
     
@@ -366,13 +384,57 @@ export default class CrossBuildingNavigationService {
   }
 
   /**
-   * Get outdoor route using OpenStreetMap routing service
+   * Get outdoor route using Concept3D wayfinding API (primary) with OSRM fallback
    */
   private async getOutdoorRoute(
     start: [number, number],
     end: [number, number],
     options: OSMRoutingOptions = {}
   ): Promise<OSMRoute> {
+    console.log('🗺️ Getting outdoor route with Concept3D API (primary) and OSRM fallback');
+    
+    try {
+      // First, try Concept3D official wayfinding API
+      console.log('🎯 Trying Concept3D wayfinding API...');
+      const concept3dRoute = await this.concept3dService.getDirections(start, end, {
+        mode: options.profile === 'driving' ? 'driving' : 'walking',
+        stamp: this.concept3dService.generateStamp() // Generate unique request stamp
+      });
+      
+      console.log('✅ Concept3D API succeeded:', {
+        distance: concept3dRoute.distance,
+        duration: concept3dRoute.duration,
+        segments: concept3dRoute.route.length,
+        provider: concept3dRoute.provider
+      });
+      
+      // Convert Concept3D route to OSM-compatible format
+      const osmCompatibleRoute = this.concept3dService.routeToOSMFormat(concept3dRoute);
+      
+      // Apply realistic timing adjustments if needed
+      const adjustedRoute = this.adjustRouteTimingForRealism(osmCompatibleRoute);
+      
+      console.log('🛤️ Concept3D route converted and adjusted:', adjustedRoute);
+      return adjustedRoute;
+      
+    } catch (concept3dError) {
+      console.warn('⚠️ Concept3D API failed, falling back to OSRM:', concept3dError);
+      
+      // Fallback to OSRM routing
+      return this.getOSRMRoute(start, end, options);
+    }
+  }
+
+  /**
+   * Get outdoor route using OpenStreetMap routing service (fallback)
+   */
+  private async getOSRMRoute(
+    start: [number, number],
+    end: [number, number],
+    options: OSMRoutingOptions = {}
+  ): Promise<OSMRoute> {
+    console.log('🔄 Using OSRM fallback routing...');
+    
     // Always use walking profile for pedestrian navigation
     const profile = 'walking';
     const baseUrl = `${this.routingApiBase}/${profile}`;
@@ -391,7 +453,7 @@ export default class CrossBuildingNavigationService {
     });
 
     const url = `${baseUrl}/${start[0]},${start[1]};${end[0]},${end[1]}?${params}`;
-    console.log('Fetching pedestrian-friendly outdoor route from:', url);
+    console.log('Fetching pedestrian-friendly outdoor route from OSRM:', url);
 
     try {
       const response = await fetch(url);
@@ -417,7 +479,7 @@ export default class CrossBuildingNavigationService {
 
       // Use only the primary route to avoid contamination from alternatives
       let route = data.routes[0];
-      console.log(`� Using primary route: distance=${route.distance}m, duration=${route.duration}s`);
+      console.log(`🛤️ Using primary route: distance=${route.distance}m, duration=${route.duration}s`);
       
       // Validate route geometry to ensure it doesn't contain invalid sections
       if (!route.geometry || !route.geometry.coordinates || route.geometry.coordinates.length < 2) {
@@ -440,11 +502,11 @@ export default class CrossBuildingNavigationService {
       console.log('Selected route with adjusted timing:', route);
       return route;
     } catch (error) {
-      console.error('Error fetching outdoor route:', error);
+      console.error('Error fetching OSRM outdoor route:', error);
       
       // Instead of creating a fallback route, re-throw the error
       // This prevents random direct lines from appearing on the map
-      throw new Error(`Failed to get outdoor route: ${error}`);
+      throw new Error(`Failed to get OSRM outdoor route: ${error}`);
     }
   }
 

@@ -4,6 +4,12 @@ const isMobile =
 const config = {
   geoCodingApi: "https://nominatim.openstreetmap.org",
   routingApi: "https://router.project-osrm.org/route/v1",
+  concept3d: {
+    wayfindingApi: "https://api.concept3d.com/wayfinding/v2",
+    mapId: "999", // Default map ID for Georgetown University
+    apiKey: "0001085cc708b9cef47080f064612ca5", // Default API key
+    defaultStamp: "NOU5Cneg" // Default request identifier
+  },
   mapConfig: {
     center: [-77.0723, 38.9076], // Georgetown University Hilltop Campus
     zoom: isMobile ? 17 : 18.5,
